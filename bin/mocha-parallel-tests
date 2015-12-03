@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+"use strict";
+
+/**
+ * CLI для работы с пакетом mocha-parallel-tests
+ * mocha-parallel-tests [OPTIONS]
+ *
+ * [OPTIONS]
+ * -R (reporter)
+ * --timeout
+ * --slow
+ * _ (path)
+ */
+
+var path = require('path');
+var fs = require('fs');
+var argv = require('yargs').argv;
+var MochaParallelTests = require('../mocha-parallel-tests');
+
+if (!argv._.length) {
+    console.error("Error: no target is specified");
+    return process.exit(1);
+}
+
+MochaParallelTests(argv);

@@ -1,0 +1,16 @@
+{
+  "name": "mocha-parallel-tests",
+  "version": "0.0.3",
+  "description": "Run mocha tests in parallel",
+  "main": "./mocha-parallel-tests.js",
+  "bin": "./bin/mocha-parallel-tests",
+  "author": "mmotkina",
+  "dependencies": {
+    "babel": "^6.1.18",
+    "mocha": "^2.3.4",
+    "yargs": "^3.30.0"
+  },
+  "scripts": {
+    "test": "make test"
+  }
+}
