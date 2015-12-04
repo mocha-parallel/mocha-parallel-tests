@@ -1,16 +1,36 @@
 {
   "name": "mocha-parallel-tests",
   "version": "0.0.3",
+  "homepage": "https://github.com/mmotkina/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
-  "main": "./mocha-parallel-tests.js",
+  "main": "./index.js",
   "bin": "./bin/mocha-parallel-tests",
-  "author": "mmotkina",
+  "author": "Maria Motkina <mmotkina@yandex-team.ru>",
+  "contributors": [
+    "Dmitry Sorin <dsorin@yandex-team.ru>"
+  ],
   "dependencies": {
-    "babel": "^6.1.18",
-    "mocha": "^2.3.4",
-    "yargs": "^3.30.0"
+    "mocha": "2.3.4",
+    "yargs": "3.30.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mmotkina/mocha-parallel-tests.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mmotkina/mocha-parallel-tests/issues"
+  },
+  "keywords": [
+    "mocha",
+    "parallel tests",
+    "unit tests",
+    "tests"
+  ],
   "scripts": {
     "test": "make test"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10"
   }
 }
