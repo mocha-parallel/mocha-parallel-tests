@@ -16,7 +16,7 @@
 var path = require('path');
 var fs = require('fs');
 var argv = require('yargs').argv;
-var MochaParallelTests = require('../mocha-parallel-tests');
+var MochaParallelTests = require('../');
 
 if (!argv._.length) {
     console.error("Error: no target is specified");
