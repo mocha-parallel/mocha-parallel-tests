@@ -2,17 +2,20 @@
 
 var child_process = require('child_process');
 var fs = require('fs');
+var path = require('path');
+
+var glob = require('glob');
 var Mocha = require('mocha');
 var statSync = require('fs').statSync;
 var CustomRunner = require('./lib/runner');
 
-var MochaParallelTests = module.exports = function (options) {
+module.exports = function MochaParallelTests(options) {
     var _dir = String(options._);
     process.setMaxListeners(0);
 
     var Reporter = function (runner) {
         var Base = Mocha.reporters.Base;
-        var UserReporter = require('mocha/lib/reporters/' + options.R);
+        var UserReporter = require('mocha/lib/reporters/' + (options.R || 'spec'));
         var customRunner = new CustomRunner;
 
         UserReporter = new UserReporter(customRunner);
@@ -51,27 +54,18 @@ var MochaParallelTests = module.exports = function (options) {
     }
 
     options._.forEach(function (testPath) {
-        var isDirectory = statSync(testPath).isDirectory();
-        var paths = [];
+        glob(testPath, function (err, files) {
+            if (err) {
+                throw err;
+            }
 
-        // if directory get files
-        if (isDirectory) {
-            fs.readdirSync(testPath).forEach(function(file){
-                if (file.substr(-3) === '.js') {
-                    paths.push(testPath + '/' + file)
-                }
+            files.forEach(function (file) {
+                options.reporter = Reporter;
+
+                var mocha = new Mocha(options);
+                mocha.addFile(path.resolve(file));
+                mocha.run();
             });
-        } else {
-            paths.push(testPath);
-        }
-
-        paths.forEach(function (file) {
-            var filePath = process.cwd() + '/' + file;
-            options.reporter = Reporter;
-            var mocha = new Mocha(options);
-            mocha.addFile(filePath);
-            mocha.run();
         });
-
     });
 };
