@@ -29,7 +29,7 @@
     "tests"
   ],
   "scripts": {
-    "test": "bin/mocha-parallel-tests --timeout 60000 --slow 30000 test/**/*.js"
+    "test": "bin/mocha-parallel-tests test/**/*.js"
   },
   "license": "MIT",
   "engines": {

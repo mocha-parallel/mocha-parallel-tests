@@ -39,17 +39,21 @@ module.exports = function MochaParallelTests(options) {
         });
 
         runner.on('end', function() {
-            customRunner.start()
+            customRunner.start();
+
             suites.forEach(function (suite) {
                 customRunner.suite(suite);
             });
+
             passes.forEach(function (test) {
                 customRunner.pass(test);
             });
+
             failures.forEach(function (test) {
                 customRunner.fail(test);
             });
-            customRunner.testEnd()
+
+            customRunner.end();
         });
     }
 
@@ -59,11 +63,20 @@ module.exports = function MochaParallelTests(options) {
                 throw err;
             }
 
-            files.forEach(function (file) {
+            files.map(function (file) {
+                return path.resolve(file);
+            }).filter(function (file) {
+                try {
+                    var test = require(file);
+                    return false;
+                } catch (ex) {
+                    return true;
+                }
+            }).forEach(function (file) {
                 options.reporter = Reporter;
 
                 var mocha = new Mocha(options);
-                mocha.addFile(path.resolve(file));
+                mocha.addFile(file);
                 mocha.run();
             });
         });
