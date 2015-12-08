@@ -10,6 +10,8 @@
     "Dmitry Sorin <dsorin@yandex-team.ru>"
   ],
   "dependencies": {
+    "debug": "2.2.0",
+    "glob": "6.0.1",
     "mocha": "2.3.4",
     "yargs": "3.30.0"
   },
@@ -27,7 +29,7 @@
     "tests"
   ],
   "scripts": {
-    "test": "make test"
+    "test": "bin/mocha-parallel-tests test/**/*.js"
   },
   "license": "MIT",
   "engines": {
