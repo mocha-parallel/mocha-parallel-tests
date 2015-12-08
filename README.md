@@ -2,18 +2,18 @@ Run mocha test suits in parallel
 
 ## Installation
 
-npm install --save mocha-parallel-tests
+`npm install --save mocha-parallel-tests`
 
 ## Usage
 
-mocha-parallel-tests your_test_directory/*
-mocha-parallel-tests **/*.js
+* `mocha-parallel-tests your_test_directory/*`
+* `mocha-parallel-tests **/*.js`
 
 ## Options
 
---reporter <name> specify the reporter to use
---timeout <n> set test-case timeout in milliseconds
---slow <n> "slow" test threshold in milliseconds
+* `--reporter <name>` - specify the reporter to use
+* `--timeout <n>` - set test-case timeout in milliseconds
+* `--slow <n>` - "slow" test threshold in milliseconds
 
 
 ## Example
