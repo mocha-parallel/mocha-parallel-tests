@@ -22,13 +22,6 @@ module.exports = function MochaParallelTests(options) {
             }
             files.map(function (file) {
                 return path.resolve(file);
-            }).filter(function (file) {
-                try {
-                    var test = require(file);
-                    return false;
-                } catch (ex) {
-                    return true;
-                }
             }).forEach(function (file) {
                 options.reporterName = (options.R || options.reporter);
                 options.reporter = Reporter;
