@@ -16,6 +16,10 @@ module.exports = function MochaParallelTests(options) {
     process.setMaxListeners(0);
 
     options._.forEach(function (testPath) {
+        var isDirectory = statSync(testPath).isDirectory();
+        if (isDirectory) {
+            testPath = testPath + '/*';
+        }
         glob(testPath, function (err, files) {
             if (err) {
                 throw err;
