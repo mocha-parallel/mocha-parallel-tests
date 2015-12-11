@@ -13,6 +13,7 @@
     "debug": "2.2.0",
     "glob": "6.0.1",
     "mocha": "2.3.4",
+    "mocha-teamcity-reporter": "^1.0.0",
     "yargs": "3.30.0"
   },
   "repository": {
