@@ -1,0 +1,1 @@
+Check that tests not only run in parallel but also output their own results
