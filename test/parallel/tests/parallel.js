@@ -1,9 +1,7 @@
 'use strict';
 
-describe('Check tests run in parallel #1', function () {
-    it('should end in 10 000 seconds #1', function (done) {
-        setTimeout(function () {
-            done();
-        }, 10000);
+describe('Test suite #1', function () {
+    it('should end in 3 seconds', function (done) {
+        setTimeout(done, 3000);
     });
 });
