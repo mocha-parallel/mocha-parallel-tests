@@ -2,7 +2,7 @@
 
 TIMESTAMP_START="$(date +%s)"
 
-bin/mocha-parallel-tests -R spec test/parallel/tests
+bin/mocha-parallel-tests -R spec test/parallel/tests --timeout 10000 --slow 10000
 
 TIMESTAMP_FINISH="$(date +%s)"
 TIMESTAMP_DIFF=`expr $TIMESTAMP_FINISH - $TIMESTAMP_START`
