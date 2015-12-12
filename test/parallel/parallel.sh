@@ -1,10 +1,15 @@
 #!/bin/bash
-T="$(date +%s)"
-bin/mocha-parallel-tests -R spec --timeout 60000 --slow 30000 test/parallel/tests
-T="$(($(date +%s)-T))"
-if [[ $T -lt 30 ]]
-then
-    exit 0;
-    else
-    exit 1;
+
+TIMESTAMP_START="$(date +%s)"
+
+bin/mocha-parallel-tests -R spec test/parallel/tests
+
+TIMESTAMP_FINISH="$(date +%s)"
+TIMESTAMP_DIFF=`expr $TIMESTAMP_FINISH - $TIMESTAMP_START`
+echo "Tests running time was $TIMESTAMP_DIFF seconds"
+
+if [[ $TIMESTAMP_DIFF -lt 10 ]]; then
+    exit 0
+else
+    exit 1
 fi
