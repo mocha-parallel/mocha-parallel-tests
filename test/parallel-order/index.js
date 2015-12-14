@@ -33,6 +33,15 @@ exec(libExecutable + ' -R json --timeout 60000 --slow 30000 test/parallel-order/
     assert.equal(jsonReporterOutput.stats.pending, 0, 'Reporter should contain information about all pendings');
     assert.equal(jsonReporterOutput.stats.failures, 1, 'Reporter should contain information about all failures');
 
+    // check time diff
+    var startDate = new Date(jsonReporterOutput.stats.start);
+    var endDate = new Date(jsonReporterOutput.stats.end);
+    var diffMs = endDate - startDate;
+
+    assert(startDate.getTime(), 'Start date is invalid');
+    assert(endDate.getTime(), 'End date is invalid');
+    assert.strictEqual(diffMs >= 8000, true, 'Diff between end and start dates is too small');
+
     // common structure
     assert.equal(Array.isArray(jsonReporterOutput.tests), true, 'Reporter should contain tests array');
     assert.equal(Array.isArray(jsonReporterOutput.pending), true, 'Reporter should contain pendings array');
