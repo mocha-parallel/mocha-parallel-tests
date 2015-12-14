@@ -51,8 +51,6 @@ exec(libExecutable + ' -R json --timeout 60000 --slow 30000 test/parallel-order/
     assert.equal(jsonReporterOutput.tests[0].fullTitle, 'Test suite #1 should end in 3 seconds', 'First output should be from parallel1.js')
     assert.equal(jsonReporterOutput.tests[0].duration >= 3000 && jsonReporterOutput.tests[0].duration < 4000, true, 'parallel1.js suite should end in 3 seconds');
 
-    console.log(jsonReporterOutput)
-
     // second output should be from parallel3.js
     // because parallel1.js ended and parallel2.js is still running
     assert.equal(jsonReporterOutput.tests[1].fullTitle, 'Test suite #3 should end in 3 seconds', 'Second output should be from parallel3.js')
