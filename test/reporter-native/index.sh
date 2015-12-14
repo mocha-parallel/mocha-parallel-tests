@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT=$(bin/mocha-parallel-tests -R json --timeout 60000 --slow 30000 test/reporter-native/suite.js 2>&1)
+OUTPUT=$(bin/mocha-parallel-tests -R json --timeout 60000 --slow 30000 test/reporter-native/suite.js)
 
 if [[ $OUTPUT == *"stats"* ]]; then
     echo "Native JSON reporter is used"
