@@ -24,11 +24,14 @@ module.exports = function MochaParallelTests(options) {
             if (err) {
                 throw err;
             }
+
             files.map(function (file) {
                 return path.resolve(file);
-            }).forEach(function (file) {
+            }).forEach(function (file, index) {
                 options.reporterName = (options.R || options.reporter);
                 options.reporter = Reporter;
+                options.index = index;
+                options.testsLength = files.length;
 
                 debug('run mocha ' + file);
 
