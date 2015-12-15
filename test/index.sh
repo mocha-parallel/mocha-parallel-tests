@@ -1,22 +1,38 @@
 #!/bin/bash
+PASSES=0
+FAILES=0
+
+function test {
+    "$@"
+    local status=$?
+    if [ $status -ne 0 ]; then
+        ((FAILES++))
+        else
+        ((PASSES++))
+    fi
+    return $status
+}
+
 echo 'TESTCASE: native reporter'
-test/reporter-native/index.sh
+test test/reporter-native/index.sh
 echo $?
 echo 'TESTCASE: custom reporter'
-test/reporter-custom/index.sh
+test test/reporter-custom/index.sh
 echo $?
 echo 'TESTCASE: parallel order'
-test/parallel-order/index.js
+test test/parallel-order/index.js
 echo $?
 echo 'TESTCASE: parallel'
-test/parallel/parallel.sh
+test test/parallel/parallel.sh
 echo $?
 echo 'TESTCASE: only tests run'
-test/only-tests-run/index.js
+test test/only-tests-run/index.js
 echo $?
 echo 'TESTCASE: nesting'
-test/nesting/nesting.sh
+test test/nesting/nesting.sh
 echo $?
 echo 'TESTCASE: describe inside describe'
-test/describe-inside-describe/index.js
+test test/describe-inside-describe/index.js
 echo $?
+
+echo "Passes: $PASSES Failes: $FAILES"
