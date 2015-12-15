@@ -40,12 +40,18 @@ exec(libExecutable + ' -R json --timeout 60000 --slow 30000 test/parallel-order/
 
     assert(startDate.getTime(), 'Start date is invalid');
     assert(endDate.getTime(), 'End date is invalid');
-    assert.strictEqual(diffMs >= 8000, true, 'Diff between end and start dates is too small');
+    assert.strictEqual(diffMs >= 3000, true, 'Diff between end and start dates is too small');
 
     // common structure
     assert.equal(Array.isArray(jsonReporterOutput.tests), true, 'Reporter should contain tests array');
     assert.equal(Array.isArray(jsonReporterOutput.pending), true, 'Reporter should contain pendings array');
     assert.equal(Array.isArray(jsonReporterOutput.passes), true, 'Reporter should contain passes array');
+
+    // check failure
+    assert.equal(Array.isArray(jsonReporterOutput.failures), true, 'Reporter should contain failures array');
+    assert.equal(jsonReporterOutput.failures.length, 1, 'Reporter should contain one error');
+    assert.equal(jsonReporterOutput.failures[0].fullTitle, 'Test suite #2 should fail');
+    assert.equal(jsonReporterOutput.failures[0].err.message, 'some error');
 
     // first output should be from parallel1.js
     assert.equal(jsonReporterOutput.tests[0].fullTitle, 'Test suite #1 should end in 3 seconds', 'First output should be from parallel1.js')
@@ -61,10 +67,4 @@ exec(libExecutable + ' -R json --timeout 60000 --slow 30000 test/parallel-order/
     assert.equal(jsonReporterOutput.tests[2].duration >= 5000 && jsonReporterOutput.tests[2].duration < 6000, true, 'parallel2.js suite should end in 5 seconds');
     assert.equal(jsonReporterOutput.tests[3].fullTitle, 'Test suite #2 should fail', 'parallel2.js second test should fail');
     assert(jsonReporterOutput.tests[3].err, true, 'parallel2.js second test should fail');
-
-    // check failure
-    assert.equal(Array.isArray(jsonReporterOutput.failures), true, 'Reporter should contain failures array');
-    assert.equal(jsonReporterOutput.failures.length, 1, 'Reporter should contain one error');
-    assert.equal(jsonReporterOutput.failures[0].fullTitle, 'Test suite #2 should fail');
-    assert.equal(jsonReporterOutput.failures[0].err.message, 'some error');
 });

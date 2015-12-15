@@ -30,7 +30,7 @@ module.exports = function MochaParallelTests(options) {
             }).forEach(function (file, index) {
                 options.reporterName = (options.R || options.reporter);
                 options.reporter = Reporter;
-                options.index = index;
+                options.index = index + 1;
                 options.testsLength = files.length;
 
                 debug('run mocha ' + file);
