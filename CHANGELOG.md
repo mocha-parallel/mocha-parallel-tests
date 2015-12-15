@@ -1,8 +1,12 @@
-## 0.6.0
+## 0.7.0
+
+ * tests for package
+
+ ## 0.6.0
 
  * changed readme and refactoring
 
- ## 0.5.0
+## 0.5.0
 
  * reporter control added
 
