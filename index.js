@@ -18,7 +18,7 @@ module.exports = function MochaParallelTests(options) {
     options._.forEach(function (testPath) {
         var isDirectory = statSync(testPath).isDirectory();
         if (isDirectory) {
-            testPath = testPath + '/*';
+            testPath = testPath + '/**/*.js';
         }
         glob(testPath, function (err, files) {
             if (err) {
@@ -32,7 +32,6 @@ module.exports = function MochaParallelTests(options) {
                 options.reporter = Reporter;
                 options.index = index + 1;
                 options.testsLength = files.length;
-
                 debug('run mocha ' + file);
 
                 var mocha = new Mocha(options);
