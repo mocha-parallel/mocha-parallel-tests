@@ -1,6 +1,6 @@
 {
   "name": "mocha-parallel-tests",
-  "version": "0.0.14",
+  "version": "0.1.0",
   "homepage": "https://github.com/mmotkina/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./index.js",
@@ -12,6 +12,7 @@
   "dependencies": {
     "debug": "2.2.0",
     "glob": "6.0.1",
+    "lodash": "3.10.1",
     "mocha": "2.3.4",
     "yargs": "3.30.0"
   },
