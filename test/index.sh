@@ -19,11 +19,14 @@ echo $?
 echo 'TESTCASE: custom reporter'
 test test/reporter-custom/index.sh
 echo $?
+echo 'TESTCASE: parallel'
+test test/parallel/parallel.sh
+echo $?
 echo 'TESTCASE: parallel order'
 test test/parallel-order/index.js
 echo $?
-echo 'TESTCASE: parallel'
-test test/parallel/parallel.sh
+echo 'TESTCASE: max parallel tests'
+test test/max-parallel/index.sh
 echo $?
 echo 'TESTCASE: only tests run'
 test test/only-tests-run/index.js

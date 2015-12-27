@@ -29,7 +29,7 @@
     "tests"
   ],
   "scripts": {
-    "test": "bin/mocha-parallel-tests test/**/*.js"
+    "test": "test/index.sh"
   },
   "license": "MIT",
   "engines": {
