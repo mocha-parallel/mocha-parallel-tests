@@ -1,3 +1,7 @@
+## 0.1.0
+
+ * **new**: `--max-parallel <num>` to set max number of running parallel tests
+
 ## 0.0.14
 
  * fix emits of end events

@@ -3,12 +3,13 @@
 var child_process = require('child_process');
 var fs = require('fs');
 var path = require('path');
-var Mocha = require('mocha');
 
+var _ = require('lodash');
+var Mocha = require('mocha');
 var glob = require('glob');
 var statSync = require('fs').statSync;
 var Reporter = require('./lib/reporter');
-var debug = require('debug')('mocha-parallel-tests');
+var Watcher = require('./lib/watcher');
 
 module.exports = function MochaParallelTests(options) {
     var _dir = String(options._);
@@ -20,24 +21,28 @@ module.exports = function MochaParallelTests(options) {
         if (isDirectory) {
             testPath = testPath + '/**/*.js';
         }
+
         glob(testPath, function (err, files) {
             if (err) {
                 throw err;
             }
 
-            files.map(function (file) {
-                return path.resolve(file);
-            }).forEach(function (file, index) {
-                options.reporterName = (options.R || options.reporter);
-                options.reporter = Reporter;
-                options.index = index + 1;
-                options.testsLength = files.length;
-                debug('run mocha ' + file);
+            // watcher monitors running files
+            // and is also an EventEmitter instance
+            var watcher = new Watcher(options.maxParallel);
 
-                var mocha = new Mocha(options);
-                mocha.addFile(file);
-                mocha.run();
+            files.forEach(function (file, index) {
+                var testOptions = _.assign({}, options, {
+                    reporterName: options.R || options.reporter,
+                    reporter: Reporter,
+                    index: index + 1,
+                    testsLength: files.length
+                });
+
+                watcher.addTest(path.resolve(file), testOptions);
             });
+
+            watcher.run();
         });
     });
 };

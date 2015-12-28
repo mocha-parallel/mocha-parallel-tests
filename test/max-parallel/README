@@ -1,0 +1,1 @@
+Check that parallel running tests number doesn't go beyond max parallel option

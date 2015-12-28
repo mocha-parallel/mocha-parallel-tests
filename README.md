@@ -17,7 +17,11 @@ If you're sure that running any of your test suites doesn't affect others, you s
 * `./node_modules/.bin/mocha-parallel-tests **/*.js`
 
 ## Options
-All options supported by mocha:
+Own options:
+
+* `--max-parallel <num>` - max number of running parallel tests
+
+And all options supported by mocha:
 
 * `--reporter <name>` - specify the reporter to use
 * `--timeout <n>` - set test-case timeout in milliseconds
