@@ -16,7 +16,7 @@ TIMESTAMP_DIFF=`expr $TIMESTAMP_FINISH - $TIMESTAMP_START`
 echo "Tests output is $OUTPUT"
 echo "Tests running time was $TIMESTAMP_DIFF seconds"
 
-if [ $TIMESTAMP_DIFF -gt 3 ] && [ $TIMESTAMP_DIFF -lt 4 ] && [[ $OUTPUT == *"1 passing"* ]]; then
+if [ $TIMESTAMP_DIFF -ge 3 ] && [ $TIMESTAMP_DIFF -le 4 ] && [[ $OUTPUT == *"1 passing"* ]]; then
     exit 0
 else
     exit 1
