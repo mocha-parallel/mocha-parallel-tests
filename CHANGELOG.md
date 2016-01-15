@@ -1,3 +1,7 @@
+## 0.1.1
+
+ * fix: `--max-parallel` option introduced bug when some of the files were not tests: not all tests could run
+
 ## 0.1.0
 
  * **new**: `--max-parallel <num>` to set max number of running parallel tests
