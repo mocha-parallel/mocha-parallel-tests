@@ -11,38 +11,48 @@ var statSync = require('fs').statSync;
 var Reporter = require('./lib/reporter');
 var Watcher = require('./lib/watcher');
 
-module.exports = function MochaParallelTests(options) {
-    var _dir = String(options._);
-
-    process.setMaxListeners(0);
-
-    options._.forEach(function (testPath) {
+function getAllFilesFromTestpath(testPath) {
+    return new Promise(function (resolve, reject) {
         var isDirectory = statSync(testPath).isDirectory();
         if (isDirectory) {
             testPath = testPath + '/**/*.js';
         }
-
         glob(testPath, function (err, files) {
             if (err) {
-                throw err;
+                reject(err)
+            } else {
+                resolve(files)
             }
+        });
+    });
+}
 
-            // watcher monitors running files
-            // and is also an EventEmitter instance
-            var watcher = new Watcher(options.maxParallel);
+module.exports = function MochaParallelTests(options) {
+    var _dir = String(options._);
+    var files = [];
 
-            files.forEach(function (file, index) {
-                var testOptions = _.assign({}, options, {
-                    reporterName: options.R || options.reporter,
-                    reporter: Reporter,
-                    index: index + 1,
-                    testsLength: files.length
-                });
+    process.setMaxListeners(0);
+    options._.forEach(function (testPath) {
+        files.push(getAllFilesFromTestpath(testPath));
+    });
 
-                watcher.addTest(path.resolve(file), testOptions);
+    Promise.all(files).then(function () {
+        // watcher monitors running files
+        // and is also an EventEmitter instance
+        var watcher = new Watcher(options.maxParallel);
+        files = _.flattenDeep(arguments);
+
+        files.forEach(function (file, index) {
+            var testOptions = _.assign({}, options, {
+                reporterName: options.R || options.reporter,
+                reporter: Reporter,
+                index: index + 1,
+                testsLength: files.length
             });
 
-            watcher.run();
+            watcher.addTest(path.resolve(file), testOptions);
         });
+
+        watcher.run();
     });
 };

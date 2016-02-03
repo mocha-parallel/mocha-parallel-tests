@@ -1,6 +1,6 @@
 {
   "name": "mocha-parallel-tests",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/mmotkina/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./index.js",
