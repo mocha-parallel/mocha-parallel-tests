@@ -11,6 +11,9 @@ var statSync = require('fs').statSync;
 var Reporter = require('./lib/reporter');
 var Watcher = require('./lib/watcher');
 
+// files lookup in mocha is complex, so it's better to just run original code
+var mochaLookupFiles = require('mocha/lib/utils').lookupFiles;
+
 function getAllFilesFromTestpath(testPath) {
     return new Promise(function (resolve, reject) {
         var isDirectory = statSync(testPath).isDirectory();
@@ -28,31 +31,36 @@ function getAllFilesFromTestpath(testPath) {
 }
 
 module.exports = function MochaParallelTests(options) {
-    var _dir = String(options._);
-    var files = [];
-
     process.setMaxListeners(0);
-    options._.forEach(function (testPath) {
-        files.push(getAllFilesFromTestpath(testPath));
+
+    var extensions = ['js'];
+    (options.compilers || []).forEach(function (compiler) {
+        var compiler = c.split(':');
+        var ext = compiler[0];
+
+        extensions.push(ext);
     });
 
-    Promise.all(files).then(function () {
-        // watcher monitors running files
-        // and is also an EventEmitter instance
-        var watcher = new Watcher(options.maxParallel);
-        files = _.flattenDeep(arguments);
+    // get test files with original mocha utils.lookupFiles() function
+    var files = [];
+    options._.forEach(function (testPath) {
+        files = files.concat(mochaLookupFiles(testPath, extensions, options.recursive));
+    });
 
-        files.forEach(function (file, index) {
-            var testOptions = _.assign({}, options, {
-                reporterName: options.R || options.reporter,
-                reporter: Reporter,
-                index: index + 1,
-                testsLength: files.length
-            });
+    // watcher monitors running files
+    // and is also an EventEmitter instance
+    var watcher = new Watcher(options.maxParallel);
 
-            watcher.addTest(path.resolve(file), testOptions);
+    files.forEach(function (file, index) {
+        var testOptions = _.assign({}, options, {
+            reporterName: options.R || options.reporter,
+            reporter: Reporter,
+            index: index + 1,
+            testsLength: files.length
         });
 
-        watcher.run();
+        watcher.addTest(path.resolve(file), testOptions);
     });
+
+    watcher.run();
 };

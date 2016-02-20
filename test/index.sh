@@ -40,5 +40,8 @@ echo $?
 echo 'TESTCASE: describe inside describe'
 test test/describe-inside-describe/index.js
 echo $?
+echo 'TESTCASE: missing test'
+test test/missing-test/index.js
+echo $?
 
 echo "Passes: $PASSES Failes: $FAILES"
