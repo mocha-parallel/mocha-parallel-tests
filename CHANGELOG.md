@@ -1,8 +1,12 @@
+## 0.1.3
+
+ * fix: support stack trace of errors
+
 ## 0.1.2
 
  * fix: support for incoming array of files
 
- ## 0.1.1
+## 0.1.1
 
  * fix: `--max-parallel` option introduced bug when some of the files were not tests: not all tests could run
 
