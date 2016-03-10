@@ -43,5 +43,8 @@ echo $?
 echo 'TESTCASE: missing test'
 test test/missing-test/index.js
 echo $?
+echo 'TESTCASE: console logs'
+test test/console-log-inject/index.js
+echo $?
 
 echo "Passes: $PASSES Failes: $FAILES"

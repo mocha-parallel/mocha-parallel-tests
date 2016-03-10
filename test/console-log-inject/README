@@ -1,0 +1,1 @@
+Check that tests' console.logs do not interfere into other tests output
