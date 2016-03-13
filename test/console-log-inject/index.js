@@ -9,25 +9,35 @@ var libExecutable = path.resolve(__dirname, '../../bin/mocha-parallel-tests');
 
 exec(libExecutable + ' --timeout 60000 --slow 30000 test/console-log-inject/tests', {
     cwd: path.resolve(__dirname, '../../')
-}, function (err, stderr) {
+}, function (err, stdout, stderr) {
     if (err) {
         console.error(err);
         process.exit(1);
     }
 
-    var reporterOutput = stderr.toString();
+    var reporterOutput = stdout.toString();
     var logs = reporterOutput.split('\n').reduce(function (logs, chunk) {
         chunk = chunk.trim();
 
-        if (/^suite\s#[\d]+\slog$/.test(chunk)) {
-            logs.push(chunk);
+        if (/^suite\s#[\d]+/i.test(chunk)) {
+            logs.push(chunk.toLowerCase());
         }
         
         return logs;
     }, []);
 
-    assert.strictEqual(logs[0], 'suite #1 log', 'First suite is wrong');
-    assert.strictEqual(logs[1], 'suite #1 log', 'First suite is wrong');
-    assert.strictEqual(logs[2], 'suite #2 log', 'Second suite is wrong');
-    assert.strictEqual(logs[3], 'suite #2 log', 'Second suite is wrong');
+    var expectedLogsOrder = [
+        'suite #1',
+        'suite #1 test #1 log at the beginning',
+        'suite #1 log at the end',
+        'suite #1 log at the beginning',
+        'suite #1 test #1 log before end',
+        'suite #2',
+        'suite #2 test #1 log at the beginning',
+        'suite #2 test #1 log before end',
+    ];
+
+    expectedLogsOrder.forEach(function (chunk, index) {
+        assert.strictEqual(logs[index], chunk, 'Index #' + index + ' log order is wrong. Expected: "' + chunk + '". Actual: "' + logs[index] + '"');
+    });
 });
