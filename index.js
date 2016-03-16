@@ -14,22 +14,6 @@ var watcher = require('./lib/watcher');
 // files lookup in mocha is complex, so it's better to just run original code
 var mochaLookupFiles = require('mocha/lib/utils').lookupFiles;
 
-function getAllFilesFromTestpath(testPath) {
-    return new Promise(function (resolve, reject) {
-        var isDirectory = statSync(testPath).isDirectory();
-        if (isDirectory) {
-            testPath = testPath + '/**/*.js';
-        }
-        glob(testPath, function (err, files) {
-            if (err) {
-                reject(err)
-            } else {
-                resolve(files)
-            }
-        });
-    });
-}
-
 module.exports = function MochaParallelTests(options) {
     process.setMaxListeners(0);
 
