@@ -1,3 +1,7 @@
+## 0.1.4
+
+ * fix: `console.log|error`s from tests do not cross with each other. Instead they are waiting until proper test starts executing :smiley:
+
 ## 0.1.3
 
  * fix: support stack trace of errors
