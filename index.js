@@ -9,26 +9,10 @@ var Mocha = require('mocha');
 var glob = require('glob');
 var statSync = require('fs').statSync;
 var Reporter = require('./lib/reporter');
-var Watcher = require('./lib/watcher');
+var watcher = require('./lib/watcher');
 
 // files lookup in mocha is complex, so it's better to just run original code
 var mochaLookupFiles = require('mocha/lib/utils').lookupFiles;
-
-function getAllFilesFromTestpath(testPath) {
-    return new Promise(function (resolve, reject) {
-        var isDirectory = statSync(testPath).isDirectory();
-        if (isDirectory) {
-            testPath = testPath + '/**/*.js';
-        }
-        glob(testPath, function (err, files) {
-            if (err) {
-                reject(err)
-            } else {
-                resolve(files)
-            }
-        });
-    });
-}
 
 module.exports = function MochaParallelTests(options) {
     process.setMaxListeners(0);
@@ -48,8 +32,7 @@ module.exports = function MochaParallelTests(options) {
     });
 
     // watcher monitors running files
-    // and is also an EventEmitter instance
-    var watcher = new Watcher(options.maxParallel);
+    watcher.setMaxParallelTests(options.maxParallel);
 
     files.forEach(function (file, index) {
         var testOptions = _.assign({}, options, {
@@ -62,5 +45,5 @@ module.exports = function MochaParallelTests(options) {
         watcher.addTest(path.resolve(file), testOptions);
     });
 
-    watcher.run();
+    watcher.runTests();
 };

@@ -12,7 +12,6 @@
  * --slow
  * _ (path)
  */
-
 var path = require('path');
 var fs = require('fs');
 var argv = require('yargs').argv;
