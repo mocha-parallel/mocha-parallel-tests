@@ -1,3 +1,7 @@
+## 0.1.4
+
+ * fix: console log inject into test output
+
 ## 0.1.3
 
  * fix: support stack trace of errors
