@@ -27,10 +27,10 @@ exec(libExecutable + ' --timeout 60000 --slow 30000 test/console-log-inject/test
     }, []);
 
     var expectedLogsOrder = [
+        'suite #1 log at the beginning',
+        'suite #1 log at the end',
         'suite #1',
         'suite #1 test #1 log at the beginning',
-        'suite #1 log at the end',
-        'suite #1 log at the beginning',
         'suite #1 test #1 log before end',
         'suite #2',
         'suite #2 test #1 log at the beginning',
