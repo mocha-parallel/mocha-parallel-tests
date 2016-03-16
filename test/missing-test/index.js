@@ -9,5 +9,12 @@ exec(libExecutable + ' -R doc --timeout 60000 --slow 30000 test/missing-test/mis
     cwd: path.resolve(__dirname, '../../')
 }, function (err) {
     assert(err, 'Err should exist');
-    assert.strictEqual(err.code, 8, 'Error code should equal 8');
+
+    // "8 - Unused. In previous versions of Node, exit code 8 sometimes indicated an uncaught exception"
+    // @see https://github.com/nodejs/node-v0.x-archive/blob/master/doc/api/process.markdown#exit-codes
+    var expectedExitCode = (process.version.indexOf('v0.10.') === 0)
+        ? 8
+        : 1;
+
+    assert.strictEqual(err.code, expectedExitCode, 'Error code should equal ' + expectedExitCode);
 });
