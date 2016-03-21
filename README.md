@@ -20,6 +20,7 @@ If you're sure that running any of your test suites doesn't affect others, you s
 Own options:
 
 * `--max-parallel <num>` - max number of running parallel tests
+* `--retry <num>` - number of retries (0 by default)
 
 And all options supported by mocha:
 
