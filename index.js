@@ -32,13 +32,15 @@ module.exports = function MochaParallelTests(options) {
     });
 
     // watcher monitors running files
-    watcher.setMaxParallelTests(options.maxParallel);
+    watcher.setOptions({
+        maxParallelTests: options.maxParallel,
+        retryCount: options.retry
+    });
 
     files.forEach(function (file, index) {
         var testOptions = _.assign({}, options, {
             reporterName: options.R || options.reporter,
             reporter: Reporter,
-            index: index + 1,
             testsLength: files.length
         });
 

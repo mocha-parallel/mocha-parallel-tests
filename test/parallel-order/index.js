@@ -8,7 +8,7 @@ var start = Date.now();
 
 exec(libExecutable + ' -R json --timeout 60000 --slow 30000 test/parallel-order/tests', {
     cwd: path.resolve(__dirname, '../../')
-}, function (err, stderr) {
+}, function (err, stdout) {
     var diffTime = Date.now() - start;
     assert.equal(Math.round(diffTime / 1000) < 11, true, 'Tests should run in parallel');
 
@@ -17,7 +17,7 @@ exec(libExecutable + ' -R json --timeout 60000 --slow 30000 test/parallel-order/
         process.exit(1);
     }
 
-    var jsonReporterOutput = stderr.toString();
+    var jsonReporterOutput = stdout.toString();
 
     try {
         jsonReporterOutput = JSON.parse(jsonReporterOutput);

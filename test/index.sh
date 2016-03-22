@@ -46,6 +46,12 @@ echo $?
 echo 'TESTCASE: console logs'
 test test/console-log-inject/index.js
 echo $?
+echo 'TESTCASE: retries'
+test test/retry/index.js
+echo $?
+echo 'TESTCASE: retries debug messages'
+test test/retry-errors/index.js
+echo $?
 
 echo "Passes: $PASSES Failes: $FAILES"
 
