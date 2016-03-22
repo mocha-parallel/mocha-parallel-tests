@@ -7,6 +7,8 @@ Normally tests written with mocha run sequentially. This happens so because each
 
 If you're sure that running any of your test suites doesn't affect others, you should try to parallel them with `mocha-parallel-tests`. The only thing that changes for you is that you use not `mocha` but `mocha-parallel-tests` executable because it supports all of mocha options.
 
+Also `mocha-parallel-tests` supports its own `--max-parallel` (max parallel running tests) and `--retry` (number of retries) options.
+
 ## Installation
 
 `npm install --save mocha-parallel-tests`

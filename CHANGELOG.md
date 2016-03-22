@@ -1,3 +1,7 @@
+## 0.2.0
+
+ * **new**: `--retry <num>` to set number of retries for failing tests (0 by default)
+
 ## 0.1.4
 
  * fix: `console.log|error`s from tests do not cross with each other. Instead they are waiting until proper test starts executing :smiley:
