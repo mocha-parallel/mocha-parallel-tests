@@ -6,7 +6,6 @@ var path = require('path');
 
 var _ = require('lodash');
 var Mocha = require('mocha');
-var glob = require('glob');
 var statSync = require('fs').statSync;
 var Reporter = require('./lib/reporter');
 var watcher = require('./lib/watcher');
