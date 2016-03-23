@@ -1,3 +1,7 @@
+## 0.3.0
+
+ * bump `mocha` version to 2.4.5. Check its [changelog](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md) for more info. Previous version was 2.3.4.
+
 ## 0.2.0
 
  * **new**: `--retry <num>` to set number of retries for failing tests (0 by default)
