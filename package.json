@@ -1,13 +1,14 @@
 {
   "name": "mocha-parallel-tests",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "homepage": "https://github.com/mmotkina/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./index.js",
   "bin": "./bin/mocha-parallel-tests",
   "author": "Maria Motkina <mmotkina@yandex-team.ru>",
   "contributors": [
-    "Dmitry Sorin <dsorin@yandex-team.ru>"
+    "Dmitry Sorin <dsorin@yandex-team.ru>",
+    "Nikolay Basov"
   ],
   "dependencies": {
     "debug": "2.2.0",
