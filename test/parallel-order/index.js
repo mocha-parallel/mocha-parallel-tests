@@ -12,11 +12,6 @@ exec(libExecutable + ' -R json --timeout 60000 --slow 30000 test/parallel-order/
     var diffTime = Date.now() - start;
     assert.equal(Math.round(diffTime / 1000) < 11, true, 'Tests should run in parallel');
 
-    if (err) {
-        console.error(err);
-        process.exit(1);
-    }
-
     var jsonReporterOutput = stdout.toString();
 
     try {

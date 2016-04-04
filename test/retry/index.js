@@ -8,11 +8,6 @@ var libExecutable = path.resolve(__dirname, '../../bin/mocha-parallel-tests');
 exec(libExecutable + ' --retry 1 -R json --slow 3000 test/retry/tests', {
     cwd: path.resolve(__dirname, '../../')
 }, function (err, stdout) {
-    if (err) {
-        console.error(err);
-        process.exit(1);
-    }
-
     var jsonReporterOutput = stdout.toString();
 
     try {

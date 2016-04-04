@@ -9,11 +9,6 @@ var libExecutable = path.resolve(__dirname, '../../bin/mocha-parallel-tests');
 exec(libExecutable + ' -R doc --timeout 60000 --slow 30000 test/describe-inside-describe/tests', {
     cwd: path.resolve(__dirname, '../../')
 }, function (err, stderr) {
-    if (err) {
-        console.error(err);
-        process.exit(1);
-    }
-
     var xmlReporterOutput = stderr.toString();
     var $ = cheerio.load(xmlReporterOutput);
     var firstSuite = $('.suite');
