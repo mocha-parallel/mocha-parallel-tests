@@ -1,3 +1,8 @@
+## 0.3.2
+
+ * fix: runner displays right tests execution time now (#24)
+ * fix: exit codes are now the same as in original mocha runner (#27)
+
 ## 0.3.0
 
  * bump `mocha` version to 2.4.5. Check its [changelog](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md) for more info. Previous version was 2.3.4.
