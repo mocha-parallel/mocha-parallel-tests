@@ -55,6 +55,9 @@ echo $?
 echo 'TESTCASE: total time'
 test test/total-time/index.js
 echo $?
+echo 'TESTCASE: timeouts exit code'
+test test/timeouts-exit-code/index.sh
+echo $?
 
 echo "Passes: $PASSES Failes: $FAILES"
 
