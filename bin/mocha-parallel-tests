@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-"use strict";
+'use strict';
 
 /**
  * CLI для работы с пакетом mocha-parallel-tests
@@ -12,14 +12,12 @@
  * --slow
  * _ (path)
  */
-var path = require('path');
-var fs = require('fs');
-var argv = require('yargs').argv;
-var MochaParallelTests = require('../');
+import {argv} from 'yargs';
+import MochaParallelTests from '../';
 
 if (!argv._.length) {
-    console.error("Error: no target is specified");
-    return process.exit(1);
+    console.error('Error: no target is specified');
+    process.exit(1);
+} else {
+    MochaParallelTests(argv);
 }
-
-MochaParallelTests(argv);

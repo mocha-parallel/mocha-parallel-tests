@@ -1,32 +1,30 @@
 'use strict';
 
-var child_process = require('child_process');
-var fs = require('fs');
-var path = require('path');
+import child_process from 'child_process';
+import {statSync} from 'fs';
+import path from 'path';
+import Mocha from 'mocha';
 
-var _ = require('lodash');
-var Mocha = require('mocha');
-var statSync = require('fs').statSync;
-var Reporter = require('./lib/reporter');
-var watcher = require('./lib/watcher');
+import Reporter from './lib/reporter';
+import watcher from './lib/watcher';
 
 // files lookup in mocha is complex, so it's better to just run original code
-var mochaLookupFiles = require('mocha/lib/utils').lookupFiles;
+import {lookupFiles as mochaLookupFiles} from 'mocha/lib/utils';
 
-module.exports = function MochaParallelTests(options) {
+export default function MochaParallelTests(options) {
     process.setMaxListeners(0);
 
-    var extensions = ['js'];
-    (options.compilers || []).forEach(function (compiler) {
-        var compiler = c.split(':');
-        var ext = compiler[0];
+    const extensions = ['js'];
+    (options.compilers || []).forEach(compiler => {
+        const compilerName = c.split(':');
+        const ext = compilerName[0];
 
         extensions.push(ext);
     });
 
     // get test files with original mocha utils.lookupFiles() function
-    var files = [];
-    options._.forEach(function (testPath) {
+    let files = [];
+    options._.forEach(testPath => {
         files = files.concat(mochaLookupFiles(testPath, extensions, options.recursive));
     });
 
@@ -36,8 +34,8 @@ module.exports = function MochaParallelTests(options) {
         retryCount: options.retry
     });
 
-    files.forEach(function (file, index) {
-        var testOptions = _.assign({}, options, {
+    files.forEach(file => {
+        var testOptions = Object.assign({}, options, {
             reporterName: options.R || options.reporter,
             reporter: Reporter,
             testsLength: files.length
@@ -47,4 +45,4 @@ module.exports = function MochaParallelTests(options) {
     });
 
     watcher.runTests();
-};
+}
