@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bin/mocha-parallel-tests --timeout 3000 --slow 30000 test/timeouts-exit-code/suite.js 1>/dev/null 2>&1
+dist/bin/mocha-parallel-tests --timeout 3000 --slow 30000 test/timeouts-exit-code/suite.js 1>/dev/null 2>&1
 MPT_STATUS_CODE=$?
 
 node_modules/.bin/mocha --timeout 3000 --slow 30000 test/timeouts-exit-code/suite.js 1>/dev/null 2>&1

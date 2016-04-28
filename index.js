@@ -6,7 +6,11 @@ import path from 'path';
 import Mocha from 'mocha';
 
 import Reporter from './lib/reporter';
-import watcher from './lib/watcher';
+import {
+    addTest,
+    runTests,
+    setOptions as setWatcherOptions
+} from './lib/watcher';
 
 // files lookup in mocha is complex, so it's better to just run original code
 import {lookupFiles as mochaLookupFiles} from 'mocha/lib/utils';
@@ -29,7 +33,7 @@ export default function MochaParallelTests(options) {
     });
 
     // watcher monitors running files
-    watcher.setOptions({
+    setWatcherOptions({
         maxParallelTests: options.maxParallel,
         retryCount: options.retry
     });
@@ -41,8 +45,8 @@ export default function MochaParallelTests(options) {
             testsLength: files.length
         });
 
-        watcher.addTest(path.resolve(file), testOptions);
+        addTest(path.resolve(file), testOptions);
     });
 
-    watcher.runTests();
+    runTests();
 }

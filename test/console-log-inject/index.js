@@ -5,7 +5,7 @@
 var assert = require('assert');
 var path = require('path');
 var exec = require('child_process').exec;
-var libExecutable = path.resolve(__dirname, '../../bin/mocha-parallel-tests');
+var libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests');
 
 exec(libExecutable + ' --timeout 60000 --slow 30000 test/console-log-inject/tests', {
     cwd: path.resolve(__dirname, '../../')
