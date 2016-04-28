@@ -3,7 +3,7 @@
 var assert = require('assert');
 var path = require('path');
 var exec = require('child_process').exec;
-var libExecutable = path.resolve(__dirname, '../../bin/mocha-parallel-tests');
+var libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests');
 
 exec(libExecutable + ' --retry 1 -R json --slow 3000 test/retry/tests', {
     cwd: path.resolve(__dirname, '../../')

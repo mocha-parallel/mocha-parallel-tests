@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT=$(bin/mocha-parallel-tests -R mocha-teamcity-reporter --timeout 60000 --slow 30000 test/reporter-custom/suite.js)
+OUTPUT=$(dist/bin/mocha-parallel-tests -R mocha-teamcity-reporter --timeout 60000 --slow 30000 test/reporter-custom/suite.js)
 
 if [[ $OUTPUT == *"##teamcity"* ]]; then
     echo "Teamcity reporter is used"

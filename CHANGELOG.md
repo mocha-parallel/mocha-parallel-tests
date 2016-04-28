@@ -1,3 +1,8 @@
+## 0.x
+
+ * **new**: support mocha `--compilers` option introduced
+ * `mocha-parallel-tests` code is now ES2015-compatible
+
 ## 0.3.2
 
  * fix: runner displays right tests execution time now (#24)
