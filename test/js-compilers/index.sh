@@ -3,7 +3,9 @@
 OUTPUT=$(dist/bin/mocha-parallel-tests --compilers js:babel-register test/js-compilers/test.js 2>&1)
 STATUS=$?
 
-if [ $STATUS -neq 0 ]; then
+if [ $STATUS -eq 0 ]; then
+    exit 0
+else
     echo "Exit code is $STATUS"
     echo "Output: $OUTPUT"
 
