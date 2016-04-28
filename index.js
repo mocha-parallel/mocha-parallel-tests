@@ -18,9 +18,13 @@ import {lookupFiles as mochaLookupFiles} from 'mocha/lib/utils';
 export default function MochaParallelTests(options) {
     process.setMaxListeners(0);
 
+    if (typeof options.compilers === 'string') {
+        options.compilers = [options.compilers];
+    }
+
     const extensions = ['js'];
     (options.compilers || []).forEach(compiler => {
-        const compilerName = c.split(':');
+        const compilerName = compiler.split(':');
         const ext = compilerName[0];
 
         extensions.push(ext);
