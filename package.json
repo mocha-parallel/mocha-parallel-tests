@@ -12,7 +12,6 @@
   ],
   "dependencies": {
     "debug": "2.2.0",
-    "lodash": "3.10.1",
     "mocha": "2.4.5",
     "yargs": "3.30.0"
   },
@@ -31,12 +30,12 @@
   ],
   "scripts": {
     "prepublish": "npm run prepublish:entrypoint && npm run prepublish:libs:clean && npm run prepublish:libs:build && npm run prepublish:bin:clean && npm run prepublish:bin:build",
-    "prepublish:entrypoint": "./node_modules/.bin/babel index.js --out-file dist/build.js",
+    "prepublish:entrypoint": "./node_modules/.bin/babel index.js --out-file dist/index.js",
     "prepublish:bin:clean": "rm -fr ./dist/bin",
-    "prepublish:bin:build": "mkdir ./dist/bin && ./node_modules/.bin/babel bin/mocha-parallel-tests --out-file dist/bin/mocha-parallel-tests",
+    "prepublish:bin:build": "mkdir ./dist/bin && ./node_modules/.bin/babel bin/mocha-parallel-tests --out-file dist/bin/mocha-parallel-tests && chmod +x dist/bin/mocha-parallel-tests",
     "prepublish:libs:clean": "rm -fr ./dist/lib",
     "prepublish:libs:build": "./node_modules/.bin/babel lib/ --out-dir ./dist/lib",
-    "test": "test/index.sh"
+    "test": "npm run prepublish && ./test/index.sh"
   },
   "license": "MIT",
   "engines": {
