@@ -61,6 +61,9 @@ echo $?
 echo 'TESTCASE: js compilers support'
 test test/js-compilers/index.sh
 echo $?
+echo 'TESTCASE: retry support in mocha hooks'
+test test/retry-before/index.sh
+echo $?
 
 echo "Passes: $PASSES Failes: $FAILES"
 
