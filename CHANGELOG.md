@@ -1,6 +1,7 @@
-## 0.x
+## 0.4.0
 
- * **new**: support mocha `--compilers` option introduced
+ * **new**: support for mocha `--compilers` option introduced
+ * fix: `--retry` option is now working for mocha test hooks (before/after/etc)
  * `mocha-parallel-tests` code is now ES2015-compatible
 
 ## 0.3.2
