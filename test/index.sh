@@ -64,6 +64,9 @@ echo $?
 echo 'TESTCASE: retry support in mocha hooks'
 test test/retry-before/index.sh
 echo $?
+echo 'TESTCASE: reporter with options'
+test test/reporter-options/index.sh
+echo $?
 
 echo "Passes: $PASSES Failes: $FAILES"
 
