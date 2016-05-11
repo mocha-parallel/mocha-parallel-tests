@@ -10,8 +10,8 @@
 
 ## 0.3.2
 
- * fix: runner displays right tests execution time now (#24)
- * fix: exit codes are now the same as in original mocha runner (#27)
+ * fix: runner displays right tests execution time now ([#24](https://github.com/mmotkina/mocha-parallel-tests/issues/24))
+ * fix: exit codes are now the same as in original mocha runner ([#27](https://github.com/mmotkina/mocha-parallel-tests/issues/27))
 
 ## 0.3.0
 
@@ -45,7 +45,7 @@
 
  * fix emits of end events
 
- ## 0.0.7
+## 0.0.7
 
  * tests for package
 
