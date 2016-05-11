@@ -1,3 +1,7 @@
+## 0.4.1
+
+ * fix: reporters with own options like `xunit` don't produce errors now ([#31](https://github.com/mmotkina/mocha-parallel-tests/issues/31))
+
 ## 0.4.0
 
  * **new**: support for mocha `--compilers` option introduced
