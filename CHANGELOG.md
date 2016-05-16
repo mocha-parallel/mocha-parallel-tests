@@ -1,3 +1,7 @@
+## 0.4.2
+
+ * fix: tests using `--max-parallel=1` run without errors ([#34](https://github.com/mmotkina/mocha-parallel-tests/issues/34))
+
 ## 0.4.1
 
  * fix: reporters with own options like `xunit` don't produce errors now ([#31](https://github.com/mmotkina/mocha-parallel-tests/issues/31))
