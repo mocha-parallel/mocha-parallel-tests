@@ -1,0 +1,1 @@
+Check that parallel running tests run okay if --max-parallel is 1

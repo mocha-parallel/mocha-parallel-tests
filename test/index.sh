@@ -28,6 +28,9 @@ echo $?
 echo 'TESTCASE: max parallel tests'
 test test/max-parallel/index.sh
 echo $?
+echo 'TESTCASE: max parallel equal 1'
+test test/max-parallel-1/index.sh
+echo $?
 echo 'TESTCASE: max parallel tests with empty ones'
 test test/max-parallel-empty/index.sh
 echo $?
