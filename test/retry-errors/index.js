@@ -14,6 +14,6 @@ exec(libExecutable + ' --retry 2 --slow 3000 test/retry-errors/tests', {
     }
 
     var debugMessagesOutput = stderr.toString();
-    assert.notStrictEqual(debugMessagesOutput.indexOf('try #1 failed'), -1, 'No into about retry #1 in stderr');
-    assert.notStrictEqual(debugMessagesOutput.indexOf('try #2 failed'), -1, 'No into about retry #2 in stderr');
+    assert.notStrictEqual(debugMessagesOutput.indexOf('try #1 failed'), -1, 'No info about retry #1 in stderr');
+    assert.notStrictEqual(debugMessagesOutput.indexOf('try #2 failed'), -1, 'No info about retry #2 in stderr');
 });
