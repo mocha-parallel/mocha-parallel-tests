@@ -7,7 +7,7 @@ TIMESTAMP_FINISH="$(date +%s)"
 TIMESTAMP_DIFF=`expr $TIMESTAMP_FINISH - $TIMESTAMP_START`
 echo "Tests running time was $TIMESTAMP_DIFF second(s)"
 
-if [ $TIMESTAMP_DIFF -ge 1 ] && [ $TIMESTAMP_DIFF -le 2 ]; then
+if [ $TIMESTAMP_DIFF -ge 1 ] && [ $TIMESTAMP_DIFF -le 3 ]; then
     if [ $STATUS -ne 0 ]; then
         if [[ $OUTPUT == *"2 passing"* ]] && [[ $OUTPUT == *"1 failing"* ]]; then
             exit 0
