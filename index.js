@@ -43,7 +43,7 @@ export default function MochaParallelTests(options) {
     });
 
     files.forEach(file => {
-        var testOptions = Object.assign({}, options, {
+        const testOptions = Object.assign({}, options, {
             reporterName: options.R || options.reporter,
             reporter: Reporter,
             testsLength: files.length
