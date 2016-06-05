@@ -1,7 +1,6 @@
 bin/
 lib/
 test/
-index.js
 .babelrc
 .editorconfig
 .travis.yml
