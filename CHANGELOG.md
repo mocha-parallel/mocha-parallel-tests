@@ -1,14 +1,12 @@
-## 0.4.2
+## 0.5.0
 
- * fix: tests using `--max-parallel=1` run without errors ([#34](https://github.com/mmotkina/mocha-parallel-tests/issues/34))
+ * **new**: mutiple test suites (describe) inside one file run in parallel
 
-## 0.4.1
-
- * fix: reporters with own options like `xunit` don't produce errors now ([#31](https://github.com/mmotkina/mocha-parallel-tests/issues/31))
-
-## 0.4.0
+## 0.4.x
 
  * **new**: support for mocha `--compilers` option introduced
+ * fix: tests using `--max-parallel=1` run without errors ([#34](https://github.com/mmotkina/mocha-parallel-tests/issues/34))
+ * fix: reporters with own options like `xunit` don't produce errors now ([#31](https://github.com/mmotkina/mocha-parallel-tests/issues/31))
  * fix: `--retry` option is now working for mocha test hooks (before/after/etc)
  * `mocha-parallel-tests` code is now ES2015-compatible
 
