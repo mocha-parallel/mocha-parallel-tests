@@ -53,10 +53,10 @@ echo 'TESTCASE: console logs'
 test test/console-log-inject/index.js
 echo $?
 echo 'TESTCASE: global hooks'
-test test/global-hooks/index.js
+test test/global-hooks/index.sh
 echo $?
 echo 'TESTCASE: global hooks with required files'
-test test/global-hooks-require/index.js
+test test/global-hooks-require/index.sh
 echo $?
 echo 'TESTCASE: retries'
 test test/retry/index.js
