@@ -1,3 +1,7 @@
+## 0.5.1
+
+ * fix: global hooks stored inside separate files are now executed ([#39](https://github.com/mmotkina/mocha-parallel-tests/issues/39))
+
 ## 0.5.0
 
  * **new**: mutiple test suites (describe) inside one file run in parallel
