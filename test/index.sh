@@ -58,6 +58,9 @@ echo $?
 echo 'TESTCASE: global hooks with required files'
 test test/global-hooks-require/index.sh
 echo $?
+echo 'TESTCASE: global hooks with directory as a tests source'
+test test/global-hooks-directory/index.sh
+echo $?
 echo 'TESTCASE: retries'
 test test/retry/index.js
 echo $?
