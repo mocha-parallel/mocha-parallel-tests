@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT=$(dist/bin/mocha-parallel-tests test/global-hooks-directory/ 2>&1)
+OUTPUT=$(dist/bin/mocha-parallel-tests test/global-hooks-directory/tests/ 2>&1)
 STATUS=$?
 
 if [ $STATUS -eq 2 ]; then
