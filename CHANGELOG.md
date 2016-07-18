@@ -1,3 +1,7 @@
+## 0.5.3
+
+ * fix: support [mocha.opts](https://mochajs.org/#mochaopts) config file ([#44](https://github.com/mmotkina/mocha-parallel-tests/issues/44))
+
 ## 0.5.2
 
  * fix: global hooks stored inside separate files are now executed if target is directory ([#41](https://github.com/mmotkina/mocha-parallel-tests/issues/41))
