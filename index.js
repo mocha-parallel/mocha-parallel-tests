@@ -32,7 +32,7 @@ export default function MochaParallelTests(options) {
 
     // get test files with original mocha utils.lookupFiles() function
     let files = [];
-    options._.forEach(testPath => {
+    options._.slice(2).forEach(testPath => {
         files = files.concat(mochaLookupFiles(testPath, extensions, options.recursive));
     });
 
