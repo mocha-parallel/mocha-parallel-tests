@@ -1,3 +1,7 @@
+## 0.5.2
+
+ * fix: global hooks stored inside separate files are now executed if target is directory ([#41](https://github.com/mmotkina/mocha-parallel-tests/issues/41))
+
 ## 0.5.1
 
  * fix: global hooks stored inside separate files are now executed ([#39](https://github.com/mmotkina/mocha-parallel-tests/issues/39))

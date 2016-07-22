@@ -82,6 +82,9 @@ echo $?
 echo 'TESTCASE: reporter with options'
 test test/reporter-options/index.sh
 echo $?
+echo 'TESTCASE: mocha.opts'
+test test/mocha-opts/index.sh
+echo $?
 
 echo "Passes: $PASSES Failes: $FAILES"
 

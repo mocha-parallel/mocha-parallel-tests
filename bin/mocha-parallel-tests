@@ -12,8 +12,15 @@
  * --slow
  * _ (path)
  */
-import {argv} from 'yargs';
+import yargs from 'yargs';
 import MochaParallelTests from '../';
+import getOptions from 'mocha/bin/options';
+
+// support --opts
+// getOptions() changes process.argv
+getOptions();
+
+const argv = yargs.parse(process.argv);
 
 if (!argv._.length) {
     console.error('Error: no target is specified');
