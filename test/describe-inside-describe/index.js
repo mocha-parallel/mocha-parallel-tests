@@ -12,7 +12,6 @@ exec(libExecutable + ' -R doc --timeout 60000 --slow 30000 test/describe-inside-
     var xmlReporterOutput = stderr.toString();
     var $ = cheerio.load(xmlReporterOutput);
     var firstSuite = $('.suite');
-    var secondSuite = $('.suite').eq(-1);
 
     assert.strictEqual($('.suite').length, 3, 'Suites length is wrong');
     assert.strictEqual(firstSuite.find('.suite').length, 1, 'Inner suites length is wrong');

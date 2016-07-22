@@ -9,7 +9,7 @@ var libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests
 
 exec(libExecutable + ' --timeout 60000 --slow 30000 test/console-log-inject/tests', {
     cwd: path.resolve(__dirname, '../../')
-}, function (err, stdout, stderr) {
+}, function (err, stdout) {
     if (err) {
         console.error(err);
         process.exit(1);
