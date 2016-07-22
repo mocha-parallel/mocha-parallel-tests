@@ -7,5 +7,5 @@ describe('Test suite #1', function () {
         describe('Inner suite #1', function () {
             it('should end now', function () {});
         });
-    })
+    });
 });

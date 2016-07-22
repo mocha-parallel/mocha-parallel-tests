@@ -1,11 +1,8 @@
 'use strict';
 
-import child_process from 'child_process';
-import {statSync} from 'fs';
 import path from 'path';
-import Mocha from 'mocha';
-
 import Reporter from './lib/reporter';
+
 import {
     addTest,
     runTests,
