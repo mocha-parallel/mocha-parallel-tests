@@ -1,3 +1,3 @@
 'use strict';
 
-global.foo = () => {}
+global.foo = () => {};
