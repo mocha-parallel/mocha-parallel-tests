@@ -16,11 +16,15 @@ import yargs from 'yargs';
 import MochaParallelTests from '../';
 import getOptions from 'mocha/bin/options';
 
+import processRequireOption from '../lib/process-require-option';
+
 // support --opts
 // getOptions() changes process.argv
 getOptions();
 
 const argv = yargs.parse(process.argv);
+
+processRequireOption(argv);
 
 if (!argv._.length) {
     console.error('Error: no target is specified');

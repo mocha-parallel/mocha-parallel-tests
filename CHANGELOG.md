@@ -1,3 +1,7 @@
+## 0.5.4
+
+ * fix: support mocha `--require` option
+
 ## 0.5.3
 
  * fix: support [mocha.opts](https://mochajs.org/#mochaopts) config file ([#44](https://github.com/mmotkina/mocha-parallel-tests/issues/44))
