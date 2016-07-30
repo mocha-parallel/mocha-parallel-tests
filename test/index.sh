@@ -85,6 +85,9 @@ echo $?
 echo 'TESTCASE: mocha.opts'
 test test/mocha-opts/index.sh
 echo $?
+echo 'TESTCASE: syntax errors'
+test test/syntax-errors/index.js
+echo $?
 
 echo "Passes: $PASSES Failes: $FAILES"
 
