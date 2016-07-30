@@ -85,6 +85,9 @@ echo $?
 echo 'TESTCASE: mocha.opts'
 test test/mocha-opts/index.sh
 echo $?
+echo 'TESTCASE: --require option support'
+test test/require-option/index.js
+echo $?
 
 echo "Passes: $PASSES Failes: $FAILES"
 
