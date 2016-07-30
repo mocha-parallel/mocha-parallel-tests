@@ -7,13 +7,13 @@ const libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tes
 
 exec(`${libExecutable} test/syntax-errors/test.js`, {
     cwd: path.resolve(__dirname, '../../')
-}, function (err, stdout) {
+}, function (err) {
     // node.js doesn't support destructuring assignment
     const majorNodeVersion = Number(process.versions.node.split('.')[0]);
     const shouldProduceError = (majorNodeVersion < 6);
 
     if (shouldProduceError) {
-        assert(err, `Error should have happened`);
+        assert(err, 'Error should have happened');
         assert.strictEqual(err.code, 1);
     } else {
         assert.strictEqual(err, null, 'Unexpected error occured');
