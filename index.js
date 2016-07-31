@@ -2,6 +2,7 @@
 
 import path from 'path';
 import Reporter from './lib/reporter';
+import prepareRequire from './lib/prepare-require';
 
 import {
     addTest,
@@ -28,7 +29,7 @@ export default function MochaParallelTests(options) {
             compilerMod = path.join(process.cwd(), mod);
         }
 
-        require(path.resolve(compilerMod));
+        require(prepareRequire(compilerMod));
         extensions.push(ext);
     });
 
