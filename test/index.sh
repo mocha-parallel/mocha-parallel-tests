@@ -76,6 +76,9 @@ echo $?
 echo 'TESTCASE: js compilers support'
 test test/js-compilers/index.sh
 echo $?
+echo 'TESTCASE: js compilers with files support'
+test test/js-compilers-1/index.sh
+echo $?
 echo 'TESTCASE: retry support in mocha hooks'
 test test/retry-before/index.sh
 echo $?
