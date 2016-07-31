@@ -6,7 +6,7 @@ STATUS=$?
 if [ $STATUS -eq 0 ]; then
     exit 0
 else
-    echo "Exit code wrong: $STATUS"
+    echo "Exit code is wrong: $STATUS"
     echo "Output: $OUTPUT"
 
     exit 1
