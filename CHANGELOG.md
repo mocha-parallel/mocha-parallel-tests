@@ -1,3 +1,7 @@
+## 0.5.5
+
+ * fix: support mocha `--compilers` option ([#53](https://github.com/mmotkina/mocha-parallel-tests/issues/53)). `0.4.x` lacked support for JavaScript files.
+
 ## 0.5.4
 
  * fix: support mocha `--require` option
