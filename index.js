@@ -3,6 +3,11 @@
 import path from 'path';
 import Reporter from './lib/reporter';
 import prepareRequire from './lib/prepare-require';
+import RequireCacheWatcher from './lib/require-cache-watcher';
+import {
+    patch as patchGlobalHooks,
+    restore as restoreGlobalHooks
+} from './lib/hooks';
 
 import {
     addTest,
@@ -45,6 +50,12 @@ export default function MochaParallelTests(options) {
         retryCount: options.retry
     });
 
+    // require(testFile) needs some global hooks (describe, it etc)
+    patchGlobalHooks();
+
+    const cacheWatcher = new RequireCacheWatcher;
+    cacheWatcher.start();
+
     files.forEach(file => {
         const testOptions = Object.assign({}, options, {
             reporterName: options.R || options.reporter,
@@ -52,8 +63,22 @@ export default function MochaParallelTests(options) {
             testsLength: files.length
         });
 
-        addTest(path.resolve(file), testOptions);
+        // does this file have a syntax error?
+        // require() will show that
+        const absFilePath = path.resolve(file);
+        require(absFilePath);
+
+        addTest(absFilePath, testOptions);
     });
+
+    // okay, all files are valid JavaScript
+    // now it's time for mocha to set its own global hooks
+    restoreGlobalHooks();
+
+    // also we need to delete files from require.cache
+    // which are involved into all tests
+    cacheWatcher.stop();
+    cacheWatcher.flushRequireCache();
 
     runTests();
 }
