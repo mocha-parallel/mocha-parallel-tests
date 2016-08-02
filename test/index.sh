@@ -88,6 +88,9 @@ echo $?
 echo 'TESTCASE: mocha.opts'
 test test/mocha-opts/index.sh
 echo $?
+echo 'TESTCASE: syntax errors'
+test test/syntax-errors/index.js
+echo $?
 echo 'TESTCASE: --require option support'
 test test/require-option/index.sh
 echo $?
