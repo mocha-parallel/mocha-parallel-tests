@@ -2,7 +2,7 @@
 
  * **breaking change**: `mocha` is now in peerDependencies part of `mocha-parallel-tests` which means that you need to add both `mocha` and `mocha-parallel-tests` in your project's package.json. This also means that you can run both of your tests: written for mocha@2.x and mocha@3.x ([#55](https://github.com/mmotkina/mocha-parallel-tests/issues/55))
 
-Version number is 1.1.0 because first `mocha-parallel-tests` were published as 1.0.x.
+Version number is 1.1.0 because first `mocha-parallel-tests` releases had 1.0.x versioning scheme.
 
 ## 0.5.x
 
