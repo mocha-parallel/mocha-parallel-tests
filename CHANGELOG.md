@@ -1,26 +1,15 @@
-## 0.5.5
+## 1.0.0
 
- * fix: support mocha `--compilers` option ([#53](https://github.com/mmotkina/mocha-parallel-tests/issues/53)). `0.4.x` lacked support for JavaScript files.
+ * **breaking change**: `mocha` is now in peerDependencies part of `mocha-parallel-tests` which means that you need to add both `mocha` and `mocha-parallel-tests` in your project's package.json. This also means that you can run both of your tests: written for mocha@2.x and mocha@3.x ([#55](https://github.com/mmotkina/mocha-parallel-tests/issues/55))
 
-## 0.5.4
-
- * fix: support mocha `--require` option
-
-## 0.5.3
-
- * fix: support [mocha.opts](https://mochajs.org/#mochaopts) config file ([#44](https://github.com/mmotkina/mocha-parallel-tests/issues/44))
-
-## 0.5.2
-
- * fix: global hooks stored inside separate files are now executed if target is directory ([#41](https://github.com/mmotkina/mocha-parallel-tests/issues/41))
-
-## 0.5.1
-
- * fix: global hooks stored inside separate files are now executed ([#39](https://github.com/mmotkina/mocha-parallel-tests/issues/39))
-
-## 0.5.0
+## 0.5.x
 
  * **new**: mutiple test suites (describe) inside one file run in parallel
+ * fix: support mocha `--compilers` option ([#53](https://github.com/mmotkina/mocha-parallel-tests/issues/53)). `0.4.x` lacked support for JavaScript files.
+ * fix: support mocha `--require` option
+ * fix: support [mocha.opts](https://mochajs.org/#mochaopts) config file ([#44](https://github.com/mmotkina/mocha-parallel-tests/issues/44))
+ * fix: global hooks stored inside separate files are now executed if target is directory ([#41](https://github.com/mmotkina/mocha-parallel-tests/issues/41))
+ * fix: global hooks stored inside separate files are now executed ([#39](https://github.com/mmotkina/mocha-parallel-tests/issues/39))
 
 ## 0.4.x
 

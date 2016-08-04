@@ -13,7 +13,7 @@ Also `mocha-parallel-tests` supports its own `--max-parallel` (max parallel runn
 
 `npm install --save-dev mocha-parallel-tests mocha`
 
-Starting from 0.6.0 `mocha-parallel-tests` adds mocha as a [peerDependency](https://nodejs.org/en/blog/npm/peer-dependencies/) so you should specify what `mocha` version you want to run tests with. Currently 2.3.x, 2.4.x and 3.0.x mocha versions are supported.
+**ATTENTION**: Starting from 1.0.0 `mocha-parallel-tests` adds mocha as a [peerDependency](https://nodejs.org/en/blog/npm/peer-dependencies/) so you should specify what `mocha` version you want to run tests with. Currently 2.3.x, 2.4.x and 3.0.x mocha versions are supported.
 
 ## Usage
 
