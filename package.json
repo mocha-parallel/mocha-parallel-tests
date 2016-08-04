@@ -1,6 +1,6 @@
 {
   "name": "mocha-parallel-tests",
-  "version": "0.5.5",
+  "version": "0.6.0-beta.1",
   "homepage": "https://github.com/mmotkina/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./dist/build.js",
@@ -12,7 +12,6 @@
   ],
   "dependencies": {
     "debug": "2.2.0",
-    "mocha": "2.4.5",
     "yargs": "3.30.0"
   },
   "repository": {
@@ -41,6 +40,9 @@
   "license": "MIT",
   "engines": {
     "node": ">=4"
+  },
+  "peerDependencies": {
+    "mocha": ">= 2.3.x || 3.0.x"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
