@@ -16,7 +16,7 @@ test.describe('Dynamic Loading', function () {
             accessKey: process.env.SAUCE_ACCESS_KEY
         });
 
-        const driverFactory = builder.build();
+        builder.build();
     });
 
     test.it('should wait for beforeEach', () => {});
