@@ -95,6 +95,14 @@ echo 'TESTCASE: --require option support'
 test test/require-option/index.sh
 echo $?
 
+if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
+    echo 'TESTCASE: selenium-webdriver'
+    test test/selenium-webdriver/index.js
+    echo $?
+else
+    echo "Please set SAUCE_USERNAME and SAUCE_ACCESS_KEY environment variables to run selenium-webdriver tests"
+fi
+
 echo "Passes: $PASSES Failes: $FAILES"
 
 if [ $FAILES -gt 0 ]; then
