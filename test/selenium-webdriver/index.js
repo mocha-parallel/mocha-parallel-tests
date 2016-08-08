@@ -20,7 +20,7 @@ exec(`${libExecutable} --reporter json --slow 30000 --timeout 30000 test/seleniu
         process.exit(1);
     }
 
-    assert.strictEqual(jsonReporterOutput.stats.suites, 1, `Suites number is wrong: ${jsonReporterOutput.stats.suites}`);
-    assert.strictEqual(jsonReporterOutput.stats.tests, 1, `Tests number is wrong: ${jsonReporterOutput.stats.suites}`);
+    assert.strictEqual(jsonReporterOutput.stats.suites, 2, `Suites number is wrong: ${jsonReporterOutput.stats.suites}`);
+    assert.strictEqual(jsonReporterOutput.stats.tests, 2, `Tests number is wrong: ${jsonReporterOutput.stats.suites}`);
     assert(jsonReporterOutput.stats.duration > 100, `Tests duration seems to be wrong: ${jsonReporterOutput.stats.duration}ms`);
 });
