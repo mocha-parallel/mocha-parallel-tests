@@ -1,3 +1,7 @@
+## 1.1.2
+
+ * fix: support for only() and skip() helpers ([#59](https://github.com/mmotkina/mocha-parallel-tests/issues/59))
+
 ## 1.1.1
 
  * fix: running mocha-parallel-tests programmatically is fixed ([#58](https://github.com/mmotkina/mocha-parallel-tests/issues/58))
