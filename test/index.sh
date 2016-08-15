@@ -94,6 +94,9 @@ echo $?
 echo 'TESTCASE: --require option support'
 test test/require-option/index.sh
 echo $?
+echo 'TESTCASE: describe.skip support'
+test test/describe-skip/index.sh
+echo $?
 
 if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
     echo 'TESTCASE: selenium-webdriver'
