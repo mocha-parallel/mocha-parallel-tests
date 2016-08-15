@@ -1,1 +1,1 @@
-Check that global hooks get executed if directory tests path is set
+Check that describe.skip() doesn't raise error
