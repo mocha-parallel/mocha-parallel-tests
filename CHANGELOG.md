@@ -1,3 +1,7 @@
+## 1.1.1
+
+ * fix: running mocha-parallel-tests programmatically is fixed ([#58](https://github.com/mmotkina/mocha-parallel-tests/issues/58))
+
 ## 1.1.0
 
  * **breaking change**: `mocha` is now in peerDependencies part of `mocha-parallel-tests` which means that you need to add both `mocha` and `mocha-parallel-tests` in your project's package.json. This also means that you can run both of your tests: written for mocha@2.x and mocha@3.x ([#55](https://github.com/mmotkina/mocha-parallel-tests/issues/55))
