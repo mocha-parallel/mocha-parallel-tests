@@ -97,6 +97,9 @@ echo $?
 echo 'TESTCASE: describe.skip support'
 test test/describe-skip/index.sh
 echo $?
+echo 'TESTCASE: run programmatically'
+test test/run-programmatically/index.js
+echo $?
 
 if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
     echo 'TESTCASE: selenium-webdriver'
