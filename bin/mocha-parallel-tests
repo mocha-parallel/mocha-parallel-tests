@@ -13,7 +13,7 @@
  * _ (path)
  */
 import yargs from 'yargs';
-import MochaParallelTests from '../';
+import binHelper from '../bin-helper';
 import getOptions from 'mocha/bin/options';
 
 import processRequireOption from '../lib/process-require-option';
@@ -30,5 +30,5 @@ if (!argv._.length) {
     console.error('Error: no target is specified');
     process.exit(1);
 } else {
-    MochaParallelTests(argv);
+    binHelper(argv);
 }

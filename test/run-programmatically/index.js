@@ -3,7 +3,7 @@
 'use strict';
 
 const assert = require('assert');
-const MochaParallelTests = require('../../dist/index.js');
+const MochaParallelTests = require('../../dist/api.js');
 
 const STREAMS = ['stdout', 'stderr'];
 const originalWrites = {};
@@ -33,24 +33,32 @@ const restoreOriginalStreams = () => {
 // patch streams so that stdout is muted
 patchStreams();
 
-mocha
-    .reporter('json')
-    .addFile(`${__dirname}/tests/parallel1.js`)
-    .addFile(`${__dirname}/tests/parallel2.js`)
-    .slow(8000)
-    .timeout(10000)
-    .run()
-        .on('end', function () {
-            restoreOriginalStreams();
+try {
+    mocha
+        .reporter('json')
+        .addFile(`${__dirname}/tests/parallel1.js`)
+        .addFile(`${__dirname}/tests/parallel2.js`)
+        .slow(8000)
+        .timeout(10000)
+        .run()
+            .on('end', function () {
+                restoreOriginalStreams();
 
-            const json = this.testResults;
-            if (typeof json !== 'object') {
-                console.log(`Reporter output is not valid JSON: ${json}`);
-                process.exit(1);
-            }
+                const json = this.testResults;
+                console.log(json);
+                if (typeof json !== 'object') {
+                    console.log(`Reporter output is not valid JSON: ${json}`);
+                    process.exit(1);
+                }
 
-            assert.strictEqual(json.stats.suites, 2);
-            assert.strictEqual(json.stats.tests, 2);
-            assert.strictEqual(json.stats.passes, 2);
-            assert(json.stats.duration < 6, `Duration is too long: ${json.stats.duration}`);
-        });
+                assert.strictEqual(json.stats.suites, 2);
+                assert.strictEqual(json.stats.tests, 2);
+                assert.strictEqual(json.stats.passes, 2);
+                assert(json.stats.duration < 6, `Duration is too long: ${json.stats.duration}`);
+            });
+} catch (ex) {
+    restoreOriginalStreams();
+
+    console.log(`Failed running mocha-parallel-tests: ${ex.stack}`);
+    process.exit(1);
+}

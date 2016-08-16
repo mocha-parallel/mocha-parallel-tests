@@ -3,7 +3,7 @@
   "version": "1.1.2",
   "homepage": "https://github.com/mmotkina/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
-  "main": "./dist/index.js",
+  "main": "./dist/api.js",
   "bin": "./dist/bin/mocha-parallel-tests",
   "author": "Maria Motkina <mmotkina@yandex-team.ru>",
   "contributors": [
@@ -28,9 +28,9 @@
     "tests"
   ],
   "scripts": {
-    "lint": "./node_modules/.bin/eslint lib/ test/ bin/ index.js",
+    "lint": "./node_modules/.bin/eslint lib/ test/ bin/ *.js",
     "prepublish": "npm run prepublish:entrypoint && npm run prepublish:libs:clean && npm run prepublish:libs:build && npm run prepublish:bin:clean && npm run prepublish:bin:build",
-    "prepublish:entrypoint": "./node_modules/.bin/babel index.js --out-file dist/index.js",
+    "prepublish:entrypoint": "./node_modules/.bin/babel *.js --out-dir dist/",
     "prepublish:bin:clean": "rm -fr ./dist/bin",
     "prepublish:bin:build": "mkdir ./dist/bin && ./node_modules/.bin/babel bin/mocha-parallel-tests --out-file dist/bin/mocha-parallel-tests && chmod +x dist/bin/mocha-parallel-tests",
     "prepublish:libs:clean": "rm -fr ./dist/lib",
