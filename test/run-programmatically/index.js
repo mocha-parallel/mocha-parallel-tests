@@ -9,6 +9,10 @@ const STREAMS = ['stdout', 'stderr'];
 const originalWrites = {};
 const mocha = new MochaParallelTests;
 
+let failuresTotal;
+let jsonResult;
+let globalException;
+
 const patchStreams = () => {
     for (let streamName of STREAMS) {
         const stream = process[streamName];
@@ -30,6 +34,21 @@ const restoreOriginalStreams = () => {
     }
 };
 
+process.on('exit', () => {
+    restoreOriginalStreams();
+
+    assert(globalException === undefined, `Failed running mocha-parallel-tests: ${globalException && globalException.stack}`);
+    assert(failuresTotal !== undefined, 'Run() callback was not executed');
+    assert(jsonResult !== undefined, '"end" event was not fired');
+    assert(typeof jsonResult === 'object', `Reporter output is not valid JSON: ${jsonResult}`);
+    assert.strictEqual(jsonResult.stats.suites, 2);
+    assert.strictEqual(jsonResult.stats.tests, 2);
+    assert.strictEqual(jsonResult.stats.passes, 2);
+    assert(jsonResult.stats.duration < 6, `Duration is too long: ${jsonResult.stats.duration}`);
+
+    process.exit(0);
+});
+
 // patch streams so that stdout is muted
 patchStreams();
 
@@ -40,25 +59,11 @@ try {
         .addFile(`${__dirname}/tests/parallel2.js`)
         .slow(8000)
         .timeout(10000)
-        .run()
-            .on('end', function () {
-                restoreOriginalStreams();
-
-                const json = this.testResults;
-                console.log(json);
-                if (typeof json !== 'object') {
-                    console.log(`Reporter output is not valid JSON: ${json}`);
-                    process.exit(1);
-                }
-
-                assert.strictEqual(json.stats.suites, 2);
-                assert.strictEqual(json.stats.tests, 2);
-                assert.strictEqual(json.stats.passes, 2);
-                assert(json.stats.duration < 6, `Duration is too long: ${json.stats.duration}`);
-            });
+        .run(failures => {
+            assert.strictEqual(failures, 1, 'Run() callback argument is wrong');
+        }).on('end', function () {
+            jsonResult = this.testResults;
+        });
 } catch (ex) {
-    restoreOriginalStreams();
-
-    console.log(`Failed running mocha-parallel-tests: ${ex.stack}`);
-    process.exit(1);
+    globalException = ex;
 }
