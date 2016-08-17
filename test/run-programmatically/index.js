@@ -43,20 +43,18 @@ process.on('exit', () => {
     assert.strictEqual(failuresTotal, 0, `Run() callback argument is wrong: ${failuresTotal}`);
 
     assert(jsonResult !== undefined, '"end" event was not fired');
-    assert(typeof jsonResult === 'object', `Reporter output is not valid JSON: ${jsonResult}`);
+    assert(jsonResult !== null && typeof jsonResult === 'object', `Reporter output is not valid JSON: ${jsonResult}`);
     assert.strictEqual(jsonResult.stats.suites, 2);
     assert.strictEqual(jsonResult.stats.tests, 2);
     assert.strictEqual(jsonResult.stats.passes, 2);
     assert(jsonResult.stats.duration < 6, `Duration is too long: ${jsonResult.stats.duration}`);
-
-    process.exit(0);
 });
 
 // patch streams so that stdout is muted
 patchStreams();
 
 try {
-    const runner = mocha
+    mocha
         .reporter('json')
         .addFile(`${__dirname}/tests/parallel1.js`)
         .addFile(`${__dirname}/tests/parallel2.js`)
