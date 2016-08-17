@@ -57,18 +57,12 @@ export default function binHelper(options) {
     cacheWatcher.start();
 
     files.forEach(file => {
-        const testOptions = Object.assign({}, options, {
-            reporterName: options.R || options.reporter,
-            reporter: Reporter,
-            testsLength: files.length
-        });
-
         // does this file have a syntax error?
         // require() will show that
         const absFilePath = path.resolve(file);
         require(absFilePath);
 
-        addTest(absFilePath, testOptions);
+        addTest(absFilePath);
     });
 
     // okay, all files are valid JavaScript

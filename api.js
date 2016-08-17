@@ -1,8 +1,8 @@
 'use strict';
 
 import Mocha from 'mocha';
-
 import Reporter from './lib/reporter';
+import customRunner from './lib/runner';
 import {
     addTest,
     runTests,
@@ -15,6 +15,8 @@ class MochaParallelTests extends Mocha {
 
         this._filesTotal = 0;
         this._throttledCalls = [];
+        this._reporterName = null;
+        this._reporterOptions = null;
     }
 
     addFile(file) {
@@ -24,15 +26,33 @@ class MochaParallelTests extends Mocha {
         return this;
     }
 
+    reporter(reporterName, reporterOptions) {
+        if (reporterName === undefined) {
+            return super.reporter.call(this, reporterName, reporterOptions);
+        }
+
+        this._reporterName = reporterName;
+        this._reporterOptions = reporterOptions;
+
+        return this;
+    }
+
     run(callback) {
-        return runTests({
-            options: Object.assign({}, {
-                reporter: Reporter,
-                testsLength: this._filesTotal
-            }),
-            callback,
-            throttledCalls: this._throttledCalls
+        // TODO reason for that
+        process.nextTick(() => {
+            runTests({
+                options: Object.assign({}, {
+                    reporterName: this._reporterName,
+                    reporterOptions: this._reporterOptions,
+                    reporter: Reporter,
+                    testsLength: this._filesTotal
+                }),
+                callback,
+                throttledCalls: this._throttledCalls
+            });
         });
+
+        return customRunner;
     }
 }
 
@@ -41,7 +61,9 @@ Object.keys(Mocha.prototype).forEach(key => {
         return;
     }
 
-    if (key === 'run' || key === 'addFile') {
+    // we have our own implementations of these methods
+    // other methods should be saved and re-applied during runTests()
+    if (key === 'run' || key === 'addFile' || key === 'reporter') {
         return;
     }
 
@@ -49,7 +71,10 @@ Object.keys(Mocha.prototype).forEach(key => {
         // mocha calls some of its methods inside constructor
         // so it's unsafe to push smth to _throttledCalls immediately
         process.nextTick(() => {
-            this._throttledCalls.push({key, args});
+            this._throttledCalls.push({
+                args,
+                method: key
+            });
         });
 
         return this;

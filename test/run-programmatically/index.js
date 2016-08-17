@@ -38,7 +38,10 @@ process.on('exit', () => {
     restoreOriginalStreams();
 
     assert(globalException === undefined, `Failed running mocha-parallel-tests: ${globalException && globalException.stack}`);
+
     assert(failuresTotal !== undefined, 'Run() callback was not executed');
+    assert.strictEqual(failuresTotal, 0, `Run() callback argument is wrong: ${failuresTotal}`);
+
     assert(jsonResult !== undefined, '"end" event was not fired');
     assert(typeof jsonResult === 'object', `Reporter output is not valid JSON: ${jsonResult}`);
     assert.strictEqual(jsonResult.stats.suites, 2);
@@ -53,16 +56,16 @@ process.on('exit', () => {
 patchStreams();
 
 try {
-    mocha
+    const runner = mocha
         .reporter('json')
         .addFile(`${__dirname}/tests/parallel1.js`)
         .addFile(`${__dirname}/tests/parallel2.js`)
         .slow(8000)
         .timeout(10000)
         .run(failures => {
-            assert.strictEqual(failures, 1, 'Run() callback argument is wrong');
+            failuresTotal = failures;
         }).on('end', function () {
-            jsonResult = this.testResults;
+            jsonResult = this.testResults || null;
         });
 } catch (ex) {
     globalException = ex;
