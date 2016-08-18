@@ -6,7 +6,7 @@ import customRunner from './lib/runner';
 import {
     addTest,
     runTests,
-    // setOptions as setWatcherOptions
+    setOptions as setWatcherOptions
 } from './lib/watcher';
 
 class MochaParallelTests extends Mocha {
@@ -34,6 +34,13 @@ class MochaParallelTests extends Mocha {
         this._reporterOptions = reporterOptions;
 
         return this;
+    }
+
+    setOwnOptions({maxParallel, retry}) {
+        setWatcherOptions({
+            maxParallelTests: maxParallel,
+            retryCount: retry
+        });
     }
 
     run(callback) {
