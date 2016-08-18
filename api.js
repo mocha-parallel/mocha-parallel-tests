@@ -14,7 +14,6 @@ class MochaParallelTests extends Mocha {
         super();
 
         this._filesTotal = 0;
-        this._throttledCalls = [];
         this._reporterName = null;
         this._reporterOptions = null;
     }
@@ -38,18 +37,15 @@ class MochaParallelTests extends Mocha {
     }
 
     run(callback) {
-        // TODO reason for that
-        process.nextTick(() => {
-            runTests({
-                options: Object.assign({}, {
-                    reporterName: this._reporterName,
-                    reporterOptions: this._reporterOptions,
-                    reporter: Reporter,
-                    testsLength: this._filesTotal
-                }),
-                callback,
-                throttledCalls: this._throttledCalls
-            });
+        runTests({
+            options: Object.assign({}, {
+                reporterName: this._reporterName,
+                reporterOptions: this._reporterOptions,
+                reporter: Reporter,
+                testsLength: this._filesTotal
+            }),
+            callback,
+            throttledCalls: this._throttledCalls
         });
 
         return customRunner;
@@ -69,12 +65,12 @@ Object.keys(Mocha.prototype).forEach(key => {
 
     MochaParallelTests.prototype[key] = function (...args) {
         // mocha calls some of its methods inside constructor
-        // so it's unsafe to push smth to _throttledCalls immediately
-        process.nextTick(() => {
-            this._throttledCalls.push({
-                args,
-                method: key
-            });
+        // so MochaParallelTests own constructor function can still be in progress here
+        this._throttledCalls = this._throttledCalls || [];
+
+        this._throttledCalls.push({
+            args,
+            method: key
         });
 
         return this;

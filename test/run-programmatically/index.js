@@ -47,7 +47,7 @@ process.on('exit', () => {
     assert.strictEqual(jsonResult.stats.suites, 2);
     assert.strictEqual(jsonResult.stats.tests, 2);
     assert.strictEqual(jsonResult.stats.passes, 2);
-    assert(jsonResult.stats.duration < 6, `Duration is too long: ${jsonResult.stats.duration}`);
+    assert(jsonResult.stats.duration < 6000, `Duration is too long: ${jsonResult.stats.duration}`);
 });
 
 // patch streams so that stdout is muted
