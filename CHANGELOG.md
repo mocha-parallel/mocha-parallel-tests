@@ -1,14 +1,12 @@
-## 1.1.2
+## 1.2.0
 
- * fix: support for only() and skip() helpers ([#59](https://github.com/mmotkina/mocha-parallel-tests/issues/59))
+ * **new**: using mocha-parallel-tests programmatically is now supported. You can also pass own mocha-parallel-tests options by calling `setOwnOptions({maxParallel, retry})` method of mocha-parallel-tests instance. You should call it before `run()`.
 
-## 1.1.1
-
- * fix: running mocha-parallel-tests programmatically is fixed ([#58](https://github.com/mmotkina/mocha-parallel-tests/issues/58))
-
-## 1.1.0
+## 1.1.x
 
  * **breaking change**: `mocha` is now in peerDependencies part of `mocha-parallel-tests` which means that you need to add both `mocha` and `mocha-parallel-tests` in your project's package.json. This also means that you can run both of your tests: written for mocha@2.x and mocha@3.x ([#55](https://github.com/mmotkina/mocha-parallel-tests/issues/55))
+ * fix: support for only() and skip() helpers ([#59](https://github.com/mmotkina/mocha-parallel-tests/issues/59))
+ * fix: main package file now refers to CommonJS file, not ES6 module.
 
 Version number is 1.1.0 because first `mocha-parallel-tests` releases had 1.0.x versioning scheme.
 
