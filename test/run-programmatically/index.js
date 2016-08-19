@@ -44,9 +44,9 @@ process.on('exit', () => {
 
     assert(jsonResult !== undefined, '"end" event was not fired');
     assert(jsonResult !== null && typeof jsonResult === 'object', `Reporter output is not valid JSON: ${jsonResult}`);
-    assert.strictEqual(jsonResult.stats.suites, 2);
-    assert.strictEqual(jsonResult.stats.tests, 2);
-    assert.strictEqual(jsonResult.stats.passes, 2);
+    assert.strictEqual(jsonResult.stats.suites, 200);
+    assert.strictEqual(jsonResult.stats.tests, 200);
+    assert.strictEqual(jsonResult.stats.passes, 200);
     assert(jsonResult.stats.duration < 6000, `Duration is too long: ${jsonResult.stats.duration}`);
 });
 

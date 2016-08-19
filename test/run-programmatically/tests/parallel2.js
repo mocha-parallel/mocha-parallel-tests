@@ -1,7 +1,9 @@
 'use strict';
 
-describe('Test suite', function () {
-    it('should end after 3 seconds', function (done) {
-        setTimeout(done, 3000);
+for (let i = 0; i < 100; i++) {
+    describe(`Test suite #2 - ${i}`, function () {
+        it('should end after 3 seconds', function (done) {
+            setTimeout(done, 3000);
+        });
     });
-});
+}

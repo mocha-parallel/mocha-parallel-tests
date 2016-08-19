@@ -16,6 +16,9 @@ class MochaParallelTests extends Mocha {
         this._filesTotal = 0;
         this._reporterName = null;
         this._reporterOptions = null;
+
+        // prevent uncaught exception listeners count warning
+        process.setMaxListeners(0);
     }
 
     addFile(file) {
