@@ -1,3 +1,7 @@
+## 1.2.1
+
+ * fix: `--require`'d files are working as expected together with `--compilers` option ([#63](https://github.com/mmotkina/mocha-parallel-tests/issues/63))
+
 ## 1.2.0
 
  * **new**: using mocha-parallel-tests programmatically is now supported. You can also pass own mocha-parallel-tests options by calling `setOwnOptions({maxParallel, retry})` method of mocha-parallel-tests instance. You should call it before `run()`.
