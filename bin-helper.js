@@ -17,6 +17,7 @@ import {
 
 // files lookup in mocha is complex, so it's better to just run original code
 import {lookupFiles as mochaLookupFiles} from 'mocha/lib/utils';
+import processRequireOption from './lib/process-require-option';
 
 export default function binHelper(options) {
     process.setMaxListeners(0);
@@ -37,6 +38,9 @@ export default function binHelper(options) {
         require(prepareRequire(compilerMod));
         extensions.push(ext);
     });
+
+    // require --require'd files
+    processRequireOption(options);
 
     // get test files with original mocha utils.lookupFiles() function
     let files = [];
