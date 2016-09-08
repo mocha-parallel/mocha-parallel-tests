@@ -29,5 +29,5 @@ proc.stdout.on('data', function (chunk) {
     assert.strictEqual(stats.tests, 7);
     assert.strictEqual(stats.passes, 6);
     assert.strictEqual(stats.failures, 1);
-    assert(stats.duration < EXPECTED_DURATION, `Tests duration seems to be too long: ${jsonReporterOutput.stats.duration}ms`);
+    assert(stats.duration < EXPECTED_DURATION, `Tests duration seems to be too long: ${stats.duration}ms`);
 });
