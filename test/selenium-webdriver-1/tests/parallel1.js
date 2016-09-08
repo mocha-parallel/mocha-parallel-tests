@@ -24,7 +24,7 @@ test.describe(suiteName, function () {
 
     for (let i = 1; i <= 3; i++) {
         test.it(`test case ${i}`, function () {
-            driver.get('http://www.google222.com');
+            driver.get('http://www.google.com');
             
             const searchBox = driver.findElement(webdriver.By.name('q'));
             const keysSeq = `${suiteName} - ${i}`;
