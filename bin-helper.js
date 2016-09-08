@@ -75,8 +75,8 @@ export default function binHelper(options) {
 
     // also we need to delete files from require.cache
     // which are involved into all tests
-    cacheWatcher.stop();
-    cacheWatcher.flushRequireCache();
+    const cacheMark = cacheWatcher.getStateMark();
+    cacheWatcher.flushRequireCache(cacheMark);
 
     runTests({
         options: Object.assign({}, options, {
