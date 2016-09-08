@@ -10,8 +10,6 @@ var libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests
 exec(`${libExecutable} --reporter json --slow 30000 --timeout 30000 test/selenium-webdriver/test.js`, {
     cwd: path.resolve(__dirname, '../../')
 }, function (err, stdout) {
-    assert(!err, `Error should be empty, got ${err} instead`);
-
     let jsonReporterOutput = stdout.toString();
     try {
         jsonReporterOutput = JSON.parse(jsonReporterOutput);
