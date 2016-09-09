@@ -1,3 +1,7 @@
+## 1.2.2
+
+ * fix: `selenium-webdriver` issue with number of tests is fixed ([#69](https://github.com/mmotkina/mocha-parallel-tests/issues/69)). Currently all `selenium-webdriver` tests should work as expected.
+
 ## 1.2.1
 
  * fix: `--require`'d files are working as expected together with `--compilers` option ([#63](https://github.com/mmotkina/mocha-parallel-tests/issues/63))
