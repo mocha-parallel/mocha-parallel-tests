@@ -1,0 +1,4 @@
+Check that selenium-webdriver global hooks are executed
+This test can be launched with its own environment variables:
+
+SELENIUM_HOST=127.0.0.1:4444 BROWSER=phantomjs test/selenium-webdriver-2/index.js
