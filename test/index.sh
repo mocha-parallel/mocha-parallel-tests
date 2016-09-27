@@ -108,6 +108,14 @@ if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
     echo 'TESTCASE: selenium-webdriver'
     test test/selenium-webdriver/index.js
     echo $?
+
+    echo 'TESTCASE: selenium-webdriver failing tests'
+    test test/selenium-webdriver-1/index.js
+    echo $?
+
+    echo 'TESTCASE: selenium-webdriver tests duration'
+    test test/selenium-webdriver-2/index.js
+    echo $?
 else
     echo "Please set SAUCE_USERNAME and SAUCE_ACCESS_KEY environment variables to run selenium-webdriver tests"
 fi
