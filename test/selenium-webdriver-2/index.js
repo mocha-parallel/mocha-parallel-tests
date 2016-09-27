@@ -7,7 +7,6 @@ const MochaParallelTests = require('../../dist/api.js');
 
 const EXPECTED_EXECUTION_TIME_MOCHA_MS = 1000;
 const STREAMS = ['stdout', 'stderr'];
-const EXEC_START_TIME = Date.now();
 
 const originalWrites = {};
 const mocha = new MochaParallelTests;
@@ -46,7 +45,6 @@ process.on('exit', () => {
 
     assert(jsonResult !== undefined, '"end" event was not fired');
     assert(jsonResult !== null && typeof jsonResult === 'object', `Reporter output is not valid JSON: ${jsonResult}`);
-    console.log(jsonResult);
 
     assert.strictEqual(global['selenium-webdriver-2'], 1, 'Hooks file was not executed');
     assert.strictEqual(jsonResult.stats.suites, 2);
@@ -65,7 +63,7 @@ process.on('exit', () => {
 
     // suites should run in parallel, the longest one is the expected duration
     const expectedDuration = Math.max(...suitesDuration.values()) + EXPECTED_EXECUTION_TIME_MOCHA_MS;
-    const actualDuration = Date.now() - EXEC_START_TIME;
+    const actualDuration = jsonResult.stats.duration;
     assert(actualDuration < expectedDuration, `Duration is too long (expected: ${expectedDuration}ms, actual: ${actualDuration}ms)`);
 });
 
