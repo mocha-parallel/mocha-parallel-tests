@@ -6,6 +6,7 @@ const assert = require('assert');
 const MochaParallelTests = require('../../dist/api.js');
 
 const EXPECTED_EXECUTION_TIME_MOCHA_MS = 1000;
+const EXEC_START_TIME = Date.now();
 const STREAMS = ['stdout', 'stderr'];
 
 const originalWrites = {};
@@ -51,19 +52,10 @@ process.on('exit', () => {
     assert.strictEqual(jsonResult.stats.tests, 6);
     assert.strictEqual(jsonResult.stats.passes, 6);
 
-    const suitesDuration = new Map;
-    for (let passData of jsonResult.passes) {
-        const suiteName = passData.fullTitle.replace(passData.title, '').trim();
-        let suiteDuration = suitesDuration.get(suiteName) || 0;
+    const testsSerialDuration = jsonResult.passes.reduce((memo, passData) => memo + passData.duration, 0);
+    const expectedDuration = testsSerialDuration + EXPECTED_EXECUTION_TIME_MOCHA_MS;
+    const actualDuration = Date.now() - EXEC_START_TIME;
 
-        // test cases are executed one after another
-        suiteDuration += passData.duration;
-        suitesDuration.set(suiteName, suiteDuration);
-    }
-
-    // suites should run in parallel, the longest one is the expected duration
-    const expectedDuration = Math.max(...suitesDuration.values()) + EXPECTED_EXECUTION_TIME_MOCHA_MS;
-    const actualDuration = jsonResult.stats.duration;
     assert(actualDuration < expectedDuration, `Duration is too long (expected: ${expectedDuration}ms, actual: ${actualDuration}ms)`);
 });
 
