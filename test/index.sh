@@ -19,6 +19,9 @@ echo $?
 echo 'TESTCASE: custom reporter'
 test test/reporter-custom/index.sh
 echo $?
+echo 'TESTCASE: pwd-based reporter'
+test test/reporter-pwd/index.sh
+echo $?
 echo 'TESTCASE: parallel'
 test test/parallel/parallel.sh
 echo $?
