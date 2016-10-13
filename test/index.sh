@@ -13,8 +13,11 @@ function test {
     return $status
 }
 
-echo 'TESTCASE: native reporter'
-test test/reporter-native/index.sh
+echo 'TESTCASE: native (json) reporter'
+test test/reporter-native-json/index.sh
+echo $?
+echo 'TESTCASE: native (tap) reporter'
+test test/reporter-native-tap/index.sh
 echo $?
 echo 'TESTCASE: custom reporter'
 test test/reporter-custom/index.sh
