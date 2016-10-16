@@ -16,6 +16,9 @@ function test {
 echo 'TESTCASE: native reporter'
 test test/reporter-native/index.sh
 echo $?
+echo 'TESTCASE: cli targets'
+test test/cli-target/index.sh
+echo $?
 echo 'TESTCASE: custom reporter'
 test test/reporter-custom/index.sh
 echo $?
