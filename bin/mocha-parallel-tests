@@ -2,16 +2,7 @@
 
 'use strict';
 
-/**
- * CLI для работы с пакетом mocha-parallel-tests
- * mocha-parallel-tests [OPTIONS]
- *
- * [OPTIONS]
- * -R (reporter)
- * --timeout
- * --slow
- * _ (path)
- */
+import assert from 'assert';
 import yargs from 'yargs';
 import binHelper from '../bin-helper';
 import getOptions from 'mocha/bin/options';
@@ -21,10 +12,6 @@ import getOptions from 'mocha/bin/options';
 getOptions();
 
 const argv = yargs.parse(process.argv);
+assert(argv._.length > 2, 'No test files found');
 
-if (!argv._.length) {
-    console.error('Error: no target is specified');
-    process.exit(1);
-} else {
-    binHelper(argv);
-}
+binHelper(argv);
