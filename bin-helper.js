@@ -2,12 +2,13 @@
 
 import path from 'path';
 import Reporter from './lib/reporter';
-import prepareRequire from './lib/prepare-require';
-import RequireCacheWatcher from './lib/require-cache-watcher';
+import {createInstance as createRunnerInstance} from './lib/runner';
+import prepareRequire from './lib/utils/prepare-require';
+import RequireCacheWatcher from './lib/utils/require-cache-watcher';
 import {
     patch as patchGlobalHooks,
     restore as restoreGlobalHooks
-} from './lib/hooks';
+} from './lib/utils/hooks';
 
 import {
     addTest,
@@ -17,7 +18,7 @@ import {
 
 // files lookup in mocha is complex, so it's better to just run original code
 import {lookupFiles as mochaLookupFiles} from 'mocha/lib/utils';
-import processRequireOption from './lib/process-require-option';
+import processRequireOption from './lib/utils/process-require-option';
 
 export default function binHelper(options) {
     process.setMaxListeners(0);
@@ -47,6 +48,9 @@ export default function binHelper(options) {
     (options._ || []).slice(2).forEach(testPath => {
         files = files.concat(mochaLookupFiles(testPath, extensions, options.recursive));
     });
+
+    // time to create our own runner
+    const customRunner = createRunnerInstance();
 
     // watcher monitors running files
     setWatcherOptions({
@@ -84,5 +88,9 @@ export default function binHelper(options) {
             reporter: Reporter,
             testsLength: files.length
         })
+    });
+
+    return new Promise((resolve) => {
+        customRunner.on('end', resolve);
     });
 }

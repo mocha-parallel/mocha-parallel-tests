@@ -2,7 +2,7 @@
 
 import Mocha from 'mocha';
 import Reporter from './lib/reporter';
-import customRunner from './lib/runner';
+import {createInstance as createRunnerInstance} from './lib/runner';
 import {
     addTest,
     runTests,
@@ -13,6 +13,7 @@ class MochaParallelTests extends Mocha {
     constructor() {
         super();
 
+        this._customRunner = createRunnerInstance();
         this._filesTotal = 0;
         this._reporterName = null;
         this._reporterOptions = null;
@@ -47,6 +48,10 @@ class MochaParallelTests extends Mocha {
     }
 
     run(callback) {
+        this._customRunner.on('end', failsOccured => {
+            callback(failsOccured);
+        });
+
         runTests({
             options: Object.assign({}, {
                 reporterName: this._reporterName,
@@ -54,11 +59,10 @@ class MochaParallelTests extends Mocha {
                 reporter: Reporter,
                 testsLength: this._filesTotal
             }),
-            callback,
             throttledCalls: this._throttledCalls
         });
 
-        return customRunner;
+        return this._customRunner;
     }
 }
 
