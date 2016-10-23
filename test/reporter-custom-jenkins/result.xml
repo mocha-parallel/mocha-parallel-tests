@@ -1,0 +1,6 @@
+<testsuites name="Mocha Tests">
+<testsuite name="Check if custom reporter used" tests="1" failures="0" skipped="0" timestamp="Sun, 23 Oct 2016 14:24:53 GMT" time="0.006">
+<testcase classname="Check if custom reporter used" name="should use mocha-jenkins-reporter reporter">
+</testcase>
+</testsuite>
+</testsuites>
