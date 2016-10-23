@@ -19,11 +19,14 @@ echo $?
 echo 'TESTCASE: native (tap) reporter'
 test test/reporter-native-tap/index.sh
 echo $?
+echo 'TESTCASE: custom (teamcity) reporter'
+test test/reporter-custom-teamcity/index.sh
+echo $?
+echo 'TESTCASE: custom (jenkins) reporter'
+test test/reporter-custom-jenkins/index.sh
+echo $?
 echo 'TESTCASE: cli targets'
 test test/cli-target/index.sh
-echo $?
-echo 'TESTCASE: custom reporter'
-test test/reporter-custom/index.sh
 echo $?
 echo 'TESTCASE: pwd-based reporter'
 test test/reporter-pwd/index.sh
