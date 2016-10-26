@@ -9,14 +9,17 @@ if [ $STATUS -eq 0 ]; then
     RESULT_XML=$(cat $RESULT)
 
     if [[ $RESULT_XML == *"<testsuites "* ]] && [[ $RESULT_XML == *"<testsuite "* ]] && [[ $RESULT_XML == *"<testcase "* ]]; then
-        exit 0
+        EXIT_CODE=0
     else
         echo "Reporter output file is wrong: $RESULT_XML"
-        exit 1
+        EXIT_CODE=1
     fi
 else
     echo "Exit code is unexpected: $STATUS"
     echo "Debug output: $OUTPUT"
 
-    exit 1
+    EXIT_CODE=1
 fi
+
+rm $RESULT
+exit $EXIT_CODE
