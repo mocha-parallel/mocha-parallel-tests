@@ -29,6 +29,7 @@
     "tests"
   ],
   "scripts": {
+    "checkupdates": "./node_modules/.bin/ncu",
     "lint": "./node_modules/.bin/eslint lib/ test/ bin/ *.js",
     "prepublish": "npm run prepublish:entrypoint && npm run prepublish:libs:clean && npm run prepublish:libs:build && npm run prepublish:bin:clean && npm run prepublish:bin:build",
     "prepublish:entrypoint": "./node_modules/.bin/babel *.js --out-dir dist/",
@@ -36,7 +37,7 @@
     "prepublish:bin:build": "mkdir ./dist/bin && ./node_modules/.bin/babel bin/mocha-parallel-tests --out-file dist/bin/mocha-parallel-tests && chmod +x dist/bin/mocha-parallel-tests",
     "prepublish:libs:clean": "rm -fr ./dist/lib",
     "prepublish:libs:build": "./node_modules/.bin/babel lib/ --out-dir ./dist/lib",
-    "test": "npm run lint && npm run prepublish && ./test/index.sh"
+    "test": "npm run lint && npm run checkupdates && npm run prepublish && ./test/index.sh"
   },
   "license": "MIT",
   "engines": {
@@ -56,10 +57,11 @@
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-register": "^6.11.6",
-    "cheerio": "^0.20.0",
+    "cheerio": "^0.22.0",
     "eslint": "^3.1.1",
     "mocha-jenkins-reporter": "^0.2.6",
     "mocha-teamcity-reporter": "^1.0.0",
+    "npm-check-updates": "^2.8.6",
     "selenium-webdriver": "^3.0.0-beta-2"
   }
 }
