@@ -5,6 +5,7 @@
 var assert = require('assert');
 var path = require('path');
 var exec = require('child_process').exec;
+var inspect = require('util').inspect;
 var libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests');
 
 exec(`${libExecutable} --reporter json --slow 30000 --timeout 30000 test/selenium-webdriver/test.js`, {
@@ -18,8 +19,10 @@ exec(`${libExecutable} --reporter json --slow 30000 --timeout 30000 test/seleniu
         process.exit(1);
     }
 
-    console.log('JSON reporter stats:');
-    console.log(jsonReporterOutput.stats);
+    if (err && err.code) {
+        console.log('JSON reporter output:');
+        console.log(inspect(jsonReporterOutput, {depth: null, colors: true}));
+    }
 
     assert.strictEqual(jsonReporterOutput.stats.suites, 2, `Suites number is wrong: ${jsonReporterOutput.stats.suites}`);
     assert.strictEqual(jsonReporterOutput.stats.tests, 2, `Tests number is wrong: ${jsonReporterOutput.stats.tests}`);
