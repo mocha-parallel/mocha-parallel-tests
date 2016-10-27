@@ -9,6 +9,13 @@ const EXPECTED_EXECUTION_TIME_MOCHA_MS = 1000;
 const EXEC_START_TIME = Date.now();
 const STREAMS = ['stdout', 'stderr'];
 
+// SauceLabs has limitation for concurrent tests for OSS projects.
+// But TravisCI runs tests for different node versions in parallel.
+if (!process.versions.node.startsWith('7.')) {
+    console.log(`Skip test in non-stable node.js version ${process.versions.node}`);
+    process.exit(0);
+}
+
 const originalWrites = {};
 const mocha = new MochaParallelTests;
 

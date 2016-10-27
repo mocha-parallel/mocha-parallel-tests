@@ -8,6 +8,13 @@ var exec = require('child_process').exec;
 var inspect = require('util').inspect;
 var libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests');
 
+// SauceLabs has limitation for concurrent tests for OSS projects.
+// But TravisCI runs tests for different node versions in parallel.
+if (!process.versions.node.startsWith('7.')) {
+    console.log(`Skip test in non-stable node.js version ${process.versions.node}`);
+    process.exit(0);
+}
+
 exec(`${libExecutable} --reporter json --slow 30000 --timeout 30000 test/selenium-webdriver/test.js`, {
     cwd: path.resolve(__dirname, '../../')
 }, function (err, stdout) {
