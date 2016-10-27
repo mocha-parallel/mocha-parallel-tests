@@ -18,7 +18,10 @@ exec(`${libExecutable} --reporter json --slow 30000 --timeout 30000 test/seleniu
         process.exit(1);
     }
 
+    console.log('JSON reporter stats:');
+    console.log(jsonReporterOutput.stats);
+
     assert.strictEqual(jsonReporterOutput.stats.suites, 2, `Suites number is wrong: ${jsonReporterOutput.stats.suites}`);
-    assert.strictEqual(jsonReporterOutput.stats.tests, 2, `Tests number is wrong: ${jsonReporterOutput.stats.suites}`);
-    assert(jsonReporterOutput.stats.duration > 100, `Tests duration seems to be wrong: ${jsonReporterOutput.stats.duration}ms`);
+    assert.strictEqual(jsonReporterOutput.stats.tests, 2, `Tests number is wrong: ${jsonReporterOutput.stats.tests}`);
+    assert(jsonReporterOutput.stats.duration > 100, `Tests duration seems to be too long: ${jsonReporterOutput.stats.duration}ms`);
 });

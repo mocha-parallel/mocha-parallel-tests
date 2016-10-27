@@ -42,7 +42,7 @@ process.on('exit', () => {
 
     assert(globalException === undefined, `Failed running mocha-parallel-tests: ${globalException && globalException.stack}`);
     assert(failuresTotal !== undefined, 'Run() callback was not executed');
-    assert.strictEqual(failuresTotal, 0, `Run() callback argument is wrong: ${failuresTotal}`);
+    assert.strictEqual(failuresTotal, 0, `Run() callback argument (failures number) is wrong: ${failuresTotal}`);
 
     assert(jsonResult !== undefined, '"end" event was not fired');
     assert(jsonResult !== null && typeof jsonResult === 'object', `Reporter output is not valid JSON: ${jsonResult}`);

@@ -25,9 +25,12 @@ proc.stdout.on('data', function (chunk) {
     const chunkObj = JSON.parse(chunk);
     const stats = chunkObj[1];
 
-    assert.strictEqual(stats.suites, 3);
-    assert.strictEqual(stats.tests, 7);
-    assert.strictEqual(stats.passes, 6);
-    assert.strictEqual(stats.failures, 1);
+    console.log('JSON-stream reporter stats:');
+    console.log(stats);
+
+    assert.strictEqual(stats.suites, 3, `Suites number is wrong: ${stats.suites}`);
+    assert.strictEqual(stats.tests, 7, `Tests number is wrong: ${stats.tests}`);
+    assert.strictEqual(stats.passes, 6, `Passes number is wrong: ${stats.passes}`);
+    assert.strictEqual(stats.failures, 1, `Failures number is wrong: ${stats.failures}`);
     assert(stats.duration < EXPECTED_DURATION, `Tests duration seems to be too long: ${stats.duration}ms`);
 });
