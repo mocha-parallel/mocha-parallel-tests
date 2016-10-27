@@ -1,3 +1,9 @@
+## 1.2.3
+
+ * fix: pwd-based reporters (located somewhere inside your repo) are supported ([#75](https://github.com/mmotkina/mocha-parallel-tests/issues/75))
+ * fix: `tap` and other reporters which use mocha's `runner` object are supported ([#78](https://github.com/mmotkina/mocha-parallel-tests/issues/78))
+ * fix: `mocha-jenkins-reporter`is supported ([#81](https://github.com/mmotkina/mocha-parallel-tests/issues/81))
+
 ## 1.2.2
 
  * fix: `selenium-webdriver` issue with number of tests is fixed ([#69](https://github.com/mmotkina/mocha-parallel-tests/issues/69)). Currently all `selenium-webdriver` tests should work as expected.
