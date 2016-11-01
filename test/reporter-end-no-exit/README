@@ -1,1 +1,1 @@
-Check that mpt wait for async func at reporter on 'end' event with --no-exit argv
+Check that mocha-parallel-tests waits for async function at reporter on 'end' event with --no-exit argv

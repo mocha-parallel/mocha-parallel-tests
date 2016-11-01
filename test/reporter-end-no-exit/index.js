@@ -7,7 +7,7 @@ const assert = require('assert');
 const path = require('path');
 const exec = require('child_process').exec;
 
-const fileName = `file${Math.random().toString(36).substr(2, 9)}.txt`;
+const fileName = `${Date.now()}.txt`;
 const filePath = `${process.env.TMPDIR}${fileName}`;
 
 const libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests');
@@ -19,6 +19,6 @@ exec(`FILE=${fileName} ${libExecutable} --no-exit -R test/reporter-end-no-exit/t
         if (err) {
             throw new Error(`expected ${filePath} file read`);
         }
-        assert.equal(data.toString('utf8'), 'writed', `expected ${filePath} to contain 'writed' string`);
+        assert.equal(data.toString('utf8'), 'test', `expected ${filePath} to contain 'test' string`);
     });
 });

@@ -14,7 +14,7 @@ getOptions();
 const argv = yargs.parse(process.argv);
 assert(argv._.length > 2, 'No test files found');
 
-binHelper(argv).then((failsOccured) => {
+binHelper(argv).then(failsOccured => {
     // wait for reporter to finish its operations
     // exit with code equal to number of failed tests
     process.nextTick(() => {
