@@ -1,7 +1,9 @@
 # Mocha parallel tests runner
 
-[![Build Status](https://img.shields.io/travis/yandex/mocha-parallel-tests.svg?style=flat)](https://travis-ci.org/yandex/mocha-parallel-tests)
+[![Build Status](https://img.shields.io/travis/yandex/mocha-parallel-tests/master.svg?style=flat)](https://travis-ci.org/yandex/mocha-parallel-tests)
 [![DevDependency Status](http://img.shields.io/david/dev/yandex/mocha-parallel-tests.svg?style=flat)](https://david-dm.org/yandex/mocha-parallel-tests#info=devDependencies)
+[![npm version](https://img.shields.io/npm/v/mocha-parallel-tests.svg?style=flat)](https://www.npmjs.com/package/mocha-parallel-tests)
+
 
 Normally tests written with mocha run sequentially. This happens so because each test suite should not depend on another. But if you are running tests which take a lot of time (for example tests with Selenium Webdriver) waiting for so much time is impossible.
 
