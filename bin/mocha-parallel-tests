@@ -17,5 +17,14 @@ assert(argv._.length > 2, 'No test files found');
 binHelper(argv).then((failsOccured) => {
     // wait for reporter to finish its operations
     // exit with code equal to number of failed tests
-    process.nextTick(() => process.exit(failsOccured));
+    process.nextTick(() => {
+        if (argv.exit === undefined) {
+            process.exit(failsOccured);
+        } else {
+            // if --no-exit argv is present wait for exit event
+            process.on('exit', () => {
+                process.exit(failsOccured);
+            });
+        }
+    });
 });
