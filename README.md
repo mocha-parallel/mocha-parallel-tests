@@ -1,7 +1,7 @@
 # Mocha parallel tests runner
 
-[![Build Status](https://img.shields.io/travis/mmotkina/mocha-parallel-tests.svg?style=flat)](https://travis-ci.org/mmotkina/mocha-parallel-tests)
-[![DevDependency Status](http://img.shields.io/david/dev/mmotkina/mocha-parallel-tests.svg?style=flat)](https://david-dm.org/mmotkina/mocha-parallel-tests#info=devDependencies)
+[![Build Status](https://img.shields.io/travis/yandex/mocha-parallel-tests.svg?style=flat)](https://travis-ci.org/yandex/mocha-parallel-tests)
+[![DevDependency Status](http://img.shields.io/david/dev/yandex/mocha-parallel-tests.svg?style=flat)](https://david-dm.org/yandex/mocha-parallel-tests#info=devDependencies)
 
 Normally tests written with mocha run sequentially. This happens so because each test suite should not depend on another. But if you are running tests which take a lot of time (for example tests with Selenium Webdriver) waiting for so much time is impossible.
 
@@ -33,4 +33,4 @@ And all options supported by mocha:
 * `--slow <n>` - "slow" test threshold in milliseconds
 
 ## Tests
-`mocha-parallel-tests` is highly covered with tests itself. If you find something bad, feel free to [post an issue](https://github.com/mmotkina/mocha-parallel-tests/issues/new).
+`mocha-parallel-tests` is highly covered with tests itself. If you find something bad, feel free to [post an issue](https://github.com/yandex/mocha-parallel-tests/issues/new).
