@@ -1,10 +1,12 @@
 'use strict';
 
-const Base = require('mocha').reporters.base;
-const inherits = require('mocha').utils.inherits;
+const os = require('os');
 const fs = require('fs');
 
-const FILE_PATH = `${process.env.TMPDIR}${process.env.FILE}`;
+const Base = require('mocha').reporters.base;
+const inherits = require('mocha').utils.inherits;
+
+const FILE_PATH = `${os.tmpdir()}/${process.env.FILE}`;
 
 function extraSpec(runner) {
     Base.call(this, runner);

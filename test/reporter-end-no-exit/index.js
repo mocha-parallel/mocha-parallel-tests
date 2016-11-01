@@ -3,12 +3,13 @@
 'use strict';
 
 const fs = require('fs');
+const os = require('os');
 const assert = require('assert');
 const path = require('path');
 const exec = require('child_process').exec;
 
 const fileName = `${Date.now()}.txt`;
-const filePath = `${process.env.TMPDIR}${fileName}`;
+const filePath = `${os.tmpdir()}/${fileName}`;
 
 const libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests');
 
