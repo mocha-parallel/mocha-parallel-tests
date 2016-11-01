@@ -115,6 +115,9 @@ echo $?
 echo 'TESTCASE: run programmatically'
 test test/run-programmatically/index.js
 echo $?
+echo 'TESTCASE: --no-exit option support'
+test test/reporter-end-no-exit/index.js
+echo $?
 
 if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
     echo 'TESTCASE: selenium-webdriver'

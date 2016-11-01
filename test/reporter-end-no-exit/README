@@ -1,0 +1,1 @@
+Check that mocha-parallel-tests waits for async function at reporter on 'end' event with --no-exit argv
