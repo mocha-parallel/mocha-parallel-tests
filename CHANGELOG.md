@@ -1,3 +1,7 @@
+## 1.2.4
+
+ * fix: `--no-exit` CLI option is supported ([#85](https://github.com/yandex/mocha-parallel-tests/issues/85))
+
 ## 1.2.3
 
  * fix: pwd-based reporters (located somewhere inside your repo) are supported ([#75](https://github.com/yandex/mocha-parallel-tests/issues/75))
