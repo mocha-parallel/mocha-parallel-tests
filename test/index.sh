@@ -13,6 +13,9 @@ function test {
     return $status
 }
 
+echo 'TESTCASE: --bail option support'
+test test/bail/index.js
+echo $?
 echo 'TESTCASE: native (json) reporter'
 test test/reporter-native-json/index.sh
 echo $?
