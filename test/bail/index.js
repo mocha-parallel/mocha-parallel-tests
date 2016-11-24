@@ -22,6 +22,13 @@ const execWait = (file) => {
     });
 };
 
+// exceptions fired in Promise.all.then do not lead to process exiting
+// with exit code > 0, instead "UnhandledPromiseRejectionWarning" is fired
+process.on('unhandledRejection', err => {
+    console.log(`${err.message} (expected: ${err.expected}, actual: ${err.actual})`);
+    process.exit(1);
+});
+
 Promise.all([
     execWait(mocha),
     execWait(mpt)
@@ -31,8 +38,8 @@ Promise.all([
     const mochaReporterJSON = JSON.parse(mochaResults.stdout);
     let mptReporterJSON;
 
-    assert(mochaResults.exitCode === mptResults.exitCode, 'Exit codes of mocha and mocha-parallel-tests differ');
-    assert(mochaResults.stderr === mptResults.stderr, 'Stderr outputs of mocha and mocha-parallel-tests differ');
+    assert.strictEqual(mochaResults.exitCode, mptResults.exitCode, 'Exit codes of mocha and mocha-parallel-tests differ');
+    assert.strictEqual(mochaResults.stderr, mptResults.stderr, 'Stderr outputs of mocha and mocha-parallel-tests differ');
 
     try {
         mptReporterJSON = JSON.parse(mptResults.stdout);
@@ -42,8 +49,9 @@ Promise.all([
     }
 
     for (let metric of ['suites', 'tests', 'passes', 'pending', 'failures']) {
-        assert(
-            mochaReporterJSON.stats[metric] === mptReporterJSON.stats[metric],
+        assert.strictEqual(
+            mochaReporterJSON.stats[metric],
+            mptReporterJSON.stats[metric],
             `${metric} stat of mocha and mocha-parallel-tests differs`
         );
     }
