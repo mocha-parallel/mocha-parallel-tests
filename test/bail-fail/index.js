@@ -12,7 +12,7 @@ const mocha = path.resolve(__dirname, '../../node_modules/.bin/mocha');
 
 const execWait = (file) => {
     return new Promise(resolve => {
-        exec(`${file} --bail --reporter json test/bail/tests/`, {cwd}, (err, stdout, stderr) => {
+        exec(`${file} --bail --reporter json test/bail-fail/tests/`, {cwd}, (err, stdout, stderr) => {
             resolve({
                 exitCode: err ? err.code : 0,
                 stdout: stdout ? stdout.toString() : '',

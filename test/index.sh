@@ -16,6 +16,12 @@ function test {
 echo 'TESTCASE: --bail option support'
 test test/bail/index.js
 echo $?
+echo 'TESTCASE: --bail for slow tests'
+test test/bail-slow/index.js
+echo $?
+echo 'TESTCASE: --bail for slow failing tests'
+test test/bail-fail/index.js
+echo $?
 echo 'TESTCASE: native (json) reporter'
 test test/reporter-native-json/index.sh
 echo $?
