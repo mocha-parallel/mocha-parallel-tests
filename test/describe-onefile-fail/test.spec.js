@@ -1,28 +1,30 @@
 'use strict';
 
-global[__filename] = global[__filename] || 0;
+const assert = require('assert');
+
+global[`${__filename}:suite1`] = global[`${__filename}:suite1`] || 0;
+global[`${__filename}:suite2`] = global[`${__filename}:suite2`] || 0;
+global[`${__filename}:suite3`] = global[`${__filename}:suite3`] || 0;
 
 describe('suite 1', () => {
     it('should be okay during the first run', () => {
-        if (global[__filename] > 0) {
-            throw new Error;
-        }
+        assert.strictEqual(global[`${__filename}:suite1`], 0);
+        global[`${__filename}:suite1`]++;
     });
 });
 
 describe('suite 2', () => {
     it('should be okay starting from the second run', () => {
-        if (global[__filename] === 0) {
-            global[__filename]++;
-            throw new Error;
-        }
+        const suiteValue = global[`${__filename}:suite2`];
+
+        global[`${__filename}:suite2`]++;
+        assert.strictEqual(suiteValue, 1);
     });
 });
 
 describe('suite 3', () => {
     it('should be okay during the first run', () => {
-        if (global[__filename] > 0) {
-            throw new Error;
-        }
+        assert.strictEqual(global[`${__filename}:suite3`], 0);
+        global[`${__filename}:suite3`]++;
     });
 });
