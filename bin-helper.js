@@ -5,6 +5,7 @@ import Reporter from './lib/reporter';
 import {createInstance as createRunnerInstance} from './lib/runner';
 import prepareRequire from './lib/utils/prepare-require';
 import RequireCacheWatcher from './lib/utils/require-cache-watcher';
+import parseReporterOptions from './lib/utils/parse-reporter-options';
 import {
     patch as patchGlobalHooks,
     restore as restoreGlobalHooks
@@ -85,6 +86,7 @@ export default function binHelper(options) {
     runTests({
         options: Object.assign({}, options, {
             reporterName: options.R || options.reporter,
+            reporterOptions: parseReporterOptions(options.reporterOptions),
             reporter: Reporter,
             testsLength: files.length
         })

@@ -59,6 +59,7 @@
     "babel-register": "^6.11.6",
     "cheerio": "^0.22.0",
     "eslint": "^3.1.1",
+    "mocha-allure-reporter": "^1.2.3",
     "mocha-jenkins-reporter": "^0.3.0",
     "mocha-teamcity-reporter": "^1.0.0",
     "npm-check-updates": "^2.8.6",
