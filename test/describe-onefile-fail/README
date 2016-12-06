@@ -1,0 +1,1 @@
+Check that if file contains multiple descrive() sections and one of them fails, only this failed section is retried
