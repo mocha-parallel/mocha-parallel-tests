@@ -1,6 +1,6 @@
 ## 1.2.5
 
- * fix: file with multiple `describe()` sections in it and `--retry` option is not executed from scratch if one of `describe()` sections fails. Only this failed section is executed ([#77](https://github.com/yandex/mocha-parallel-tests/issues/77))
+ * fix: if file contains multiple `describe()` sections in it, one of it fails and `mocha-parallel-tests` is executed with `--retry` option, only this failed section is re-executed ([#77](https://github.com/yandex/mocha-parallel-tests/issues/77))
 
 ## 1.2.4
 
