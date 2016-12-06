@@ -59,7 +59,7 @@ echo 'TESTCASE: multiple suites in one file'
 test test/describe-onefile/index.sh
 echo $?
 echo 'TESTCASE: multiple suites in one file, one fails'
-test test/describe-onefile-fail/index.sh
+test test/describe-onefile-fail/index.js
 echo $?
 echo 'TESTCASE: missing test'
 test test/missing-test/index.js

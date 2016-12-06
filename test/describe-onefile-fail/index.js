@@ -18,5 +18,8 @@ exec(`${libExecutable} -R json --retry 1 test/describe-onefile-fail/test.spec.js
         process.exit(1);
     }
 
-    console.log(jsonReporterOutput)
+    assert.strictEqual(jsonReporterOutput.stats.suites, 3);
+    assert.strictEqual(jsonReporterOutput.stats.tests, 3);
+    assert.strictEqual(jsonReporterOutput.stats.passes, 3);
+    assert.strictEqual(jsonReporterOutput.stats.failures, 0);
 });
