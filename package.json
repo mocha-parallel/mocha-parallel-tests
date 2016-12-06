@@ -12,8 +12,8 @@
     "Nikolay Basov"
   ],
   "dependencies": {
-    "debug": "2.3.2",
-    "yargs": "6.4.0"
+    "debug": "2.3.3",
+    "yargs": "6.5.0"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   ],
   "scripts": {
     "checkupdates": "./node_modules/.bin/ncu",
+    "clean": "rm -rf ./node_modules",
     "lint": "./node_modules/.bin/eslint lib/ test/ bin/ *.js",
     "prepublish": "npm run prepublish:entrypoint && npm run prepublish:libs:clean && npm run prepublish:libs:build && npm run prepublish:bin:clean && npm run prepublish:bin:build",
     "prepublish:entrypoint": "./node_modules/.bin/babel *.js --out-dir dist/",
@@ -58,10 +59,10 @@
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-register": "^6.11.6",
     "cheerio": "^0.22.0",
-    "eslint": "^3.1.1",
+    "eslint": "^3.11.1",
     "mocha-jenkins-reporter": "^0.3.0",
     "mocha-teamcity-reporter": "^1.0.0",
-    "npm-check-updates": "^2.8.6",
-    "selenium-webdriver": "^3.0.0-beta-2"
+    "npm-check-updates": "^2.8.8",
+    "selenium-webdriver": "^3.0.1"
   }
 }
