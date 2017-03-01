@@ -63,6 +63,7 @@
     "mocha-jenkins-reporter": "^0.3.0",
     "mocha-teamcity-reporter": "^1.0.0",
     "npm-check-updates": "^2.8.8",
-    "selenium-webdriver": "^3.0.1"
+    "selenium-webdriver": "^3.0.1",
+    "node-gyp": "^3.5.0"
   }
 }
