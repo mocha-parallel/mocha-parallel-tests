@@ -121,6 +121,9 @@ echo $?
 echo 'TESTCASE: --no-exit option support'
 test test/reporter-end-no-exit/index.js
 echo $?
+echo 'TESTCASE: node add-on'
+test test/node-addon/index.sh
+echo $?
 
 if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
     echo 'TESTCASE: selenium-webdriver'

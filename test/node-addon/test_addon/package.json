@@ -1,0 +1,15 @@
+{
+  "name": "test_addon",
+  "version": "1.0.0",
+  "description": "Test add-on",
+  "main": "index.js",
+  "gypfile": true,
+  "scripts": {
+    "install": "node-gyp rebuild"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bindings": "^1.2.1",
+    "nan": "^2.5.1"
+  }
+}
