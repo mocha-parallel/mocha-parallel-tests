@@ -1,6 +1,6 @@
 {
   "name": "mocha-parallel-tests",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "homepage": "https://github.com/yandex/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./dist/api.js",
@@ -9,7 +9,8 @@
   "contributors": [
     "Dmitry Sorin <dsorin@yandex-team.ru>",
     "Kirill Molchanov <kirill-m@yandex-team.ru>",
-    "Nikolay Basov"
+    "Nikolay Basov",
+    "Vadim Kolontsov <vadim@kolontsov.com>"
   ],
   "dependencies": {
     "debug": "2.3.3",

@@ -1,3 +1,7 @@
+## 1.2.6
+
+ * fix: tests with binary dependencies can now be used with `mocha-parallel-tests` ([#100](https://github.com/yandex/mocha-parallel-tests/issues/100))
+
 ## 1.2.5
 
  * fix: if file contains multiple `describe()` sections in it, one of it fails and `mocha-parallel-tests` is executed with `--retry` option, only this failed section is re-executed ([#77](https://github.com/yandex/mocha-parallel-tests/issues/77))
