@@ -124,6 +124,12 @@ echo $?
 echo 'TESTCASE: node add-on'
 test test/node-addon/index.sh
 echo $?
+echo 'TESTCASE: xdescribe'
+test test/x-describe/index.sh
+echo $?
+echo 'TESTCASE: xit'
+test test/x-it/index.sh
+echo $?
 
 if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
     echo 'TESTCASE: selenium-webdriver'
