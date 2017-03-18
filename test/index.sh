@@ -112,9 +112,6 @@ echo $?
 echo 'TESTCASE: --require option support'
 test test/require-option/index.sh
 echo $?
-echo 'TESTCASE: describe.skip support'
-test test/describe-skip/index.sh
-echo $?
 echo 'TESTCASE: run programmatically'
 test test/run-programmatically/index.js
 echo $?
@@ -123,6 +120,12 @@ test test/reporter-end-no-exit/index.js
 echo $?
 echo 'TESTCASE: node add-on'
 test test/node-addon/index.sh
+echo $?
+echo 'TESTCASE: skip-suite'
+test test/skip-suite/index.sh
+echo $?
+echo 'TESTCASE: skip-test'
+test test/skip-test/index.sh
 echo $?
 
 if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
