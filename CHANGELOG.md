@@ -1,3 +1,8 @@
+## 1.2.7
+
+ * fix: add support for `xdescribe`, `xcontext`, `xspecify`, `xit` and `it.skip` ([#102](https://github.com/yandex/mocha-parallel-tests/issues/102))
+ * most of packages dependencies upgrade (minor changes)
+
 ## 1.2.6
 
  * fix: tests with binary dependencies can now be used with `mocha-parallel-tests` ([#100](https://github.com/yandex/mocha-parallel-tests/issues/100))

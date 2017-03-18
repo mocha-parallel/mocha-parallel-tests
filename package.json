@@ -1,6 +1,6 @@
 {
   "name": "mocha-parallel-tests",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "homepage": "https://github.com/yandex/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./dist/api.js",
@@ -13,8 +13,8 @@
     "Vadim Kolontsov <vadim@kolontsov.com>"
   ],
   "dependencies": {
-    "debug": "2.3.3",
-    "yargs": "6.5.0"
+    "debug": "2.6.3",
+    "yargs": "7.0.2"
   },
   "repository": {
     "type": "git",
@@ -49,22 +49,22 @@
     "mocha": ">= 2.3.x || 3.0.x"
   },
   "devDependencies": {
-    "babel-cli": "^6.8.0",
-    "babel-plugin-add-module-exports": "^0.2.0",
+    "babel-cli": "^6.24.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-array-includes": "^2.0.3",
-    "babel-plugin-transform-es2015-destructuring": "^6.8.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
-    "babel-plugin-transform-es2015-parameters": "^6.8.0",
-    "babel-plugin-transform-es2015-spread": "^6.8.0",
-    "babel-plugin-transform-object-rest-spread": "^6.8.0",
-    "babel-plugin-transform-react-jsx": "^6.8.0",
-    "babel-register": "^6.11.6",
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
+    "babel-plugin-transform-es2015-parameters": "^6.23.0",
+    "babel-plugin-transform-es2015-spread": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-react-jsx": "^6.23.0",
+    "babel-register": "^6.24.0",
     "cheerio": "^0.22.0",
-    "eslint": "^3.11.1",
-    "mocha-jenkins-reporter": "^0.3.0",
-    "mocha-teamcity-reporter": "^1.0.0",
-    "npm-check-updates": "^2.8.8",
-    "selenium-webdriver": "^3.0.1",
-    "node-gyp": "^3.5.0"
+    "eslint": "^3.18.0",
+    "mocha-jenkins-reporter": "^0.3.7",
+    "mocha-teamcity-reporter": "^1.1.1",
+    "npm-check-updates": "^2.10.3",
+    "selenium-webdriver": "^3.3.0",
+    "node-gyp": "^3.6.0"
   }
 }
