@@ -76,6 +76,9 @@ echo $?
 echo 'TESTCASE: global hooks with directory as a tests source'
 test test/global-hooks-directory/index.sh
 echo $?
+echo 'TESTCASE: recursive'
+test test/recursive/index.js
+echo $?
 echo 'TESTCASE: retries'
 test test/retry/index.js
 echo $?
