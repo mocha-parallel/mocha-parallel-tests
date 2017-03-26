@@ -1,0 +1,1 @@
+Check that tests with no target are executed with --recursive option
