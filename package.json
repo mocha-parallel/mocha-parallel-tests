@@ -60,10 +60,10 @@
     "babel-plugin-transform-react-jsx": "^6.23.0",
     "babel-register": "^6.24.0",
     "cheerio": "^0.22.0",
-    "eslint": "^3.18.0",
+    "eslint": "^3.19.0",
     "mocha-jenkins-reporter": "^0.3.7",
     "mocha-teamcity-reporter": "^1.1.1",
-    "npm-check-updates": "^2.10.3",
+    "npm-check-updates": "^2.10.5",
     "selenium-webdriver": "^3.3.0",
     "node-gyp": "^3.6.0"
   }
