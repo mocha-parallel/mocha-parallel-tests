@@ -1,3 +1,7 @@
+## 1.2.8
+
+ * fix: do not fail if no target is set and `--recursive` option is used ([#94](https://github.com/yandex/mocha-parallel-tests/issues/94))
+
 ## 1.2.7
 
  * fix: add support for `xdescribe`, `xcontext`, `xspecify`, `xit` and `it.skip` ([#102](https://github.com/yandex/mocha-parallel-tests/issues/102))
