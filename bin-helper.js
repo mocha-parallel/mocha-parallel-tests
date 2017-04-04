@@ -1,5 +1,6 @@
 'use strict';
 
+import assert from 'assert';
 import path from 'path';
 import Reporter from './lib/reporter';
 import {createInstance as createRunnerInstance} from './lib/runner';
@@ -43,11 +44,28 @@ export default function binHelper(options) {
     // require --require'd files
     processRequireOption(options);
 
+    // default files to test/*.{js,coffee}
+    const patterns = (options._ || []).slice(2);
+    if (!patterns.length) {
+        patterns.push('test');
+    }
+
     // get test files with original mocha utils.lookupFiles() function
     let files = [];
-    (options._ || []).slice(2).forEach(testPath => {
-        files = files.concat(mochaLookupFiles(testPath, extensions, options.recursive));
+    patterns.forEach(testPath => {
+        try {
+            files = files.concat(mochaLookupFiles(testPath, extensions, options.recursive));
+        } catch (ex) {
+            if (ex.message.startsWith('cannot resolve path')) {
+                console.error(`Warning: Could not find any test files matching pattern: ${testPath}`); // eslint-disable-line no-console
+                return;
+            }
+
+            throw ex;
+        }
     });
+
+    assert(files.length, 'No test files found');
 
     // time to create our own runner
     const customRunner = createRunnerInstance();
