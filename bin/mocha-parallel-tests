@@ -2,7 +2,6 @@
 
 'use strict';
 
-import assert from 'assert';
 import yargs from 'yargs';
 import binHelper from '../bin-helper';
 import getOptions from 'mocha/bin/options';
@@ -12,7 +11,6 @@ import getOptions from 'mocha/bin/options';
 getOptions();
 
 const argv = yargs.parse(process.argv);
-assert(argv._.length > 2, 'No test files found');
 
 binHelper(argv).then(failsOccured => {
     // wait for reporter to finish its operations
