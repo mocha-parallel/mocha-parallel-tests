@@ -1,3 +1,7 @@
+## (upcoming release)
+
+ * fix: support only latest (3.x) `mocha` versions ([#98](https://github.com/yandex/mocha-parallel-tests/issues/98))
+
 ## 1.2.8
 
  * fix: do not fail if no target is set and `--recursive` option is used ([#94](https://github.com/yandex/mocha-parallel-tests/issues/94))
