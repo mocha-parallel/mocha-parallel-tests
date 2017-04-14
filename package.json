@@ -46,7 +46,7 @@
     "node": ">=4"
   },
   "peerDependencies": {
-    "mocha": ">= 2.3.x || 3.0.x"
+    "mocha": "^3"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
