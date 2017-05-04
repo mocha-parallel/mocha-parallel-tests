@@ -48,8 +48,12 @@ class MochaParallelTests extends Mocha {
     }
 
     run(callback) {
-        this._customRunner.on('end', failsOccured => {
-            callback(failsOccured);
+        this._customRunner.on('end', ({failsOccured, reporter}) => {
+            if (reporter.done) {
+                reporter.done(failsOccured, callback);
+            } else {
+                callback(failsOccured);
+            }
         });
 
         runTests({

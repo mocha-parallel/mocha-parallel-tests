@@ -12,17 +12,25 @@ getOptions();
 
 const argv = yargs.parse(process.argv);
 
-binHelper(argv).then(failsOccured => {
+function onExit(failsOccured) {
+    if (argv.exit === undefined) {
+        process.exit(failsOccured);
+    } else {
+        // if --no-exit argv is present wait for exit event
+        process.on('exit', () => {
+            process.exit(failsOccured);
+        });
+    }
+}
+
+binHelper(argv).then(({failsOccured, reporter}) => {
     // wait for reporter to finish its operations
     // exit with code equal to number of failed tests
     process.nextTick(() => {
-        if (argv.exit === undefined) {
-            process.exit(failsOccured);
+        if (reporter.done) {
+            reporter.done(failsOccured, onExit);
         } else {
-            // if --no-exit argv is present wait for exit event
-            process.on('exit', () => {
-                process.exit(failsOccured);
-            });
+            onExit(failsOccured);
         }
     });
 });
