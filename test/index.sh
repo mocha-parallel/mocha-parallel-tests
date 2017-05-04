@@ -25,6 +25,9 @@ echo $?
 echo 'TESTCASE: custom (jenkins) reporter'
 test test/reporter-custom-jenkins/index.sh
 echo $?
+echo 'TESTCASE: custom (mochawesome) reporter'
+test test/reporter-custom-mochawesome/index.sh
+echo $?
 echo 'TESTCASE: cli targets'
 test test/cli-target/index.sh
 echo $?
