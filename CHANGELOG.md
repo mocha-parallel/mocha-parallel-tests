@@ -1,6 +1,11 @@
 ## (upcoming release)
 
+ * TBD
+
+## 1.2.9
+
  * fix: support only latest (3.x) `mocha` versions ([#98](https://github.com/yandex/mocha-parallel-tests/issues/98))
+ * fix: support `reporter.done()` callback for all external reporters (`mochawesome` for example) in both CLI and node.js API ([#113](https://github.com/yandex/mocha-parallel-tests/issues/113))
 
 ## 1.2.8
 
