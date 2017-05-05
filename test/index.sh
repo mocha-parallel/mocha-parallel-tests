@@ -118,8 +118,11 @@ echo $?
 echo 'TESTCASE: --require option support'
 test test/require-option/index.sh
 echo $?
-echo 'TESTCASE: run programmatically'
-test test/run-programmatically/index.js
+echo 'TESTCASE: run programmatically (base API)'
+test test/run-programmatically/callback/index.js
+echo $?
+echo 'TESTCASE: run programmatically (reporter.done is called)'
+test test/run-programmatically/reporter-done/index.js
 echo $?
 echo 'TESTCASE: --no-exit option support'
 test test/reporter-end-no-exit/index.js

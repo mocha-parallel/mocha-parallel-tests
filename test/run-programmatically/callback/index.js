@@ -3,7 +3,7 @@
 'use strict';
 
 const assert = require('assert');
-const MochaParallelTests = require('../../dist/api.js');
+const MochaParallelTests = require('../../../dist/api.js');
 
 const STREAMS = ['stdout', 'stderr'];
 const originalWrites = {};
@@ -56,8 +56,8 @@ patchStreams();
 try {
     mocha
         .reporter('json')
-        .addFile(`${__dirname}/tests/parallel1.js`)
-        .addFile(`${__dirname}/tests/parallel2.js`)
+        .addFile(`${__dirname}/../_spec/parallel1.js`)
+        .addFile(`${__dirname}/../_spec/parallel2.js`)
         .slow(8000)
         .timeout(10000)
         .run(failures => {
