@@ -17,5 +17,7 @@ results
 
 npm-debug.log
 node_modules
+test/reporter-custom-mochawesome/mochawesome-report/
+mochawesome-report/
 
 .idea
