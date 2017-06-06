@@ -15,6 +15,7 @@
   "dependencies": {
     "array-flatten": "^2.1.1",
     "debug": "2.6.3",
+    "range-generator": "^1.0.2",
     "yargs": "7.0.2"
   },
   "repository": {
