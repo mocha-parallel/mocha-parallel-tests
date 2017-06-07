@@ -47,7 +47,6 @@
     "@types/debug": "0.0.29",
     "@types/node": "^7.0.28",
     "cheerio": "^0.22.0",
-    "eslint": "^3.19.0",
     "mocha-jenkins-reporter": "^0.3.7",
     "mocha-teamcity-reporter": "^1.1.1",
     "mochawesome": "^2.1.0",
