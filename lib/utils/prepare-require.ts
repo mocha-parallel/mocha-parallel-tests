@@ -1,14 +1,12 @@
-'use strict';
-
 /**
  * Mocha is often passed files to require through its options
  * One should detect under the hood if it's an existing file or a module
  * This file helps with this problem
  */
-import {resolve} from 'path';
-import {statSync} from 'fs';
+import { resolve } from 'path';
+import { statSync } from 'fs';
 
-const existsSync = (path) => {
+const existsSync = (path: string): boolean => {
     try {
         statSync(path);
         return true;
@@ -17,7 +15,7 @@ const existsSync = (path) => {
     }
 };
 
-export default function (requiredFile) {
+export default function (requiredFile: string): string {
     const fileExists = existsSync(requiredFile) || existsSync(`${requiredFile}.js`);
     return fileExists ? resolve(requiredFile) : requiredFile;
 }

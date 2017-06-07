@@ -32,13 +32,8 @@
   "scripts": {
     "checkupdates": "./node_modules/.bin/ncu",
     "clean": "rm -rf ./node_modules",
-    "lint": "./node_modules/.bin/eslint lib/ test/ bin/ *.js",
-    "prepublish": "npm run prepublish:entrypoint && npm run prepublish:libs:clean && npm run prepublish:libs:build && npm run prepublish:bin:clean && npm run prepublish:bin:build",
-    "prepublish:entrypoint": "./node_modules/.bin/babel *.js --out-dir dist/",
-    "prepublish:bin:clean": "rm -fr ./dist/bin",
-    "prepublish:bin:build": "mkdir ./dist/bin && ./node_modules/.bin/babel bin/mocha-parallel-tests --out-file dist/bin/mocha-parallel-tests && chmod +x dist/bin/mocha-parallel-tests",
-    "prepublish:libs:clean": "rm -fr ./dist/lib",
-    "prepublish:libs:build": "./node_modules/.bin/babel lib/ --out-dir ./dist/lib",
+    "lint": "./node_modules/.bin/tslint --project . '{bin,lib/test}/**/*.{ts,tsx,d.ts}'",
+    "prepublish": "./node_modules/.bin/tsc",
     "test": "npm run lint && npm run checkupdates && npm run prepublish && ./test/index.sh"
   },
   "license": "MIT",
@@ -49,16 +44,8 @@
     "mocha": "^3"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-array-includes": "^2.0.3",
-    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
-    "babel-plugin-transform-es2015-parameters": "^6.24.1",
-    "babel-plugin-transform-es2015-spread": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-register": "^6.24.1",
+    "@types/debug": "0.0.29",
+    "@types/node": "^7.0.28",
     "cheerio": "^0.22.0",
     "eslint": "^3.19.0",
     "mocha-jenkins-reporter": "^0.3.7",
@@ -66,6 +53,8 @@
     "mochawesome": "^2.1.0",
     "node-gyp": "^3.6.0",
     "npm-check-updates": "^2.10.5",
-    "selenium-webdriver": "^3.3.0"
+    "selenium-webdriver": "^3.3.0",
+    "tslint": "^5.4.3",
+    "typescript": "^2.3.4"
   }
 }
