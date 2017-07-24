@@ -17,3 +17,9 @@ describe('Test suite #3', function () {
         setTimeout(done, 3000);
     });
 });
+
+describe('Test suite #2', function () {
+    it('should end in 2 seconds', function (done) {
+        setTimeout(done, 2000);
+    });
+});
