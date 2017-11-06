@@ -41,6 +41,11 @@ export default function binHelper(options) {
         extensions.push(ext);
     });
 
+    // --no-timeouts option
+    if (typeof options.timeouts === 'boolean') {
+        options.enableTimeouts = options.timeouts;
+    }
+
     // require --require'd files
     processRequireOption(options);
 

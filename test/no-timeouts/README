@@ -1,0 +1,1 @@
+Check that tests with timeouts exit with error status code
