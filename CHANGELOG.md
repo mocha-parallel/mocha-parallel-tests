@@ -1,6 +1,10 @@
 ## (upcoming release)
 
- * TBD
+ * ...
+
+## 1.2.10
+
+ * fix: support `--no-timeouts` option ([#120](https://github.com/yandex/mocha-parallel-tests/issues/120))
 
 ## 1.2.9
 
