@@ -7,7 +7,8 @@
   "bin": "./dist/bin/mocha-parallel-tests",
   "author": "Maria Motkina <mmotkina@yandex-team.ru>",
   "contributors": [
-    "Dmitry Sorin <dsorin@yandex-team.ru>",
+    "Dmitrii Sorin <info@staypositive.ru>",
+    "Gabriel Fürstenheim",
     "Kirill Molchanov <kirill-m@yandex-team.ru>",
     "Nikolay Basov",
     "Vadim Kolontsov <vadim@kolontsov.com>"
