@@ -94,6 +94,9 @@ echo $?
 echo 'TESTCASE: timeouts exit code'
 test test/timeouts-exit-code/index.sh
 echo $?
+echo 'TESTCASE: no timeouts'
+test test/no-timeouts/index.sh
+echo $?
 echo 'TESTCASE: js compilers support'
 test test/js-compilers/index.sh
 echo $?
