@@ -49,6 +49,9 @@ echo $?
 echo 'TESTCASE: max parallel tests with empty ones'
 test test/max-parallel-empty/index.sh
 echo $?
+echo 'TESTCASE: max parallel tests with multiple describes per file'
+test test/max-parallel-multiple-describe/index.sh
+echo $?
 echo 'TESTCASE: only tests run'
 test test/only-tests-run/index.js
 echo $?

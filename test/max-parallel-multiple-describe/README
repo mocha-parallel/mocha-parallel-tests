@@ -1,0 +1,1 @@
+Check that parallel running tests run okay with --max-parallel if there are multiple describes per file.  This test is the same as max-parallel-1, but with a single file.

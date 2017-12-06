@@ -14,7 +14,9 @@
     "Vadim Kolontsov <vadim@kolontsov.com>"
   ],
   "dependencies": {
+    "array-flatten": "^2.1.1",
     "debug": "2.6.3",
+    "range": "^0.0.3",
     "yargs": "7.0.2"
   },
   "repository": {
