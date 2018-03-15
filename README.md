@@ -1,5 +1,7 @@
 # Mocha parallel tests runner
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/yandex/mocha-parallel-tests.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://img.shields.io/travis/yandex/mocha-parallel-tests/master.svg?style=flat)](https://travis-ci.org/yandex/mocha-parallel-tests)
 [![DevDependency Status](http://img.shields.io/david/dev/yandex/mocha-parallel-tests.svg?style=flat)](https://david-dm.org/yandex/mocha-parallel-tests#info=devDependencies)
 [![npm version](https://img.shields.io/npm/v/mocha-parallel-tests.svg?style=flat)](https://www.npmjs.com/package/mocha-parallel-tests)
