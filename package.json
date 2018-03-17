@@ -31,7 +31,6 @@
     "tests"
   ],
   "scripts": {
-    "checkupdates": "./node_modules/.bin/ncu",
     "clean": "rm -rf ./node_modules",
     "lint": "./node_modules/.bin/eslint lib/ test/ bin/ *.js",
     "prepublish": "npm run prepublish:entrypoint && npm run prepublish:libs:clean && npm run prepublish:libs:build && npm run prepublish:bin:clean && npm run prepublish:bin:build",
@@ -40,7 +39,7 @@
     "prepublish:bin:build": "mkdir ./dist/bin && ./node_modules/.bin/babel bin/mocha-parallel-tests --out-file dist/bin/mocha-parallel-tests && chmod +x dist/bin/mocha-parallel-tests",
     "prepublish:libs:clean": "rm -fr ./dist/lib",
     "prepublish:libs:build": "./node_modules/.bin/babel lib/ --out-dir ./dist/lib",
-    "test": "npm run lint && npm run checkupdates && npm run prepublish && ./test/index.sh"
+    "test": "npm run lint && npm run prepublish && ./test/index.sh"
   },
   "license": "MIT",
   "engines": {
@@ -66,7 +65,6 @@
     "mocha-teamcity-reporter": "^2.2.2",
     "mochawesome": "^3.0.2",
     "node-gyp": "^3.6.0",
-    "npm-check-updates": "^2.10.5",
     "selenium-webdriver": "^3.3.0"
   }
 }
