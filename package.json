@@ -61,7 +61,7 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-register": "^6.24.1",
     "cheerio": "^0.22.0",
-    "eslint": "^4.18.2",
+    "eslint": "^4.19.0",
     "mocha-jenkins-reporter": "^0.3.7",
     "mocha-teamcity-reporter": "^2.2.2",
     "mochawesome": "^3.0.2",
