@@ -2,6 +2,6 @@ import * as Mocha from 'mocha';
 
 export default function applyForbidPending(mocha: Mocha, forbidPending: boolean) {
   if (forbidPending) {
-    (mocha as any).forbidPending();
+    mocha.forbidPending();
   }
 }

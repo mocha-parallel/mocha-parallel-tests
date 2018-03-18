@@ -24,8 +24,6 @@ import {
 const debugLog = debug('mocha-parallel-tests');
 
 export default class MochaWrapper extends Mocha {
-  // as any
-  private files: string[];
   private isTypescriptRunMode = false;
   private maxParallel: number | undefined;
   private requires: string[] = [];
@@ -66,17 +64,17 @@ export default class MochaWrapper extends Mocha {
       forbidPending,
       fullStackTrace,
       hasOnly, // looks like a private mocha API
-    } = (this as any).options;
+    } = this.options;
 
     const rootSuite = this.suite as ISuite;
 
     const runner = new RunnerMain(rootSuite);
-    (runner as any).ignoreLeaks = ignoreLeaks !== false;
-    (runner as any).forbidOnly = forbidOnly;
-    (runner as any).forbidPending = forbidPending;
-    (runner as any).hasOnly = hasOnly;
-    (runner as any).fullStackTrace = fullStackTrace;
-    (runner as any).asyncOnly = asyncOnly;
+    runner.ignoreLeaks = ignoreLeaks !== false;
+    runner.forbidOnly = forbidOnly;
+    runner.forbidPending = forbidPending;
+    runner.hasOnly = hasOnly;
+    runner.fullStackTrace = fullStackTrace;
+    runner.asyncOnly = asyncOnly;
 
     const taskManager = new TaskManager<ISubprocessResult>(this.maxParallel);
     for (const file of this.files) {
@@ -84,12 +82,12 @@ export default class MochaWrapper extends Mocha {
       taskManager.add(task);
     }
 
-    (this as any).options.files = this.files;
+    this.options.files = this.files;
 
     // Refer to mocha lib/mocha.js run() method for more info here
     const reporter = new (this as any)._reporter(
       runner,
-      (this as any).options,
+      this.options,
     );
 
     // emit `start` and `suite` events
@@ -171,7 +169,7 @@ export default class MochaWrapper extends Mocha {
         forkArgs.push('--compilers', compilerPath);
       }
 
-      if ((this as any).options.delay) {
+      if (this.options.delay) {
         forkArgs.push('--delay');
       }
 

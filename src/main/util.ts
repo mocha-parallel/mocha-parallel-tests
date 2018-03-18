@@ -1,5 +1,9 @@
-// @ts-ignore
-import { Hook, Suite, Test } from 'mocha';
+import {
+  Context,
+  Hook,
+  Suite,
+  Test,
+} from 'mocha';
 
 const DEBUG_CLI_ARGS = ['--inspect', '--debug', '--debug-brk', '--inspect-brk'];
 const noop = () => null;
@@ -29,7 +33,9 @@ export function subprocessParseReviver(_: string, value: any): any {
   }
 
   if (Array.isArray(value.suites)) {
-    const suite = new Suite(value.title, {});
+    const ctx = new Context();
+    const suite = new Suite(value.title, ctx);
+
     return Object.assign(suite, value);
   }
 
