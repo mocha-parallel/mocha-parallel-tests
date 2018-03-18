@@ -3,7 +3,7 @@
 const assert = require('assert');
 const path = require('path');
 const exec = require('child_process').exec;
-const libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests');
+const libExecutable = path.resolve(__dirname, '../../dist/bin/cli.js');
 
 exec(`${libExecutable} test/syntax-errors/tests/`, {
     cwd: path.resolve(__dirname, '../../')

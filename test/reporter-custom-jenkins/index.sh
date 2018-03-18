@@ -2,7 +2,7 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 RESULT="$DIR/result.xml"
-OUTPUT=$(JUNIT_REPORT_PATH=$RESULT dist/bin/mocha-parallel-tests -R mocha-jenkins-reporter test/reporter-custom-jenkins/suite.js 2>&1)
+OUTPUT=$(JUNIT_REPORT_PATH=$RESULT dist/bin/cli.js -R mocha-jenkins-reporter test/reporter-custom-jenkins/suite.js 2>&1)
 STATUS=$?
 
 if [ $STATUS -eq 0 ]; then

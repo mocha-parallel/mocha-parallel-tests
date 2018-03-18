@@ -15,9 +15,13 @@ pids
 logs
 results
 
+dist/
 npm-debug.log
 node_modules
+.idea
+
+# app specific
+test/node-addon
 test/reporter-custom-mochawesome/mochawesome-report/
 mochawesome-report/
-
-.idea
+test/reporter-custom-jenkins/result.xml

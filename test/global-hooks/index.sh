@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT=$(dist/bin/mocha-parallel-tests --retry 2 test/global-hooks/test.js 2>&1)
+OUTPUT=$(dist/bin/cli.js --retry 2 test/global-hooks/test.js 2>&1)
 STATUS=$?
 
 if [ $STATUS -eq 2 ]; then

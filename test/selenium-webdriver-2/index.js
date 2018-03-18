@@ -3,7 +3,7 @@
 'use strict';
 
 const assert = require('assert');
-const MochaParallelTests = require('../../dist/api.js');
+const MochaParallelTests = require('../../dist/main/mocha').default;
 
 const EXPECTED_EXECUTION_TIME_MOCHA_MS = 1000;
 const EXEC_START_TIME = Date.now();

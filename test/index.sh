@@ -13,6 +13,10 @@ function test {
     return $status
 }
 
+MOCHA_VERSION=`mocha --version`
+echo "You're running tests with mocha version $MOCHA_VERSION"
+echo ""
+
 echo 'TESTCASE: native (json) reporter'
 test test/reporter-native-json/index.sh
 echo $?
@@ -28,7 +32,7 @@ echo $?
 echo 'TESTCASE: custom (mochawesome) reporter'
 test test/reporter-custom-mochawesome/index.sh
 echo $?
-echo 'TESTCASE: cli targets'
+echo 'TESTCASE: cli target'
 test test/cli-target/index.sh
 echo $?
 echo 'TESTCASE: pwd-based reporter'
@@ -58,12 +62,6 @@ echo $?
 echo 'TESTCASE: describe inside describe'
 test test/describe-inside-describe/index.js
 echo $?
-echo 'TESTCASE: multiple suites in one file'
-test test/describe-onefile/index.sh
-echo $?
-echo 'TESTCASE: multiple suites in one file, one fails'
-test test/describe-onefile-fail/index.js
-echo $?
 echo 'TESTCASE: missing test'
 test test/missing-test/index.js
 echo $?
@@ -82,12 +80,6 @@ echo $?
 echo 'TESTCASE: --recursive option if no target is set'
 test test/recursive-no-target/index.js
 echo $?
-echo 'TESTCASE: retries'
-test test/retry/index.js
-echo $?
-echo 'TESTCASE: retries debug messages'
-test test/retry-errors/index.js
-echo $?
 echo 'TESTCASE: total time'
 test test/total-time/index.js
 echo $?
@@ -105,9 +97,6 @@ test test/js-compilers-1/index.sh
 echo $?
 echo 'TESTCASE: js compilers with --require support'
 test test/js-compilers-2/index.sh
-echo $?
-echo 'TESTCASE: retry support in mocha hooks'
-test test/retry-before/index.sh
 echo $?
 echo 'TESTCASE: reporter with options'
 test test/reporter-options/index.sh
@@ -138,6 +127,12 @@ test test/skip-suite/index.sh
 echo $?
 echo 'TESTCASE: skip-test'
 test test/skip-test/index.sh
+echo $?
+echo 'TESTCASE: --delay option support'
+test test/delay/index.js
+echo $?
+echo 'TESTCASE: --retries option support'
+test test/retries/index.js
 echo $?
 
 if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
