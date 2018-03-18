@@ -4,7 +4,7 @@
 
 const assert = require('assert');
 const Mocha = require('mocha');
-const MochaParallelTests = require('../../../dist/api.js');
+const MochaParallelTests = require('../../../dist/main/mocha').default;
 
 const mocha = new MochaParallelTests;
 let doneExecuted = false;

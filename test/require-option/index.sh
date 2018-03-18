@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT=$(dist/bin/mocha-parallel-tests --require test/require-option/require-module.js test/require-option/test.js)
+OUTPUT=$(dist/bin/cli.js --require test/require-option/require-module.js test/require-option/test.js)
 STATUS=$?
 
 if [ $STATUS -eq 0 ]; then

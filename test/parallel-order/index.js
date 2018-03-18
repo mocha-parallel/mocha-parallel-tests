@@ -3,7 +3,7 @@
 var assert = require('assert');
 var path = require('path');
 var exec = require('child_process').exec;
-var libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests');
+var libExecutable = path.resolve(__dirname, '../../dist/bin/cli.js');
 var start = Date.now();
 
 exec(libExecutable + ' -R json --timeout 60000 --slow 30000 test/parallel-order/tests', {
@@ -22,7 +22,7 @@ exec(libExecutable + ' -R json --timeout 60000 --slow 30000 test/parallel-order/
     }
 
     assert.equal(typeof jsonReporterOutput.stats, 'object', 'Reporter should contain stats object');
-    assert.equal(jsonReporterOutput.stats.suites, 3, 'Reporter should contain information about 3 suites');
+    assert.equal(jsonReporterOutput.stats.suites, 6, 'Reporter should contain information about 3 suites');
     assert.equal(jsonReporterOutput.stats.tests, 4, 'Reporter should contain information about all run tests');
     assert.equal(jsonReporterOutput.stats.passes, 3, 'Reporter should contain information about all passes');
     assert.equal(jsonReporterOutput.stats.pending, 0, 'Reporter should contain information about all pendings');
@@ -45,7 +45,7 @@ exec(libExecutable + ' -R json --timeout 60000 --slow 30000 test/parallel-order/
     // check failure
     assert.equal(Array.isArray(jsonReporterOutput.failures), true, 'Reporter should contain failures array');
     assert.equal(jsonReporterOutput.failures.length, 1, 'Reporter should contain one error');
-    assert.equal(jsonReporterOutput.failures[0].fullTitle, 'Test suite #2 should fail');
+    assert.equal(jsonReporterOutput.failures[0].fullTitle.trim(), 'Test suite #2 should fail');
     assert.equal(jsonReporterOutput.failures[0].err.message, 'some error');
 
     return;

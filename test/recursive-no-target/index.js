@@ -5,7 +5,7 @@
 const assert = require('assert');
 const path = require('path');
 const exec = require('child_process').exec;
-const libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests');
+const libExecutable = path.resolve(__dirname, '../../dist/bin/cli.js');
 
 exec(`${libExecutable} -R json --recursive`, {
     cwd: path.dirname(__filename)
@@ -23,7 +23,8 @@ exec(`${libExecutable} -R json --recursive`, {
         process.exit(1);
     }
 
-    assert.strictEqual(jsonReporterOutput.stats.suites, 2);
+    // 2 suite events for each file (:root suite and own top level suite)
+    assert.strictEqual(jsonReporterOutput.stats.suites, 4);
     assert.strictEqual(jsonReporterOutput.stats.tests, 2);
     assert.strictEqual(jsonReporterOutput.stats.passes, 2);
     assert.strictEqual(jsonReporterOutput.stats.failures, 0);

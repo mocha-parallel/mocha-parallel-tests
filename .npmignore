@@ -1,6 +1,0 @@
-bin/
-lib/
-test/
-.babelrc
-.editorconfig
-.travis.yml

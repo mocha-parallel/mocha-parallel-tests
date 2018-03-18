@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT=$(dist/bin/mocha-parallel-tests test/skip-suite/test.js 2>&1)
+OUTPUT=$(dist/bin/cli.js test/skip-suite/test.js 2>&1)
 STATUS=$?
 
 if [ $STATUS -eq 0 ]; then

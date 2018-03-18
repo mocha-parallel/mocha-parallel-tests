@@ -1,6 +1,6 @@
 #!/bin/bash
-OUTPUT=$(dist/bin/mocha-parallel-tests -R spec --timeout 60000 --slow 30000 test/nesting/nesting.js)
-strindex() { 
+OUTPUT=$(dist/bin/cli.js -R spec --timeout 60000 --slow 30000 test/nesting/nesting.js)
+strindex() {
   x="${1%%$2*}"
   [[ $x = $1 ]] && echo -1 || echo ${#x}
 }

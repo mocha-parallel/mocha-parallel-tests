@@ -2,7 +2,7 @@
 
 TIMESTAMP_START="$(date +%s)"
 
-OUTPUT=$(dist/bin/mocha-parallel-tests -R spec test/max-parallel/tests --timeout 30000 --slow 10000 --max-parallel 3)
+OUTPUT=$(dist/bin/cli.js -R spec test/max-parallel/tests --timeout 30000 --slow 10000 --max-parallel 3)
 
 # parallel1.js ends in 1 second, parallel2.js in 2 seconds etc
 # when any test is over, next should start
