@@ -4,7 +4,7 @@
   "homepage": "https://github.com/yandex/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./dist/api.js",
-  "bin": "./dist/bin/mocha-parallel-tests",
+  "bin": "./dist/bin/@mulesoft/mocha-parallel-tests",
   "author": "Maria Motkina <mmotkina@yandex-team.ru>",
   "contributors": [
     "Dmitrii Sorin <info@staypositive.ru>",
