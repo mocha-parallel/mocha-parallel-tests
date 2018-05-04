@@ -1,10 +1,10 @@
 {
-  "name": "mocha-parallel-tests",
-  "version": "1.2.10",
+  "name": "@mulesoft/mocha-parallel-tests",
+  "version": "0.0.8-0",
   "homepage": "https://github.com/yandex/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./dist/api.js",
-  "bin": "./dist/bin/mocha-parallel-tests",
+  "bin":  "./dist/bin/mocha-parallel-tests",
   "author": "Maria Motkina <mmotkina@yandex-team.ru>",
   "contributors": [
     "Dmitrii Sorin <info@staypositive.ru>",
@@ -39,7 +39,10 @@
     "prepublish:bin:build": "mkdir ./dist/bin && ./node_modules/.bin/babel bin/mocha-parallel-tests --out-file dist/bin/mocha-parallel-tests && chmod +x dist/bin/mocha-parallel-tests",
     "prepublish:libs:clean": "rm -fr ./dist/lib",
     "prepublish:libs:build": "./node_modules/.bin/babel lib/ --out-dir ./dist/lib",
-    "test": "npm run lint && npm run prepublish && ./test/index.sh"
+    "test": "npm run lint && npm run prepublish && ./test/index.sh",
+    "postversion": "npm publish",
+    "patch-version": "npm --no-git-tag-version version patch",
+    "pre-patch-version": "npm --no-git-tag-version version prepatch"
   },
   "license": "MIT",
   "engines": {
