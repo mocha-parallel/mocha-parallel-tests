@@ -40,7 +40,7 @@
     "prepublish:libs:clean": "rm -fr ./dist/lib",
     "prepublish:libs:build": "./node_modules/.bin/babel lib/ --out-dir ./dist/lib",
     "test": "npm run lint && npm run prepublish && ./test/index.sh",
-    "postversion": "git add package.json && git commit -m \"bump version\" && git tag ${npm_package_name}V${npm_package_version} && git push origin HEAD && git push origin $(git describe --tags) && npm publish",
+    "postversion": "npm publish",
     "patch-version": "npm --no-git-tag-version version patch",
     "pre-patch-version": "npm --no-git-tag-version version prepatch"
   },
