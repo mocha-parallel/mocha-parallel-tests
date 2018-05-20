@@ -1,44 +1,61 @@
-# Mocha parallel tests runner
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/yandex/mocha-parallel-tests.svg)](https://greenkeeper.io/)
+# mocha-parallel-tests
 
 [![Build Status](https://img.shields.io/travis/yandex/mocha-parallel-tests/master.svg?style=flat)](https://travis-ci.org/yandex/mocha-parallel-tests)
-[![DevDependency Status](http://img.shields.io/david/dev/yandex/mocha-parallel-tests.svg?style=flat)](https://david-dm.org/yandex/mocha-parallel-tests#info=devDependencies)
-[![npm version](https://img.shields.io/npm/v/mocha-parallel-tests.svg?style=flat)](https://www.npmjs.com/package/mocha-parallel-tests)
 
-
-Normally tests written with mocha run sequentially. This happens so because each test suite should not depend on another. But if you are running tests which take a lot of time (for example tests with Selenium Webdriver) waiting for so much time is impossible.
-
-If you're sure that running any of your test suites doesn't affect others, you should try to parallel them with `mocha-parallel-tests`. The only thing that changes for you is that you use not `mocha` but `mocha-parallel-tests` executable because it supports all of mocha options.
-
-Also `mocha-parallel-tests` supports its own `--max-parallel` (max parallel running tests) and `--retry` (number of retries) options.
+`mocha-parallel-tests` is a test runner for tests written with `mocha` testing framework which allows you to run them in parallel. `mocha-parallel-tests` executes **each of your test files in a separate process** while maintaining the output structure of `mocha`. Compared to the other tools which try to parallelize `mocha` tests execution, `mocha-parallel-tests` doesn't require you to write the code in a different way or use some specific APIs - just run your tests with `mocha-parallel-tests` instead of `mocha` and you will see the difference. Or if you prefer to use `mocha` programmatic API replace it with `mocha-parallel-tests` default export and you're done!
 
 ## Installation
 
-`npm install --save-dev mocha-parallel-tests mocha`
+`npm install --save-dev mocha mocha-parallel-tests`
 
-**ATTENTION**: Starting from 1.0.0 `mocha-parallel-tests` adds mocha as a [peerDependency](https://nodejs.org/en/blog/npm/peer-dependencies/) so you should specify what `mocha` version you want to run tests with. Only latest (3.x) mocha versions are supported.
+**ATTENTION**: `mocha` is a peer dependency of `mocha-parallel-tests` so you also need to install `mocha`. Currently `mocha` versions 3, 4 and 5 are supported.
 
 ## Usage
 
-* `./node_modules/.bin/mocha-parallel-tests your_test_directory/`
-* `./node_modules/.bin/mocha-parallel-tests **/*.js`
+### CLI
 
-## Options
-Own options:
+```bash
+# mocha example
+$ mocha -R xunit --timeout 10000 --slow 1000 test/*.spec.js
 
-* `--max-parallel <num>` - max number of running parallel tests
-* `--retry <num>` - number of retries (0 by default)
+# mocha-parallel-tests example
+$ mocha-parallel-tests -R xunit --timeout 10000 --slow 1000 test/*.spec.js
+```
 
-And all options supported by mocha:
+Most of `mocha` CLI options are supported. If you're missing some of the options support you're welcome to submit a PR: all options are applied in a same simple way.
 
-* `--reporter <name>` - specify the reporter to use
-* `--timeout <n>` - set test-case timeout in milliseconds
-* `--slow <n>` - "slow" test threshold in milliseconds
+### Programmatic API
 
-## Differences with `mocha`
+```javascript
+// mocha example
+import * as Mocha from 'mocha';
+const mocha = new Mocha();
+mocha.addFile(`${__dirname}/index.spec.js`);
+mocha.run();
 
- * `--bail` behaviour can differ due to parallel running of tests. See [this issue](https://github.com/yandex/mocha-parallel-tests/issues/88) for more info.
+// mocha-parallel-tests example
+// if you're using TypeScript you don't need to install @types/mocha-parallel-tests
+// because package comes with typings in it
+import Mocha from 'mocha-parallel-tests'; // or `const Mocha = require('mocha-parallel-tests').default` if you're using CommonJS
+const mocha = new Mocha();
+mocha.addFile(`${__dirname}/index.spec.js`);
+mocha.run();
+```
 
-## Tests
-`mocha-parallel-tests` is highly covered with tests itself. If you find something bad, feel free to [post an issue](https://github.com/yandex/mocha-parallel-tests/issues/new).
+## Parallel limit
+
+`mocha-parallel-tests` CLI executable has its own `--max-parallel` option which is the amount of tests executed at the same time. By default it's equal to the number of logical CPI cores (`os.cpus().length`) on your computer but you can also specify your own number or set it to 0, which means that all test files will be started executing at the same time. However this is not recommended especially on machines with low number of CPUs and big number of tests executed.
+
+## Differences with mocha
+
+Main difference with `mocha` comes from the fact that all files are executed in separate processes and don't share the scope. This means that even global variables values that you could've used to share the data between test suites will not be reliable. There's also some specific behaviour for some of the `mocha` CLI options like `--bail`: it's just applied to each test in its process. You can see the full list of differences [here](https://github.com/yandex/mocha-parallel-tests/wiki/Differences-with-mocha).
+
+From the reporter perspective the main difference between tests executed with `mocha` and `mocha-parallel-tests` is another level of nesting which again comes from the fact that main process adds one more "suite" level and all tests results are merged into that:
+
+**mocha**
+
+![mocha reporter output](https://user-images.githubusercontent.com/73191/40283858-ac9611ce-5cc8-11e8-83a7-dc7be36817ff.png)
+
+**mocha-parallel-tests**
+
+![mocha-parallel-tests reporter output](https://user-images.githubusercontent.com/73191/40283870-cf470624-5cc8-11e8-8849-67718cfc3a05.png)

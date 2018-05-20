@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT=$(dist/bin/mocha-parallel-tests 2>&1)
+OUTPUT=$(dist/bin/cli.js 2>&1)
 MPT_STATUS_CODE=$?
 
 node_modules/.bin/mocha 1>/dev/null 2>&1

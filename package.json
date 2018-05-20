@@ -1,19 +1,23 @@
 {
   "name": "mocha-parallel-tests",
-  "version": "1.2.10",
+  "version": "2.0.0-alpha.3",
   "homepage": "https://github.com/yandex/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
-  "main": "./dist/api.js",
-  "bin": "./dist/bin/mocha-parallel-tests",
-  "author": "Maria Motkina <mmotkina@yandex-team.ru>",
+  "main": "./dist/main/mocha.js",
+  "module": "./dist/main/mocha.js",
+  "bin": {
+    "mocha-parallel-tests": "dist/bin/cli.js"
+  },
   "contributors": [
     "Dmitrii Sorin <info@staypositive.ru>",
     "Gabriel Fürstenheim",
     "Kirill Molchanov <kirill-m@yandex-team.ru>",
+    "Maria Motkina <mmotkina@yandex-team.ru>",
     "Nikolay Basov",
     "Vadim Kolontsov <vadim@kolontsov.com>"
   ],
   "dependencies": {
+    "circular-json": "^0.5.4",
     "debug": "3.1.0",
     "yargs": "11.0.0"
   },
@@ -24,47 +28,59 @@
   "bugs": {
     "url": "https://github.com/yandex/mocha-parallel-tests/issues"
   },
+  "files": [
+    "bin",
+    "dist",
+    "lib"
+  ],
+  "types": "dist/main/mocha.d.ts",
   "keywords": [
+    "mocha",
     "mocha-parallel-tests",
     "parallel tests",
     "unit tests",
     "tests"
   ],
   "scripts": {
-    "clean": "rm -rf ./node_modules",
-    "lint": "./node_modules/.bin/eslint lib/ test/ bin/ *.js",
-    "prepublish": "npm run prepublish:entrypoint && npm run prepublish:libs:clean && npm run prepublish:libs:build && npm run prepublish:bin:clean && npm run prepublish:bin:build",
-    "prepublish:entrypoint": "./node_modules/.bin/babel *.js --out-dir dist/",
-    "prepublish:bin:clean": "rm -fr ./dist/bin",
-    "prepublish:bin:build": "mkdir ./dist/bin && ./node_modules/.bin/babel bin/mocha-parallel-tests --out-file dist/bin/mocha-parallel-tests && chmod +x dist/bin/mocha-parallel-tests",
-    "prepublish:libs:clean": "rm -fr ./dist/lib",
-    "prepublish:libs:build": "./node_modules/.bin/babel lib/ --out-dir ./dist/lib",
-    "test": "npm run lint && npm run prepublish && ./test/index.sh"
+    "build": "tsc && chmod +x dist/bin/cli.js",
+    "clean": "rm -fr dist",
+    "eslint": "eslint -c test/.eslintrc.js test/ *.js",
+    "lint": "npm run eslint && npm run tslint",
+    "precommit": "npm run lint",
+    "prepublishOnly": "npm run clean && npm run build",
+    "pretest": "npm run prepublishOnly",
+    "test": "bash test/index.sh",
+    "test:ci": "npm run tslint && npm run test:mocha-3 && npm run test:mocha-4 && npm run test:mocha-5",
+    "test:mocha-3": "npm install mocha@3 --no-save && npm test",
+    "test:mocha-4": "npm install mocha@4 --no-save && npm test",
+    "test:mocha-5": "npm install mocha@5 --no-save && npm test",
+    "tslint": "tslint -p . -c tslint.json 'src/**/*.ts'"
   },
   "license": "MIT",
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "peerDependencies": {
-    "mocha": "^3"
+    "mocha": "3.0.0 - 5.x.x"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-array-includes": "^2.0.3",
-    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
-    "babel-plugin-transform-es2015-parameters": "^6.24.1",
-    "babel-plugin-transform-es2015-spread": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "@types/circular-json": "^0.4.0",
+    "@types/debug": "0.0.30",
+    "@types/mocha": "^5.2.0",
+    "@types/node": "^8.10.7",
+    "@types/yargs": "^11.0.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-register": "^6.24.1",
+    "babel-register": "^6.26.0",
     "cheerio": "^0.22.0",
     "eslint": "^4.19.0",
+    "husky": "^0.14.3",
     "mocha-jenkins-reporter": "^0.3.7",
     "mocha-teamcity-reporter": "^2.2.2",
     "mochawesome": "^3.0.2",
     "node-gyp": "^3.6.0",
-    "selenium-webdriver": "^3.3.0"
+    "selenium-webdriver": "^3.3.0",
+    "ts-node": "^6.0.3",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3"
   }
 }

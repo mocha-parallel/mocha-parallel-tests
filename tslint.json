@@ -1,0 +1,10 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "indent": [true, "spaces", 2],
+    "member-access": [true, "no-public"],
+    "only-arrow-functions": false,
+    "quotemark": [true, "single"],
+    "switch-default": true
+  }
+}

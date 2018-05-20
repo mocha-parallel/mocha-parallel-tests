@@ -2,7 +2,7 @@
 
 TIMESTAMP_START="$(date +%s)"
 
-OUTPUT=$(dist/bin/mocha-parallel-tests -R spec test/mocha-opts/tests --slow 10000 --opts test/mocha-opts/mocha.opts)
+OUTPUT=$(dist/bin/cli.js -R spec test/mocha-opts/tests --slow 10000 --opts test/mocha-opts/mocha.opts)
 STATUS=$?
 TIMESTAMP_FINISH="$(date +%s)"
 TIMESTAMP_DIFF=`expr $TIMESTAMP_FINISH - $TIMESTAMP_START`

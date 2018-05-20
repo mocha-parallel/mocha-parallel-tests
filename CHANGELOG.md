@@ -1,6 +1,6 @@
-## (upcoming release)
+## 2.0.0
 
- * ...
+More: https://github.com/yandex/mocha-parallel-tests/wiki/v2-release-notes
 
 ## 1.2.10
 

@@ -6,7 +6,7 @@ var assert = require('assert');
 var path = require('path');
 var exec = require('child_process').exec;
 var inspect = require('util').inspect;
-var libExecutable = path.resolve(__dirname, '../../dist/bin/mocha-parallel-tests');
+var libExecutable = path.resolve(__dirname, '../../dist/bin/cli.js');
 
 // SauceLabs has limitation for concurrent tests for OSS projects.
 // But TravisCI runs tests for different node versions in parallel.
