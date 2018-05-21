@@ -1,6 +1,23 @@
 ## 2.0.0
 
-More: https://github.com/yandex/mocha-parallel-tests/wiki/v2-release-notes
+v2 is a completely new version of `mocha-parallel-tests` rewritten in TypeScript from scratch. Its main focus is to simplify parallel run of mocha tests: while previously they were executed in one single process **now each file is executed in a separate process**.
+
+Some of the main changes are:
+
+ * **breaking change**: each file is now executed in a separate process
+ * **breaking change**: minimum supported node version is 8 because it's current LTS and because of [performance reasons](https://blog.risingstack.com/important-features-fixes-node-js-version-8/)
+ * **breaking change**: main exported file should now be imported as `require("mocha-parallel-tests").default` if you're using CommonJS modules
+ * **breaking change**: `--retry` is not supported anymore: `mocha-parallel-tests` main target is to be 100%-compliant with `mocha` in terms of API and to not introduce its own options and APIs other than `--max-parallel`
+ * **breaking change**: reporter output/stats now contains one more level for each file
+ * change: `--max-parallel` option is `os.cpus().length` by default. You can also specify it manually or set it to 0 which means "immediately launch as many processes as the number of files"
+ * new: `--delay` option is now supported for each subprocess
+ * new: `--retries` option is now supported for each subprocess
+ * new: supported peerDependencies versions of `mocha` are not 3, 4 and 5
+ * new: all tests are now executed against all supported mocha versions
+ * new: `mocha-parallel-tests` install should work fine on windows
+ * new: TypeScript definitions are now provided in package.json
+
+Read more about new release here: https://github.com/yandex/mocha-parallel-tests/wiki/v2-release-notes
 
 ## 1.2.10
 
