@@ -54,8 +54,12 @@ From the reporter perspective the main difference between tests executed with `m
 
 **mocha**
 
-![mocha spec reporter output](https://user-images.githubusercontent.com/73191/40331528-0b79999c-5d94-11e8-86ba-ca5213c9fe29.png)
+<kbd>
+  <img src="https://user-images.githubusercontent.com/73191/40331528-0b79999c-5d94-11e8-86ba-ca5213c9fe29.png" alt="mocha spec reporter output"/>
+</kbd>
 
 **mocha-parallel-tests**
 
-![mocha-parallel-tests spec reporter output](https://user-images.githubusercontent.com/73191/40331597-39f89b38-5d94-11e8-9388-c42a27b0da9b.png)
+<kbd>
+  <img src="https://user-images.githubusercontent.com/73191/40331597-39f89b38-5d94-11e8-9388-c42a27b0da9b.png" alt="mocha-parallel-tests spec reporter output"/>
+</kbd>
