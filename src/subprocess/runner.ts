@@ -25,6 +25,8 @@ import {
   randomId,
 } from '../util';
 
+import applyExit from './options/exit';
+
 const argv = yargs
   .boolean('bail')
   .option('compilers', {
@@ -33,6 +35,9 @@ const argv = yargs
   })
   .boolean('delay')
   .boolean('enableTimeouts')
+  .option('exit', {
+    boolean: true,
+  })
   .number('slow')
   .option('require', {
     array: true,
@@ -186,6 +191,9 @@ applyDelay(mocha, argv.delay);
 // --enableTimeouts
 applyNoTimeouts(mocha, argv.enableTimeouts);
 
+// --exit
+const onComplete = applyExit(argv.exit);
+
 // --require
 applyRequires(argv.require);
 
@@ -198,4 +206,4 @@ for (const option of SUITE_OWN_OPTIONS) {
   mocha.suite[suiteProp] = argv[option];
 }
 
-mocha.reporter(Reporter).run();
+mocha.reporter(Reporter).run(onComplete);

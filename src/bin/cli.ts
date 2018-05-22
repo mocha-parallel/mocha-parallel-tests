@@ -110,6 +110,9 @@ mocha.addCompilersForSubprocess(compilers);
 // --delay
 applyDelay(mocha, argv.delay);
 
+// --exit
+applyExit(mocha, argv.exit);
+
 // --forbid-only
 applyForbidOnly(mocha, argv.forbidOnly);
 
@@ -159,12 +162,13 @@ for (const file of files) {
   mocha.addFile(file);
 }
 
-// --exit
-const onComplete = applyExit(argv.exit);
-
 const isTypescriptRun = argv.$0.endsWith('.ts');
 if (isTypescriptRun) {
   mocha.setTypescriptRunMode();
 }
 
-mocha.run(onComplete);
+mocha.run((code) => {
+  process.on('exit', function onExit() {
+    process.exit(Math.min(code, 255));
+  });
+});
