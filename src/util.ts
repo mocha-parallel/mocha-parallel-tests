@@ -10,7 +10,7 @@ export function randomId(): string {
 export function setProcessExitListeners() {
   process.on('unhandledRejection', (reason) => {
     // tslint:disable-next-line:no-console
-    console.error(`Unhaldled asynchronous exception: ${reason.stack}`);
+    console.error(`Unhandled asynchronous exception: ${reason.stack}`);
     process.exit(1);
   });
 
