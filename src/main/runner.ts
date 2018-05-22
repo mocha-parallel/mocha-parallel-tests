@@ -197,11 +197,12 @@ export default class RunnerMain extends Runner {
           }
 
           case 'fail': {
-            const test = this.findTestById(data.id);
-            const hook = this.findHookById(data.id);
-            assert(test || hook, `Couldn't find test or hook by id: ${data.id}`);
+            const test = this.findTestById(data.id)
+              || this.findHookById(data.id)
+              || this.findForgottenTestById(data.id);
+            assert(test, `Couldn't find test by id: ${data.id}`);
 
-            this.emit(event, test || hook, data.err);
+            this.emit(event, test, data.err);
             break;
           }
 
