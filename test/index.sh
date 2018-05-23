@@ -134,6 +134,9 @@ echo $?
 echo 'TESTCASE: --retries option support'
 test test/retries/index.js
 echo $?
+echo 'TESTCASE: --exit option support'
+test test/exit/index.js
+echo $?
 
 if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
     echo 'TESTCASE: selenium-webdriver'

@@ -31,6 +31,7 @@ export default class MochaWrapper extends Mocha {
   private maxParallel: number | undefined;
   private requires: string[] = [];
   private compilers: string[] = [];
+  private exitImmediately = false;
 
   setTypescriptRunMode() {
     this.isTypescriptRunMode = true;
@@ -52,6 +53,10 @@ export default class MochaWrapper extends Mocha {
 
   setMaxParallel(maxParallel: number) {
     this.maxParallel = maxParallel;
+  }
+
+  enableExitMode() {
+    this.exitImmediately = true;
   }
 
   run(onComplete?: (failures: number) => void): RunnerMain {
@@ -172,6 +177,10 @@ export default class MochaWrapper extends Mocha {
 
       if ((this as any).options.delay) {
         forkArgs.push('--delay');
+      }
+
+      if (this.exitImmediately) {
+        forkArgs.push('--exit');
       }
 
       const test = fork(runnerPath, forkArgs, {
