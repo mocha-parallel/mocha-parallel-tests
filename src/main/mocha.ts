@@ -129,7 +129,7 @@ export default class MochaWrapper extends Mocha {
 
     assert(
       endRunnerMessage,
-      `Subprocess ${testArtifacts.file}{${testArtifacts.suiteIndex}} didn't send an "end" message`,
+      `Subprocess for file ${testArtifacts.file} didn't send an "end" message`,
     );
 
     return endRunnerMessage.data;

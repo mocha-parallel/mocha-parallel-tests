@@ -73,7 +73,6 @@ export interface ISubprocessResult {
 
 export interface ISubprocessTestArtifacts {
   file: string;
-  suiteIndex: number;
   output: Array<ISubprocessRunnerMessage | ISubprocessOutputMessage>;
   execTime: number;
 }
