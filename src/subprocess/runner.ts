@@ -23,9 +23,12 @@ import {
   applyRequires,
   applyTimeouts,
   randomId,
+  setProcessExitListeners,
 } from '../util';
 
 import applyExit from './options/exit';
+
+setProcessExitListeners();
 
 const argv = yargs
   .boolean('bail')
@@ -57,9 +60,11 @@ class Reporter extends BaseReporter {
    * to the main process after the end
    */
   private runningTests = new Set<ITest>();
+  private rootSuite: ISuite;
 
   constructor(runner: IRunner) {
     super(runner);
+    this.rootSuite = runner.suite as ISuite;
 
     runner.on('waiting', this.onRunnerWaiting);
     runner.on('start', this.onRunnerStart);
@@ -80,41 +85,28 @@ class Reporter extends BaseReporter {
   }
 
   private onRunnerStart = () => {
-    this.notifyParentThroughIPC('start');
+    this.notifyParent('start');
   }
 
   private onRunnerEnd = () => {
-    const rootSuite = this.runner.suite;
-    const retriesTests = [...this.runningTests].map((test) => {
-      return Object.assign(test, {
-        [SUBPROCESS_RETRIED_SUITE_ID]: test.parent[RUNNABLE_IPC_PROP],
-        parent: null,
-      });
-    });
-
-    this.notifyParentThroughIPC('end', {
-      // can't use the root suite because it will not get revived in the master process
-      // @see https://github.com/WebReflection/circular-json/issues/44
-      results: CircularJSON.stringify({ rootSuite }),
-      retries: CircularJSON.stringify({ retriesTests }),
-    });
+    this.notifyParent('end');
   }
 
   private onRunnerSuiteStart = (suite: ISuite) => {
     const id = randomId();
     suite[RUNNABLE_IPC_PROP] = id;
 
-    this.notifyParentThroughIPC('suite', { id });
+    this.notifyParent('suite', { id });
   }
 
   private onRunnerSuiteEnd = (suite: ISuite) => {
-    this.notifyParentThroughIPC('suite end', {
+    this.notifyParent('suite end', {
       id: suite[RUNNABLE_IPC_PROP],
     });
   }
 
   private onRunnerWaiting = (/* rootSuite: ISuite */) => {
-    this.notifyParentThroughIPC('waiting');
+    this.notifyParent('waiting');
   }
 
   private onTestStart = (test: ITest) => {
@@ -122,25 +114,25 @@ class Reporter extends BaseReporter {
     test[RUNNABLE_IPC_PROP] = id;
 
     this.runningTests.add(test);
-    this.notifyParentThroughIPC('test', { id });
+    this.notifyParent('test', { id });
   }
 
   private onTestEnd = (test: ITest) => {
     this.runningTests.delete(test);
 
-    this.notifyParentThroughIPC('test end', {
+    this.notifyParent('test end', {
       id: test[RUNNABLE_IPC_PROP],
     });
   }
 
   private onRunnerPass = (test: ITest) => {
-    this.notifyParentThroughIPC('pass', {
+    this.notifyParent('pass', {
       id: test[RUNNABLE_IPC_PROP],
     });
   }
 
   private onRunnerFail = (test: ITest, err: Error) => {
-    this.notifyParentThroughIPC('fail', {
+    this.notifyParent('fail', {
       err: {
         message: err.message,
         name: err.name,
@@ -151,7 +143,7 @@ class Reporter extends BaseReporter {
   }
 
   private onRunnerPending = (test: ITest) => {
-    this.notifyParentThroughIPC('pending', {
+    this.notifyParent('pending', {
       id: test[RUNNABLE_IPC_PROP],
     });
   }
@@ -160,22 +152,50 @@ class Reporter extends BaseReporter {
     const id = hook[RUNNABLE_IPC_PROP] || randomId();
     hook[RUNNABLE_IPC_PROP] = id;
 
-    this.notifyParentThroughIPC('hook', { id });
+    this.notifyParent('hook', { id });
   }
 
   private onRunnerHookEnd = (hook: IHook) => {
-    this.notifyParentThroughIPC('hook end', {
+    this.notifyParent('hook end', {
       id: hook[RUNNABLE_IPC_PROP],
     });
   }
 
-  private notifyParentThroughIPC(event: string, data = {}) {
+  private notifyParent(event: string, data = {}) {
     if (debugSubprocess) {
       // tslint:disable-next-line:no-console
       console.log({ event, data });
     } else {
-      process.send!({ event, data });
+      this.notifyParentThroughIPC(event, data);
     }
+  }
+
+  private notifyParentThroughIPC(event: string, data = {}) {
+    // main process needs retried tests only when it starts
+    // re-emitting subprocess test results, so it's safe to
+    // omit them until the "end" event
+    const retriesTests = event === 'end'
+      ? [...this.runningTests].map((test) => {
+        return Object.assign(test, {
+          [SUBPROCESS_RETRIED_SUITE_ID]: test.parent[RUNNABLE_IPC_PROP],
+          parent: null,
+        });
+      })
+      : [];
+
+    // send the data snapshot with every event
+    process.send!({
+      data: {
+        // can't use the root suite because it will not get revived in the master process
+        // @see https://github.com/WebReflection/circular-json/issues/44
+        results: CircularJSON.stringify({ rootSuite: this.rootSuite }),
+        retries: CircularJSON.stringify({ retriesTests }),
+      },
+      event: 'sync',
+    });
+
+    // and then send the event
+    process.send!({ event, data });
   }
 }
 

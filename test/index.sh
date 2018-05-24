@@ -146,6 +146,9 @@ echo $?
 echo 'TESTCASE: --retries plus all tests fail'
 test/retries-all-fail/index.js
 echo $?
+echo 'TESTCASE: subprocess exits before sending an end message'
+test/no-subprocess-end/index.js
+echo $?
 
 if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
     echo 'TESTCASE: selenium-webdriver'

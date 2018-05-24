@@ -1,0 +1,1 @@
+Check that if subprocess exits before sending an "end" message the main process still renders its output

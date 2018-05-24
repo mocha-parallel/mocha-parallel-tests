@@ -54,8 +54,8 @@ export interface IHook extends IRunnable, IMochaParallelTestsRunnerObject {
 }
 
 export interface ISubprocessRunnerMessage {
-  event: string;
   data: any;
+  event: string;
   type: 'runner';
 }
 
@@ -65,16 +65,17 @@ export interface ISubprocessOutputMessage {
   type: 'stdout' | 'stderr';
 }
 
-export interface ISubprocessResult {
-  file: string;
-  output: Array<ISubprocessRunnerMessage | ISubprocessOutputMessage>;
-  execTime: number;
+export interface ISubprocessSyncedData {
+  results: string;
+  retries: string;
 }
 
-export interface ISubprocessTestArtifacts {
+export interface ISubprocessResult {
+  code: number;
   file: string;
-  output: Array<ISubprocessRunnerMessage | ISubprocessOutputMessage>;
+  events: Array<ISubprocessRunnerMessage | ISubprocessOutputMessage>;
   execTime: number;
+  syncedSubprocessData?: ISubprocessSyncedData;
 }
 
 export interface IRunnerDecl {

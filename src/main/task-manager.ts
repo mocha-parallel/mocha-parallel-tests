@@ -21,7 +21,7 @@ export default class TaskManager<TaskResult> extends EventEmitter {
     this.remainingTasks.add(task);
   }
 
-  runAvailableTasks() {
+  execute() {
     for (const task of this.remainingTasks) {
       this.startTaskProcessing(task);
 
@@ -43,7 +43,7 @@ export default class TaskManager<TaskResult> extends EventEmitter {
 
     this.emit('taskFinished', output);
 
-    this.runAvailableTasks();
+    this.execute();
     this.emitEndIfAllFinished();
   }
 
