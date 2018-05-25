@@ -93,7 +93,13 @@ export default class MochaWrapper extends Mocha {
     // so that reporters can record the start time
     runner.emitStartEvents();
 
-    taskManager.run().then((res) => {
+    taskManager.run();
+
+    // taskManager.on('processingFinished', (task, res) => {
+    //     runner.emitSubprocessEvents(res);
+    // });
+
+    taskManager.on('runFinished', (res) => {
       const retriedTests: IRetriedTest[] = [];
 
       // merge data from subprocess tests into the root suite
