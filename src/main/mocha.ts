@@ -95,10 +95,6 @@ export default class MochaWrapper extends Mocha {
 
     taskManager.run();
 
-    // taskManager.on('processingFinished', (task, res) => {
-    //     runner.emitSubprocessEvents(res);
-    // });
-
     taskManager.on('runFinished', (res) => {
       const retriedTests: IRetriedTest[] = [];
 
