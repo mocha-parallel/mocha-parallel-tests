@@ -21,12 +21,9 @@ export default class TaskManager<TaskResult> extends EventEmitter {
     this.remainingTasks.add(task);
   }
 
-  run(): Promise<TaskResult[]> {
+  run(): void {
     this.runAvailableTasks();
-
-    return new Promise((resolve) => {
-      this.on('end', this.onFinishedProcessing(resolve));
-    });
+    this.on('end', () => this.emit('runFinished', this.tasks.map(({output}) => output)));
   }
 
   private onTaskProcessingFinished = (finishedTask: Task, output: TaskResult) => {
