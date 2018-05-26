@@ -31,6 +31,7 @@ export default class MochaWrapper extends Mocha {
   private maxParallel: number | undefined;
   private requires: string[] = [];
   private compilers: string[] = [];
+  private exitImmediately = false;
 
   setTypescriptRunMode() {
     this.isTypescriptRunMode = true;
@@ -52,6 +53,10 @@ export default class MochaWrapper extends Mocha {
 
   setMaxParallel(maxParallel: number) {
     this.maxParallel = maxParallel;
+  }
+
+  enableExitMode() {
+    this.exitImmediately = true;
   }
 
   run(onComplete?: (failures: number) => void): RunnerMain {
@@ -93,16 +98,13 @@ export default class MochaWrapper extends Mocha {
     // so that reporters can record the start time
     runner.emitStartEvents();
 
-    taskManager.run();
+    taskManager.runAvailableTasks();
 
-    taskManager.on('runFinished', (res) => {
+    taskManager.on('taskFinished', (res) => {
       const retriedTests: IRetriedTest[] = [];
 
-      // merge data from subprocess tests into the root suite
-      for (const testTesult of res) {
-        this.addSubprocessSuites(testTesult);
-        retriedTests.push(...this.extractSubprocessRetriedTests(testTesult));
-      }
+      this.addSubprocessSuites(res);
+      retriedTests.push(...this.extractSubprocessRetriedTests(res));
 
       const done = (failures: number) => {
         if (reporter.done) {
@@ -116,6 +118,10 @@ export default class MochaWrapper extends Mocha {
       runner.setTestResults(res, retriedTests, done);
     });
 
+    taskManager.on('end', () => {
+      runner.emitFinishEvents();
+    });
+
     return runner;
   }
 
@@ -126,7 +132,7 @@ export default class MochaWrapper extends Mocha {
 
     assert(
       endRunnerMessage,
-      `Subprocess ${testArtifacts.file}{${testArtifacts.suiteIndex}} didn't send an "end" message`,
+      `Subprocess for file ${testArtifacts.file} didn't send an "end" message`,
     );
 
     return endRunnerMessage.data;
@@ -174,6 +180,10 @@ export default class MochaWrapper extends Mocha {
 
       if ((this as any).options.delay) {
         forkArgs.push('--delay');
+      }
+
+      if (this.exitImmediately) {
+        forkArgs.push('--exit');
       }
 
       const test = fork(runnerPath, forkArgs, {

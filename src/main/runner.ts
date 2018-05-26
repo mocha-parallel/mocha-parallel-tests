@@ -16,7 +16,7 @@ import {
 export default class RunnerMain extends Runner {
   private rootSuite: ISuite;
   private retriedTests: IRetriedTest[] = [];
-  private subprocessTestResults: ISubprocessTestArtifacts[];
+  private subprocessTestResults: ISubprocessTestArtifacts;
   private onComplete?: (failures: number) => void;
 
   constructor(rootSuite: ISuite) {
@@ -38,7 +38,7 @@ export default class RunnerMain extends Runner {
   }
 
   setTestResults(
-    testResults: ISubprocessTestArtifacts[],
+    testResults: ISubprocessTestArtifacts,
     retriedTests: IRetriedTest[],
     onComplete?: (failures: number) => void,
   ) {
@@ -47,7 +47,6 @@ export default class RunnerMain extends Runner {
     this.setRetriesTests(retriedTests);
 
     this.emitRestEvents();
-    this.emitFinishEvents();
   }
 
   private onFail = () => {
@@ -153,9 +152,8 @@ export default class RunnerMain extends Runner {
   }
 
   private emitRestEvents() {
-    for (const testArtifacts of this.subprocessTestResults) {
-      this.emitSubprocessEvents(testArtifacts);
-    }
+    const testArtifacts = this.subprocessTestResults;
+    this.emitSubprocessEvents(testArtifacts);
   }
 
   private emitSubprocessEvents(testArtifacts: ISubprocessTestArtifacts) {
@@ -197,11 +195,12 @@ export default class RunnerMain extends Runner {
           }
 
           case 'fail': {
-            const test = this.findTestById(data.id);
-            const hook = this.findHookById(data.id);
-            assert(test || hook, `Couldn't find test or hook by id: ${data.id}`);
+            const test = this.findTestById(data.id)
+              || this.findHookById(data.id)
+              || this.findForgottenTestById(data.id);
+            assert(test, `Couldn't find test by id: ${data.id}`);
 
-            this.emit(event, test || hook, data.err);
+            this.emit(event, test, data.err);
             break;
           }
 
