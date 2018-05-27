@@ -16,7 +16,7 @@ import {
 export default class RunnerMain extends Runner {
   private rootSuite: ISuite;
   private retriedTests: IRetriedTest[] = [];
-  private subprocessTestResults: ISubprocessTestArtifacts[];
+  private subprocessTestResults: ISubprocessTestArtifacts;
   private onComplete?: (failures: number) => void;
 
   constructor(rootSuite: ISuite) {
@@ -38,7 +38,7 @@ export default class RunnerMain extends Runner {
   }
 
   setTestResults(
-    testResults: ISubprocessTestArtifacts[],
+    testResults: ISubprocessTestArtifacts,
     retriedTests: IRetriedTest[],
     onComplete?: (failures: number) => void,
   ) {
@@ -47,7 +47,6 @@ export default class RunnerMain extends Runner {
     this.setRetriesTests(retriedTests);
 
     this.emitRestEvents();
-    this.emitFinishEvents();
   }
 
   private onFail = () => {
@@ -153,9 +152,7 @@ export default class RunnerMain extends Runner {
   }
 
   private emitRestEvents() {
-    for (const testArtifacts of this.subprocessTestResults) {
-      this.emitSubprocessEvents(testArtifacts);
-    }
+    this.emitSubprocessEvents(this.subprocessTestResults);
   }
 
   private emitSubprocessEvents(testArtifacts: ISubprocessTestArtifacts) {

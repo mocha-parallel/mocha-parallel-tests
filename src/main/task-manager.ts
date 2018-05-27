@@ -21,12 +21,14 @@ export default class TaskManager<TaskResult> extends EventEmitter {
     this.remainingTasks.add(task);
   }
 
-  run(): Promise<TaskResult[]> {
-    this.runAvailableTasks();
+  runAvailableTasks() {
+    for (const task of this.remainingTasks) {
+      this.startTaskProcessing(task);
 
-    return new Promise((resolve) => {
-      this.on('end', this.onFinishedProcessing(resolve));
-    });
+      if (this.processingTasks.size >= this.maxParallel) {
+        break;
+      }
+    }
   }
 
   private onTaskProcessingFinished = (finishedTask: Task, output: TaskResult) => {
@@ -39,13 +41,10 @@ export default class TaskManager<TaskResult> extends EventEmitter {
     this.tasks[taskIndex].output = output;
     this.processingTasks.delete(finishedTask);
 
+    this.emit('taskFinished', output);
+
     this.runAvailableTasks();
     this.emitEndIfAllFinished();
-  }
-
-  private onFinishedProcessing = (resolver: (data: TaskResult[]) => void) => () => {
-    const resolverOutput = this.tasks.map(({ output }) => output!);
-    resolver(resolverOutput);
   }
 
   private async startTaskProcessing(task: Task) {
@@ -57,16 +56,6 @@ export default class TaskManager<TaskResult> extends EventEmitter {
 
     const res = await task();
     this.emit('processingFinished', task, res);
-  }
-
-  private runAvailableTasks() {
-    for (const task of this.remainingTasks) {
-      this.startTaskProcessing(task);
-
-      if (this.processingTasks.size >= this.maxParallel) {
-        break;
-      }
-    }
   }
 
   private emitEndIfAllFinished() {
