@@ -63,3 +63,7 @@ From the reporter perspective the main difference between tests executed with `m
 <kbd>
   <img src="https://user-images.githubusercontent.com/73191/40331597-39f89b38-5d94-11e8-9388-c42a27b0da9b.png" alt="mocha-parallel-tests spec reporter output"/>
 </kbd>
+
+## Comparison with `mocha.parallel`
+
+[mocha.parallel](https://github.com/danielstjules/mocha.parallel) is a tool which allows you to run mocha tests in parallel. While it seems pretty similar to `mocha-parallel-tests` there's a massive difference between them. Check [this page](https://github.com/yandex/mocha-parallel-tests/wiki/Comparison-with-mocha.parallel) for a full comparison.
