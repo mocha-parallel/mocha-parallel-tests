@@ -74,6 +74,7 @@
     "cheerio": "^0.22.0",
     "eslint": "^4.19.0",
     "husky": "^0.14.3",
+    "mocha-allure-reporter": "^1.4.0",
     "mocha-jenkins-reporter": "^0.3.7",
     "mocha-teamcity-reporter": "^2.2.2",
     "mochawesome": "^3.0.2",

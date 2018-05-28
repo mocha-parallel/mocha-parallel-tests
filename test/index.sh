@@ -32,6 +32,9 @@ echo $?
 echo 'TESTCASE: custom (mochawesome) reporter'
 test test/reporter-custom-mochawesome/index.sh
 echo $?
+echo 'TESTCASE: custom (allure) reporter'
+test test/reporter-custom-allure/index.sh
+echo $?
 echo 'TESTCASE: cli target'
 test test/cli-target/index.sh
 echo $?
