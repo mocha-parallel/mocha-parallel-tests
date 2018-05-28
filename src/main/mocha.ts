@@ -98,15 +98,19 @@ export default class MochaWrapper extends Mocha {
     // so that reporters can record the start time
     runner.emitStartEvents();
 
-    taskManager.run().then((res) => {
+    taskManager.runAvailableTasks();
+
+    taskManager.on('taskFinished', (testResults) => {
       const retriedTests: IRetriedTest[] = [];
 
-      // merge data from subprocess tests into the root suite
-      for (const testTesult of res) {
-        this.addSubprocessSuites(testTesult);
-        retriedTests.push(...this.extractSubprocessRetriedTests(testTesult));
-      }
+      this.addSubprocessSuites(testResults);
+      retriedTests.push(...this.extractSubprocessRetriedTests(testResults));
 
+      // re-emit events
+      runner.setTestResults(testResults, retriedTests);
+    });
+
+    taskManager.on('end', () => {
       const done = (failures: number) => {
         if (reporter.done) {
           reporter.done(failures, onComplete);
@@ -115,8 +119,7 @@ export default class MochaWrapper extends Mocha {
         }
       };
 
-      // re-emit events
-      runner.setTestResults(res, retriedTests, done);
+      runner.emitFinishEvents(done);
     });
 
     return runner;
