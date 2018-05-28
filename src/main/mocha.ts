@@ -100,12 +100,17 @@ export default class MochaWrapper extends Mocha {
 
     taskManager.runAvailableTasks();
 
-    taskManager.on('taskFinished', (res) => {
+    taskManager.on('taskFinished', (testResults) => {
       const retriedTests: IRetriedTest[] = [];
 
-      this.addSubprocessSuites(res);
-      retriedTests.push(...this.extractSubprocessRetriedTests(res));
+      this.addSubprocessSuites(testResults);
+      retriedTests.push(...this.extractSubprocessRetriedTests(testResults));
 
+      // re-emit events
+      runner.setTestResults(testResults, retriedTests);
+    });
+
+    taskManager.on('end', () => {
       const done = (failures: number) => {
         if (reporter.done) {
           reporter.done(failures, onComplete);
@@ -114,12 +119,7 @@ export default class MochaWrapper extends Mocha {
         }
       };
 
-      // re-emit events
-      runner.setTestResults(res, retriedTests, done);
-    });
-
-    taskManager.on('end', () => {
-      runner.emitFinishEvents();
+      runner.emitFinishEvents(done);
     });
 
     return runner;

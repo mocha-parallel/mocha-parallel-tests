@@ -32,7 +32,8 @@ export default class RunnerMain extends Runner {
     this.emit('suite', this.rootSuite);
   }
 
-  emitFinishEvents() {
+  emitFinishEvents(onComplete) {
+    this.onComplete = onComplete;
     this.emit('suite end', this.rootSuite);
     this.emit('end');
   }
@@ -40,12 +41,9 @@ export default class RunnerMain extends Runner {
   setTestResults(
     testResults: ISubprocessTestArtifacts,
     retriedTests: IRetriedTest[],
-    onComplete?: (failures: number) => void,
   ) {
     this.subprocessTestResults = testResults;
-    this.onComplete = onComplete;
     this.setRetriesTests(retriedTests);
-
     this.emitRestEvents();
   }
 
