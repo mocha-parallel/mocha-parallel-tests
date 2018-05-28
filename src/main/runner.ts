@@ -35,6 +35,10 @@ export default class RunnerMain extends Runner {
   emitFinishEvents() {
     this.emit('suite end', this.rootSuite);
     this.emit('end');
+
+    if (this.onComplete) {
+      this.onComplete(this.failures);
+    }
   }
 
   setTestResults(
@@ -55,15 +59,12 @@ export default class RunnerMain extends Runner {
   }
 
   private onExecutionComplete = () => {
-    if (this.onComplete) {
-      if ((this as any).forbidOnly && (this as any).hasOnly) {
-        this.failures += (this as any).stats.tests;
-      }
-      if ((this as any).forbidPending) {
-        this.failures += (this as any).stats.pending;
-      }
+    if ((this as any).forbidOnly && (this as any).hasOnly) {
+      this.failures += (this as any).stats.tests;
+    }
 
-      this.onComplete(this.failures);
+    if ((this as any).forbidPending) {
+      this.failures += (this as any).stats.pending;
     }
   }
 

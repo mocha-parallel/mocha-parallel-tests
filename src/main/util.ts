@@ -15,7 +15,12 @@ export function subprocessParseReviver(_: string, value: any): any {
 
   if (value.type === 'test') {
     const test = new Test(value.title, noop);
-    return Object.assign(test, value);
+
+    // mimic test.fn as much as we can
+    Object.assign(test, value);
+    test.fn.toString = () => value.body;
+
+    return test;
   }
 
   if (value.type === 'hook') {
