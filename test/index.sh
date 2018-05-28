@@ -38,7 +38,7 @@ echo $?
 echo 'TESTCASE: pwd-based reporter'
 test test/reporter-pwd/index.sh
 echo $?
-echo 'TESTCASE: reporter tests end log'
+echo 'TESTCASE: reporter emits events as soon as they come from subprocess'
 echo test/reporter-log/index.js
 echo $?
 echo 'TESTCASE: parallel'
