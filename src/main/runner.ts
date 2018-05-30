@@ -7,7 +7,7 @@ import { RUNNABLE_IPC_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
 import {
   IHook,
   IRetriedTest,
-  ISubprocessTestArtifacts,
+  ISubprocessResult,
   ISuite,
   ITest,
   Runner,
@@ -16,8 +16,7 @@ import {
 export default class RunnerMain extends Runner {
   private rootSuite: ISuite;
   private retriedTests: IRetriedTest[] = [];
-  private subprocessTestResults: ISubprocessTestArtifacts;
-  private onComplete?: (failures: number) => void;
+  private subprocessTestResults: ISubprocessResult;
 
   constructor(rootSuite: ISuite) {
     super(rootSuite, 0);
@@ -32,23 +31,23 @@ export default class RunnerMain extends Runner {
     this.emit('suite', this.rootSuite);
   }
 
-  emitFinishEvents(onComplete) {
-    this.onComplete = onComplete;
+  emitFinishEvents(onComplete?: (failures: number) => void) {
     this.emit('suite end', this.rootSuite);
     this.emit('end');
 
-    if (this.onComplete) {
-      this.onComplete(this.failures);
+    if (onComplete) {
+      onComplete(this.failures);
     }
   }
 
-  setTestResults(
-    testResults: ISubprocessTestArtifacts,
+  reEmitSubprocessEvents(
+    testResults: ISubprocessResult,
     retriedTests: IRetriedTest[],
   ) {
     this.subprocessTestResults = testResults;
     this.setRetriesTests(retriedTests);
-    this.emitRestEvents();
+
+    this.emitSubprocessEvents();
   }
 
   private onFail = () => {
@@ -150,12 +149,8 @@ export default class RunnerMain extends Runner {
     return null;
   }
 
-  private emitRestEvents() {
-    this.emitSubprocessEvents(this.subprocessTestResults);
-  }
-
-  private emitSubprocessEvents(testArtifacts: ISubprocessTestArtifacts) {
-    for (const { event, data, type } of testArtifacts.output) {
+  private emitSubprocessEvents() {
+    for (const { event, data, type } of this.subprocessTestResults.events) {
       if (type === 'runner') {
         switch (event) {
           case 'start':

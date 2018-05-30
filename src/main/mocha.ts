@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { fork } from 'child_process';
 import * as CircularJSON from 'circular-json';
 import * as debug from 'debug';
@@ -18,7 +17,7 @@ import {
   ISubprocessOutputMessage,
   ISubprocessResult,
   ISubprocessRunnerMessage,
-  ISubprocessTestArtifacts,
+  ISubprocessSyncedData,
   ISuite,
 } from '../interfaces';
 
@@ -79,7 +78,7 @@ export default class MochaWrapper extends Mocha {
     (runner as any).fullStackTrace = fullStackTrace;
     (runner as any).asyncOnly = asyncOnly;
 
-    const taskManager = new TaskManager<ISubprocessTestArtifacts>(this.maxParallel);
+    const taskManager = new TaskManager<ISubprocessResult>(this.maxParallel);
     for (const file of this.files) {
       const task = () => this.spawnTestProcess(file);
       taskManager.add(task);
@@ -88,8 +87,7 @@ export default class MochaWrapper extends Mocha {
     (this as any).options.files = this.files;
 
     // Refer to mocha lib/mocha.js run() method for more info here
-    // @ts-ignore
-    const reporter = new this._reporter(
+    const reporter = new (this as any)._reporter(
       runner,
       (this as any).options,
     );
@@ -97,50 +95,44 @@ export default class MochaWrapper extends Mocha {
     // emit `start` and `suite` events
     // so that reporters can record the start time
     runner.emitStartEvents();
+    taskManager.execute();
 
-    taskManager.runAvailableTasks();
+    taskManager
+      .on('taskFinished', (testResults: ISubprocessResult) => {
+        const retriedTests: IRetriedTest[] = [];
 
-    taskManager.on('taskFinished', (testResults) => {
-      const retriedTests: IRetriedTest[] = [];
+        // if subprocess didn't sync the suites with the main process
+        // there's nothing we actually can re-emit
+        if (testResults.syncedSubprocessData) {
+          this.addSubprocessSuites(testResults);
+          retriedTests.push(...this.extractSubprocessRetriedTests(testResults));
 
-      this.addSubprocessSuites(testResults);
-      retriedTests.push(...this.extractSubprocessRetriedTests(testResults));
-
-      // re-emit events
-      runner.setTestResults(testResults, retriedTests);
-    });
-
-    taskManager.on('end', () => {
-      const done = (failures: number) => {
-        if (reporter.done) {
-          reporter.done(failures, onComplete);
-        } else if (onComplete) {
-          onComplete(failures);
+          runner.reEmitSubprocessEvents(testResults, retriedTests);
         }
-      };
 
-      runner.emitFinishEvents(done);
-    });
+        const hasEndEvent = testResults.events.find((event) => event.type === 'runner' && event.event === 'end');
+        if (!hasEndEvent && testResults.code !== 0) {
+          process.exit(testResults.code);
+        }
+      })
+      .on('end', () => {
+        const done = (failures: number) => {
+          if (reporter.done) {
+            reporter.done(failures, onComplete);
+          } else if (onComplete) {
+            onComplete(failures);
+          }
+        };
+
+        runner.emitFinishEvents(done);
+      });
 
     return runner;
   }
 
-  private findRootData(testArtifacts: ISubprocessTestArtifacts) {
-    const endRunnerMessage = testArtifacts.output.find(({ event, type }) => {
-      return type === 'runner' && event === 'end';
-    }) as ISubprocessRunnerMessage;
-
-    assert(
-      endRunnerMessage,
-      `Subprocess for file ${testArtifacts.file} didn't send an "end" message`,
-    );
-
-    return endRunnerMessage.data;
-  }
-
-  private addSubprocessSuites(testArtifacts: ISubprocessTestArtifacts): void {
+  private addSubprocessSuites(testArtifacts: ISubprocessResult): void {
     const rootSuite = this.suite;
-    const serialized = this.findRootData(testArtifacts);
+    const serialized = testArtifacts.syncedSubprocessData!;
     const { rootSuite: testRootSuite } = CircularJSON.parse(serialized.results, subprocessParseReviver);
 
     Object.assign(testRootSuite, {
@@ -151,8 +143,8 @@ export default class MochaWrapper extends Mocha {
     rootSuite.suites.push(testRootSuite);
   }
 
-  private extractSubprocessRetriedTests(testArtifacts: ISubprocessTestArtifacts): IRetriedTest[] {
-    const serialized = this.findRootData(testArtifacts);
+  private extractSubprocessRetriedTests(testArtifacts: ISubprocessResult): IRetriedTest[] {
+    const serialized = testArtifacts.syncedSubprocessData!;
     const { retriesTests } = CircularJSON.parse(serialized.retries, subprocessParseReviver);
 
     return retriesTests as IRetriedTest[];
@@ -160,6 +152,7 @@ export default class MochaWrapper extends Mocha {
 
   private spawnTestProcess(file: string): Promise<ISubprocessResult> {
     return new Promise((resolve) => {
+      const nodeFlags: string[] = [];
       const extension = this.isTypescriptRunMode ? 'ts' : 'js';
       const runnerPath = pathResolve(__dirname, `../subprocess/runner.${extension}`);
       const resolvedFilePath = pathResolve(file);
@@ -192,23 +185,31 @@ export default class MochaWrapper extends Mocha {
         stdio: ['ipc'],
       });
 
-      const executable = this.isTypescriptRunMode ? 'ts-node' : 'node';
-      debugLog('Process spawned. You can run it manually with this command:');
-      debugLog(`${executable} ${runnerPath} ${forkArgs.concat([DEBUG_SUBPROCESS.argument]).join(' ')}`);
+      if (this.isTypescriptRunMode) {
+        nodeFlags.push('--require', 'ts-node/register');
+      }
 
-      const output: Array<ISubprocessOutputMessage | ISubprocessRunnerMessage> = [];
+      debugLog('Process spawned. You can run it manually with this command:');
+      debugLog(`node ${nodeFlags.join(' ')} ${runnerPath} ${forkArgs.concat([DEBUG_SUBPROCESS.argument]).join(' ')}`);
+
+      const events: Array<ISubprocessOutputMessage | ISubprocessRunnerMessage> = [];
+      let syncedSubprocessData: ISubprocessSyncedData | undefined;
       const startedAt = Date.now();
 
       test.on('message', function onMessageHandler({ event, data }) {
-        output.push({
-          data,
-          event,
-          type: 'runner',
-        });
+        if (event === 'sync') {
+          syncedSubprocessData = data;
+        } else {
+          events.push({
+            data,
+            event,
+            type: 'runner',
+          });
+        }
       });
 
       test.stdout.on('data', function onStdoutData(data: Buffer) {
-        output.push({
+        events.push({
           data,
           event: undefined,
           type: 'stdout',
@@ -216,7 +217,7 @@ export default class MochaWrapper extends Mocha {
       });
 
       test.stderr.on('data', function onStderrData(data: Buffer) {
-        output.push({
+        events.push({
           data,
           event: undefined,
           type: 'stderr',
@@ -227,9 +228,11 @@ export default class MochaWrapper extends Mocha {
         debugLog(`Runner exited with code ${code}`);
 
         resolve({
+          code,
+          events,
           execTime: Date.now() - startedAt,
           file,
-          output,
+          syncedSubprocessData,
         });
       });
     });
