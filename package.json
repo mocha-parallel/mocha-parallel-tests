@@ -77,7 +77,7 @@
     "husky": "^0.14.3",
     "mocha-allure-reporter": "^1.4.0",
     "mocha-jenkins-reporter": "^0.3.7",
-    "mocha-teamcity-reporter": "^2.2.2",
+    "mocha-teamcity-reporter": "^2.4.0",
     "mochawesome": "^3.0.2",
     "node-gyp": "^3.6.0",
     "selenium-webdriver": "^3.3.0",
