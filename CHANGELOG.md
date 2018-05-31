@@ -1,3 +1,12 @@
+## 2.0.1
+
+ * fix: reporter doesn't show anything until all tests are finished ([#145](https://github.com/yandex/mocha-parallel-tests/issues/145))
+ * fix: wrong assertion error when subprocess crashes before sending test results ([#147](https://github.com/yandex/mocha-parallel-tests/issues/147))
+ * fix: `--exit` option was not working as expected ([#146](https://github.com/yandex/mocha-parallel-tests/issues/146))
+ * fix: wrong assertion error when `--retries` option is used and all retries fail ([#143](https://github.com/yandex/mocha-parallel-tests/issues/143))
+ * fix: events order is not following `mocha` style. This fixes `mochawesome` reporter behaviour ([#113](https://github.com/yandex/mocha-parallel-tests/issues/113))
+ * `mocha-allure-reporter` is supported ([#80](https://github.com/yandex/mocha-parallel-tests/issues/80))
+
 ## 2.0.0
 
 v2 is a completely new version of `mocha-parallel-tests` rewritten in TypeScript from scratch. Its main focus is to simplify parallel run of mocha tests: while previously they were executed in one single process **now each file is executed in a separate process**.
