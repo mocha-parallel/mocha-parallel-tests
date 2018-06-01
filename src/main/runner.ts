@@ -1,7 +1,5 @@
 import * as assert from 'assert';
-
-// as any
-// const { Runner } = require('mocha');
+import { Runner } from 'mocha';
 
 import { RUNNABLE_IPC_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
 import {
@@ -10,7 +8,6 @@ import {
   ISubprocessResult,
   ISuite,
   ITest,
-  Runner,
 } from '../interfaces';
 
 export default class RunnerMain extends Runner {
@@ -19,7 +16,7 @@ export default class RunnerMain extends Runner {
   private subprocessTestResults: ISubprocessResult;
 
   constructor(rootSuite: ISuite) {
-    super(rootSuite, 0);
+    super(rootSuite, false);
     this.rootSuite = rootSuite;
 
     this.once('end', this.onExecutionComplete);
@@ -55,12 +52,12 @@ export default class RunnerMain extends Runner {
   }
 
   private onExecutionComplete = () => {
-    if ((this as any).forbidOnly && (this as any).hasOnly) {
-      this.failures += (this as any).stats.tests;
+    if (this.forbidOnly && this.hasOnly) {
+      this.failures += this.stats!.tests;
     }
 
-    if ((this as any).forbidPending) {
-      this.failures += (this as any).stats.pending;
+    if (this.forbidPending) {
+      this.failures += this.stats!.pending;
     }
   }
 

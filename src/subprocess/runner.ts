@@ -1,5 +1,6 @@
 import * as CircularJSON from 'circular-json';
 import * as Mocha from 'mocha';
+import { IRunner, reporters } from 'mocha';
 import * as yargs from 'yargs';
 
 import {
@@ -8,9 +9,7 @@ import {
   SUBPROCESS_RETRIED_SUITE_ID,
 } from '../config';
 import {
-  BaseReporter,
   IHook,
-  IRunner,
   ISuite,
   ITest,
 } from '../interfaces';
@@ -52,7 +51,7 @@ const argv = yargs
 
 const debugSubprocess = argv[DEBUG_SUBPROCESS.yargs];
 
-class Reporter extends BaseReporter {
+class Reporter extends reporters.Base {
   /**
    * If `--retries N` option is specified runner can emit `test` events
    * multiple times for retried test cases. These test cases do not exist

@@ -69,7 +69,7 @@ export function applyCompilers(compilers: any): ICLICompilers {
 
 export function applyDelay(mocha: Mocha, delay: boolean) {
   if (delay) {
-    (mocha as any).delay();
+    mocha.delay();
   }
 }
 
@@ -81,6 +81,6 @@ export function applyNoTimeouts(mocha: Mocha, allowTimeouts: boolean) {
 
 export function applyTimeouts(mocha: Mocha, timeout: number) {
   if (timeout) {
-    (mocha.suite as any).timeout(timeout);
+    mocha.suite.timeout(timeout);
   }
 }
