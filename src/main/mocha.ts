@@ -97,23 +97,35 @@ export default class MochaWrapper extends Mocha {
 
     taskManager
       .on('taskFinished', (testResults: ISubprocessResult) => {
+        const {
+          code,
+          execTime,
+          events,
+          file,
+          syncedSubprocessData,
+        } = testResults;
+
+        debugLog(`File execution finished: ${file}`);
+        // tslint:disable-next-line:max-line-length
+        debugLog(`Has synced data: ${Boolean(syncedSubprocessData)}, number of events: ${events.length}, execution time: ${execTime}`);
+
         const retriedTests: IRetriedTest[] = [];
 
-        // if subprocess didn't sync the suites with the main process
-        // there's nothing we actually can re-emit
-        if (testResults.syncedSubprocessData) {
+        if (syncedSubprocessData) {
           this.addSubprocessSuites(testResults);
           retriedTests.push(...this.extractSubprocessRetriedTests(testResults));
-
-          runner.reEmitSubprocessEvents(testResults, retriedTests);
         }
 
-        const hasEndEvent = testResults.events.find((event) => event.type === 'runner' && event.event === 'end');
-        if (!hasEndEvent && testResults.code !== 0) {
-          process.exit(testResults.code);
+        runner.reEmitSubprocessEvents(testResults, retriedTests);
+
+        const hasEndEvent = events.find((event) => event.type === 'runner' && event.event === 'end');
+        if (!hasEndEvent && code !== 0) {
+          process.exit(code);
         }
       })
       .on('end', () => {
+        debugLog('All tests finished processing');
+
         const done = (failures: number) => {
           if (reporter.done) {
             reporter.done(failures, onComplete);
@@ -223,7 +235,7 @@ export default class MochaWrapper extends Mocha {
       });
 
       test.on('close', (code) => {
-        debugLog(`Runner exited with code ${code}`);
+        debugLog(`Process for ${file} exited with code ${code}`);
 
         resolve({
           code,
