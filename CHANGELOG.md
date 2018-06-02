@@ -1,3 +1,7 @@
+## (upcoming release)
+
+ * fix: subprocess stderr is not shown if the subprocess crashes before sending the "start" event ([#158](https://github.com/yandex/mocha-parallel-tests/issues/158))
+
 ## 2.0.1
 
  * fix: reporter doesn't show anything until all tests are finished ([#145](https://github.com/yandex/mocha-parallel-tests/issues/145))
