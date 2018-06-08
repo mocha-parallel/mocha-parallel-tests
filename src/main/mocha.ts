@@ -169,8 +169,9 @@ export default class MochaWrapper extends Mocha {
 
       const forkArgs: string[] = ['--test', resolvedFilePath];
       for (const option of SUITE_OWN_OPTIONS) {
-        const suiteProp = `_${option}`;
-        forkArgs.push(`--${option}`, this.suite[suiteProp]);
+        const propValue = this.suite[option]();
+        // bail is undefined by default, we need to somehow pass its value to the subprocess
+        forkArgs.push(`--${option}`, propValue === undefined ? false : propValue);
       }
 
       for (const requirePath of this.requires) {

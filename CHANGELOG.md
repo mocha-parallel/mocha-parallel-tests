@@ -1,6 +1,7 @@
 ## (upcoming release)
 
  * fix: subprocess stderr is not shown if the subprocess crashes before sending the "start" event ([#158](https://github.com/yandex/mocha-parallel-tests/issues/158))
+ * fix: `--retries` and `--bail` option conflict with each other causing `mohcha-parallel-tests` own assertion error ([#163](https://github.com/yandex/mocha-parallel-tests/issues/163))
 
 ## 2.0.1
 

@@ -175,7 +175,7 @@ class Reporter extends reporters.Base {
     // omit them until the "end" event
     const retriesTests = event === 'end'
       ? [...this.runningTests].map((test) => {
-        return Object.assign(test, {
+        return Object.assign({}, test, {
           [SUBPROCESS_RETRIED_SUITE_ID]: test.parent[RUNNABLE_IPC_PROP],
           parent: null,
         });
