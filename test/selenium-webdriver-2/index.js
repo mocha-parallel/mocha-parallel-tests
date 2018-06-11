@@ -9,13 +9,6 @@ const EXPECTED_EXECUTION_TIME_MOCHA_MS = 1000;
 const EXEC_START_TIME = Date.now();
 const STREAMS = ['stdout', 'stderr'];
 
-// SauceLabs has limitation for concurrent tests for OSS projects.
-// But TravisCI runs tests for different node versions in parallel.
-if (!process.versions.node.startsWith('7.')) {
-    console.log(`Skip test in non-stable node.js version ${process.versions.node}`);
-    process.exit(0);
-}
-
 const originalWrites = {};
 const mocha = new MochaParallelTests;
 
@@ -55,7 +48,7 @@ process.on('exit', () => {
     assert(jsonResult !== null && typeof jsonResult === 'object', `Reporter output is not valid JSON: ${jsonResult}`);
 
     assert.strictEqual(global['selenium-webdriver-2'], 1, 'Hooks file was not executed');
-    assert.strictEqual(jsonResult.stats.suites, 2);
+    assert.strictEqual(jsonResult.stats.suites, 4);
     assert.strictEqual(jsonResult.stats.tests, 6);
     assert.strictEqual(jsonResult.stats.passes, 6);
 
@@ -74,6 +67,7 @@ try {
         .reporter('json')
         .addFile(`${__dirname}/tests/parallel1.js`)
         .addFile(`${__dirname}/tests/parallel2.js`)
+        .enableExitMode()
         .slow(30000)
         .timeout(30000)
         .run(failures => {

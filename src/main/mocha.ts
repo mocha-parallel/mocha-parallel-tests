@@ -54,6 +54,7 @@ export default class MochaWrapper extends Mocha {
 
   enableExitMode() {
     this.exitImmediately = true;
+    return this;
   }
 
   run(onComplete?: (failures: number) => void): RunnerMain {
