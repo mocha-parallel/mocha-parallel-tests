@@ -42,7 +42,7 @@ echo 'TESTCASE: pwd-based reporter'
 test test/reporter-pwd/index.sh
 echo $?
 echo 'TESTCASE: reporter emits events as soon as they come from subprocess'
-echo test/reporter-log/index.js
+test test/reporter-log/index.js
 echo $?
 echo 'TESTCASE: parallel'
 test test/parallel/parallel.sh
@@ -144,10 +144,13 @@ echo 'TESTCASE: --exit option support'
 test test/exit/index.js
 echo $?
 echo 'TESTCASE: --retries plus all tests fail'
-test/retries-all-fail/index.js
+test test/retries-all-fail/index.js
+echo $?
+echo 'TESTCASE: --retries and --bail should work well together'
+test test/bail-and-retries/index.js
 echo $?
 echo 'TESTCASE: subprocess exits before sending an end message'
-test/no-subprocess-end/index.js
+test test/no-subprocess-end/index.js
 echo $?
 
 if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
