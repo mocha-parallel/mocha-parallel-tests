@@ -1,4 +1,0 @@
-Check that selenium-webdriver tests are supported and run in parallel.
-This test can be launched with its own environment variables:
-
-SELENIUM_HOST=127.0.0.1:4444 BROWSER=phantomjs test/selenium-webdriver-1/index.js
