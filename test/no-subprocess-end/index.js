@@ -16,7 +16,7 @@ const runSpec = (spec) => {
     const specPath = resolve(__dirname, 'spec', spec) + '/';
 
     return new Promise((resolve) => {
-        exec(`${libExecutable} -R ${reporterPath} ${specPath}`, { cwd }, function (err, stdout, stderr) {
+        exec(`${libExecutable} -R ${reporterPath} --max-parallel 2 ${specPath}`, { cwd }, function (err, stdout, stderr) {
             if (err) {
                 resolve({
                     stdout: cleanOutput(stdout),
