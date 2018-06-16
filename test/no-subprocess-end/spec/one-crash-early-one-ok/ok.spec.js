@@ -1,3 +1,5 @@
 describe('suite', () => {
-    it('should pass', () => {});
+    it('should pass', (done) => {
+        setTimeout(done, 100);
+    });
 });
