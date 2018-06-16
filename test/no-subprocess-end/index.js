@@ -37,26 +37,26 @@ const runSpec = (spec) => {
 Promise.resolve()
     // one simple crash in the middle of a process
     .then(() => runSpec('one-crash'))
-    .then(({ code, stdout }) => {
+    .then(function oneCrash({ code, stdout }) {
         expect(stdout).to.deep.equal(['start', 'suite', 'suite', 'suite', 'test', 'pass', 'test end', 'test']);
         assert.strictEqual(code, 255, `"one-crash" spec finished with wrong exit code: ${code}`);
     })
     // one simple crash in the beginning of a process
     .then(() => runSpec('one-crash-early'))
-    .then(({ code, stderr, stdout }) => {
+    .then(function oneCrashEarly({ code, stderr, stdout }) {
         expect(stderr).to.deep.equal(['I am about to exit...']);
         expect(stdout).to.deep.equal(['start', 'suite']); // top level main process suite
         assert.strictEqual(code, 255, `"one-crash-early" spec finished with wrong exit code: ${code}`);
     })
     // one simple crash in the middle, one okay
     .then(() => runSpec('one-crash-one-ok'))
-    .then(({ code, stdout }) => {
+    .then(function oneCrashOneOk({ code, stdout }) {
         expect(stdout).to.deep.equal(['start', 'suite', 'suite', 'suite', 'test', 'pass', 'test end', 'suite end', 'suite end', 'suite', 'suite', 'test', 'pass', 'test end', 'test']);
         assert.strictEqual(code, 255, `"one-crash-one-ok" spec finished with wrong exit code: ${code}`);
     })
     // one simple crash in the beginning, one okay
     .then(() => runSpec('one-crash-early-one-ok'))
-    .then(({ code, stdout }) => {
+    .then(function oneCrashEarlyOneOk({ code, stdout }) {
         expect(stdout).to.deep.equal(['start', 'suite']);
         assert.strictEqual(code, 255, `"one-crash-early-one-ok" spec finished with wrong exit code: ${code}`);
     })
