@@ -153,22 +153,6 @@ echo 'TESTCASE: subprocess exits before sending an end message'
 test test/no-subprocess-end/index.js
 echo $?
 
-if [ $SAUCE_USERNAME ] && [ $SAUCE_ACCESS_KEY ]; then
-    echo 'TESTCASE: selenium-webdriver'
-    test test/selenium-webdriver/index.js
-    echo $?
-
-    echo 'TESTCASE: selenium-webdriver failing tests'
-    test test/selenium-webdriver-1/index.js
-    echo $?
-
-    echo 'TESTCASE: selenium-webdriver tests duration'
-    test test/selenium-webdriver-2/index.js
-    echo $?
-else
-    echo "Please set SAUCE_USERNAME and SAUCE_ACCESS_KEY environment variables to run selenium-webdriver tests"
-fi
-
 echo "Passes: $PASSES Failes: $FAILES"
 
 if [ $FAILES -gt 0 ]; then
