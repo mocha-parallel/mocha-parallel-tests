@@ -82,7 +82,7 @@
     "mochawesome": "^3.0.2",
     "node-gyp": "^3.6.0",
     "sinon": "^6.0.0",
-    "ts-node": "^6.0.3",
+    "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
     "typescript": "^2.9.1"
   }
