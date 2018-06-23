@@ -44,7 +44,7 @@
   "scripts": {
     "build": "tsc && chmod +x dist/bin/cli.js",
     "clean": "rm -fr dist",
-    "eslint": "eslint -c test/.eslintrc.js test/ *.js",
+    "eslint": "eslint -c test/.eslintrc.js test/",
     "lint": "npm run eslint && npm run tslint",
     "precommit": "npm run lint",
     "prepublishOnly": "npm run clean && npm run build",
