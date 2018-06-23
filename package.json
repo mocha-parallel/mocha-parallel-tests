@@ -44,7 +44,7 @@
   "scripts": {
     "build": "tsc && chmod +x dist/bin/cli.js",
     "clean": "rm -fr dist",
-    "eslint": "eslint -c test/.eslintrc.js test/ *.js",
+    "eslint": "eslint -c test/.eslintrc.js test/",
     "lint": "npm run eslint && npm run tslint",
     "precommit": "npm run lint",
     "prepublishOnly": "npm run clean && npm run build",
@@ -73,7 +73,7 @@
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "cheerio": "^0.22.0",
-    "eslint": "^4.19.0",
+    "eslint": "^5.0.0",
     "husky": "^0.14.3",
     "mocha": "^5.2.0",
     "mocha-allure-reporter": "^1.4.0",
