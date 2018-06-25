@@ -81,6 +81,7 @@
     "mocha-teamcity-reporter": "^2.4.0",
     "mochawesome": "^3.0.2",
     "node-gyp": "^3.6.0",
+    "q": "^1.5.1",
     "sinon": "^6.0.0",
     "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
