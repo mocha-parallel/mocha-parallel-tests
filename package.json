@@ -1,6 +1,6 @@
 {
   "name": "mocha-parallel-tests",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "homepage": "https://github.com/yandex/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./dist/main/mocha.js",
