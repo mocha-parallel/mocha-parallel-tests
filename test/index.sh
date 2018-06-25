@@ -209,6 +209,10 @@ echo 'TESTCASE: unhandled rejections should not force subprocess to exit'
 test test/q-promises/index.js
 showTestResult $?
 
+echo 'TESTCASE: uncaught exceptions should not force subprocess to exit'
+test test/uncaught-exception/index.js
+showTestResult $?
+
 echo "Passes: $PASSES Failes: $FAILES"
 
 if [ $FAILES -gt 0 ]; then

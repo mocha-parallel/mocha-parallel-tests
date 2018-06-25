@@ -1,0 +1,1 @@
+Make sure that uncaught exceptions do not stop executing the tests
