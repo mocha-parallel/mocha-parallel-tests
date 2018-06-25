@@ -152,6 +152,9 @@ echo $?
 echo 'TESTCASE: subprocess exits before sending an end message'
 test test/no-subprocess-end/index.js
 echo $?
+echo 'TESTCASE: unhandled rejections should not force subprocess to exit'
+test test/q-promises/index.js
+echo $?
 
 echo "Passes: $PASSES Failes: $FAILES"
 
