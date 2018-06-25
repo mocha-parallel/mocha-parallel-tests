@@ -1,4 +1,10 @@
-## (upcoming release)
+## 2.0.3
+
+ * fix: subprocess processing should not stop when unhandled rejection occurs ([#173](https://github.com/yandex/mocha-parallel-tests/issues/173))
+ * fix: subprocess processing should not stop when uncaught exception occurs ([#172](https://github.com/yandex/mocha-parallel-tests/issues/172))
+ * added a [list of limitations](https://github.com/yandex/mocha-parallel-tests/wiki/Limitations) that you can hit when you launch your tests with `mocha-parallel-tests`
+
+## 2.0.2
 
  * fix: subprocess stderr is not shown if the subprocess crashes before sending the "start" event ([#158](https://github.com/yandex/mocha-parallel-tests/issues/158))
  * fix: `--retries` and `--bail` option conflict with each other causing `mohcha-parallel-tests` own assertion error ([#163](https://github.com/yandex/mocha-parallel-tests/issues/163))
