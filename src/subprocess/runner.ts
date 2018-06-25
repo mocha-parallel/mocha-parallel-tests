@@ -22,12 +22,9 @@ import {
   applyRequires,
   applyTimeouts,
   randomId,
-  setProcessExitListeners,
 } from '../util';
 
 import applyExit from './options/exit';
-
-setProcessExitListeners();
 
 const argv = yargs
   .boolean('bail')
