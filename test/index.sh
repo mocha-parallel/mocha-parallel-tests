@@ -76,6 +76,7 @@ test 'TESTCASE: --retries and --bail should work well together' test/bail-and-re
 test 'TESTCASE: subprocess exits before sending an end message' test/no-subprocess-end/index.js
 test 'TESTCASE: unhandled rejections should not force subprocess to exit' test/q-promises/index.js
 test 'TESTCASE: uncaught exceptions should not force subprocess to exit' test/uncaught-exception/index.js
+test 'TESTCASE: grep option' test/grep/index.js
 
 echo "Passes: $PASSES Failes: $FAILES"
 echo ""
