@@ -50,6 +50,7 @@ export default class MochaWrapper extends Mocha {
 
   setMaxParallel(maxParallel: number) {
     this.maxParallel = maxParallel;
+    return this;
   }
 
   enableExitMode() {
