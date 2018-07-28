@@ -2,6 +2,7 @@ import * as CircularJSON from 'circular-json';
 import * as Mocha from 'mocha';
 import { IRunner, reporters } from 'mocha';
 import * as yargs from 'yargs';
+import applyGrepPattern from '../bin/options/grep';
 
 import {
   DEBUG_SUBPROCESS,
@@ -33,6 +34,7 @@ const argv = yargs
     default: [],
   })
   .boolean('delay')
+  .string('grep')
   .boolean('enableTimeouts')
   .option('exit', {
     boolean: true,
@@ -203,6 +205,9 @@ applyCompilers(argv.compilers);
 
 // --delay
 applyDelay(mocha, argv.delay);
+
+// --grep
+applyGrepPattern(mocha, argv.grep);
 
 // --enableTimeouts
 applyNoTimeouts(mocha, argv.enableTimeouts);

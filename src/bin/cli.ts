@@ -67,7 +67,6 @@ const argv = yargs
     number: true,
   })
   .option('grep', {
-    alias: 'g',
     string: true,
   })
   .option('recursive', {
