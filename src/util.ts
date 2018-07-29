@@ -73,6 +73,12 @@ export function applyDelay(mocha: Mocha, delay: boolean) {
   }
 }
 
+export function applyGrepPattern(mocha: Mocha, stringPattern?: string) {
+  if (stringPattern) {
+    mocha.grep(stringPattern);
+  }
+}
+
 export function applyNoTimeouts(mocha: Mocha, allowTimeouts: boolean) {
   if (allowTimeouts === false) {
     mocha.enableTimeouts(false);

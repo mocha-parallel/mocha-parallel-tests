@@ -188,7 +188,7 @@ export default class MochaWrapper extends Mocha {
       }
 
       if (this.options.grep) {
-        forkArgs.push('--grep');
+        forkArgs.push('--grep', this.options.grep.toString());
       }
 
       if (this.exitImmediately) {
