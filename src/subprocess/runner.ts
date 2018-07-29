@@ -2,7 +2,6 @@ import * as CircularJSON from 'circular-json';
 import * as Mocha from 'mocha';
 import { IRunner, reporters } from 'mocha';
 import * as yargs from 'yargs';
-import applyGrepPattern from '../bin/options/grep';
 
 import {
   DEBUG_SUBPROCESS,
@@ -19,6 +18,7 @@ import { SUITE_OWN_OPTIONS } from '../config';
 import {
   applyCompilers,
   applyDelay,
+  applyGrepPattern,
   applyNoTimeouts,
   applyRequires,
   applyTimeouts,
