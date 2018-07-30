@@ -77,6 +77,7 @@ test 'subprocess exits before sending an end message' test/no-subprocess-end/ind
 test 'unhandled rejections should not force subprocess to exit' test/q-promises/index.js
 test 'uncaught exceptions should not force subprocess to exit' test/uncaught-exception/index.js
 test 'grep option' test/grep/index.js
+test 'grep option programmatic' test/grep/indexProgrammatic.js
 
 echo "Passes: $PASSES Failes: $FAILES"
 echo ""
