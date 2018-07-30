@@ -18,6 +18,7 @@ import { SUITE_OWN_OPTIONS } from '../config';
 import {
   applyCompilers,
   applyDelay,
+  applyGrepPattern,
   applyNoTimeouts,
   applyRequires,
   applyTimeouts,
@@ -33,6 +34,7 @@ const argv = yargs
     default: [],
   })
   .boolean('delay')
+  .string('grep')
   .boolean('enableTimeouts')
   .option('exit', {
     boolean: true,
@@ -203,6 +205,9 @@ applyCompilers(argv.compilers);
 
 // --delay
 applyDelay(mocha, argv.delay);
+
+// --grep
+applyGrepPattern(mocha, argv.grep);
 
 // --enableTimeouts
 applyNoTimeouts(mocha, argv.enableTimeouts);

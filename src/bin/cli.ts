@@ -14,6 +14,7 @@ import applyExit from './options/exit';
 import applyForbidOnly from './options/forbid-only';
 import applyForbidPending from './options/forbid-pending';
 import applyFullTrace from './options/full-trace';
+import applyGrepPattern from './options/grep';
 import applyMaxParallel from './options/max-parallel';
 import applyNoTimeouts from './options/no-timeouts';
 import applyReporter from './options/reporter';
@@ -64,6 +65,9 @@ const argv = yargs
   })
   .option('max-parallel', {
     number: true,
+  })
+  .option('grep', {
+    string: true,
   })
   .option('recursive', {
     boolean: true,
@@ -121,6 +125,9 @@ applyForbidPending(mocha, argv.forbidPending);
 
 // --full-trace
 applyFullTrace(mocha, argv.fullTrace);
+
+// --grep option
+applyGrepPattern(mocha, argv.grep);
 
 // --max-parallel
 applyMaxParallel(mocha, argv.maxParallel);
