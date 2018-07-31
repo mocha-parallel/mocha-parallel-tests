@@ -4,30 +4,18 @@
 
 const assert = require('assert');
 const MochaParallelTests = require('../../dist/main/mocha').default;
+const { setProcessExitListeners } = require('../../dist/util');
+const SilentReporter = require('../util/silent-reporter');
+
+setProcessExitListeners();
 
 const mocha = new MochaParallelTests;
-
-mocha
-    .addFile(`${__dirname}/tests/test.js`)
+mocha.addFile(`${__dirname}/tests/test.js`)
     .addFile(`${__dirname}/tests/test1.js`)
     .timeout(10000)
     .grep('grep')
-    .reporter('json');
+    .reporter(SilentReporter);
 
-var write = process.stdout.write;
-var output = '';
-process.stdout.write = function(str) {
-    output += str;
-};
-
-mocha.run(function() {
-    process.stdout.write = write;
+mocha.run().on('end', function () {
+    assert.strictEqual(this.stats.passes, 3);
 });
-
-process.on('exit', () => {
-    var jsonResult = JSON.parse(output);
-    assert.strictEqual(jsonResult.stats.passes, 3, 'Tests number is wrong. Expected 3. Actual: '
-    + jsonResult.stats.passes);
-});
-
-

@@ -1,1 +1,2 @@
-Check that --grep flag run tests by string pattern 'grep'
+- index.js check that --grep flag run tests by string pattern 'grep'
+- indexProgrammatic.js check that --grep flag run tests by string pattern 'grep' with programmatic using mocha
