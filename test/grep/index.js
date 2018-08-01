@@ -22,6 +22,5 @@ exec(libExecutable + ' -R json --grep grep test/grep/tests', {
         process.exit(1);
     }
 
-    assert.strictEqual(jsonReporterOutput.stats.passes, 3, 'Tests number is wrong. Expected 3. Actual: '
-      + jsonReporterOutput.stats.passes);
+    assert.strictEqual(jsonReporterOutput.stats.passes, 3);
 });
