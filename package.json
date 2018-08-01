@@ -14,7 +14,8 @@
     "Kirill Molchanov <kirill-m@yandex-team.ru>",
     "Maria Motkina <mmotkina@yandex-team.ru>",
     "Nikolay Basov",
-    "Vadim Kolontsov <vadim@kolontsov.com>"
+    "Vadim Kolontsov <vadim@kolontsov.com>",
+    "Hennadii Bulakh"
   ],
   "dependencies": {
     "circular-json": "^0.5.4",

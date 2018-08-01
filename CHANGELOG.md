@@ -1,3 +1,7 @@
+## 2.0.4
+
+ * new: `--grep` option is now supported for both CLI and API ([#187](https://github.com/mocha-parallel/mocha-parallel-tests/pull/187), [#188](https://github.com/mocha-parallel/mocha-parallel-tests/pull/188))
+
 ## 2.0.3
 
  * fix: subprocess processing should not stop when unhandled rejection occurs ([#173](https://github.com/mocha-parallel/mocha-parallel-tests/issues/173))
