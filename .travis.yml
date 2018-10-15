@@ -17,3 +17,6 @@ install: npm install
 before_script: greenkeeper-lockfile-update
 after_script: greenkeeper-lockfile-upload
 script: npm run test:ci
+cache:
+  directories:
+    - node_modules

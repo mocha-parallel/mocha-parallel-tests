@@ -29,6 +29,7 @@ function test {
 MOCHA_VERSION=`mocha --version`
 echo "You're running tests with mocha version $MOCHA_VERSION"
 
+test 'process reuse' test/reusing-processes/index.js
 test 'native (json) reporter' test/reporter-native-json/index.sh
 test 'native (tap) reporter' test/reporter-native-tap/index.sh
 test 'custom (teamcity) reporter' test/reporter-custom-teamcity/index.sh

@@ -2,10 +2,8 @@ import * as assert from 'assert';
 import * as CircularJSON from 'circular-json';
 import * as Mocha from 'mocha';
 import { IRunner, reporters } from 'mocha';
-import * as yargs from 'yargs';
 
 import {
-  DEBUG_SUBPROCESS,
   RUNNABLE_IPC_PROP,
   SUBPROCESS_RETRIED_SUITE_ID,
 } from '../config';
@@ -28,32 +26,6 @@ import {
 
 import applyExit from './options/exit';
 import applyFullTrace from './options/full-trace';
-
-const argv = yargs
-  .boolean('bail')
-  .option('compilers', {
-    array: true,
-    default: [],
-  })
-  .boolean('delay')
-  .string('grep')
-  .boolean('enableTimeouts')
-  .option('exit', {
-    boolean: true,
-  })
-  .option('full-trace', {
-    boolean: true,
-  })
-  .number('slow')
-  .option('require', {
-    array: true,
-    default: [],
-  })
-  .number('retries')
-  .number('timeout')
-  .parse(process.argv);
-
-const debugSubprocess = argv[DEBUG_SUBPROCESS.yargs];
 
 class Reporter extends reporters.Base {
   /**
@@ -185,12 +157,7 @@ class Reporter extends reporters.Base {
   }
 
   private notifyParent(event: string, data = {}) {
-    if (debugSubprocess) {
-      // tslint:disable-next-line:no-console
-      console.log({ event, data });
-    } else {
-      this.notifyParentThroughIPC(event, data);
-    }
+    this.notifyParentThroughIPC(event, data);
   }
 
   private notifyParentThroughIPC(event: string, data = {}) {
@@ -222,37 +189,53 @@ class Reporter extends reporters.Base {
   }
 }
 
-const mocha = new Mocha();
-mocha.addFile(argv.test);
+process.on('message', (msg) => {
+  try {
+    msg = JSON.parse(msg);
+  } catch (_) {
+    return;
+  }
+  const { type, testOptions } = msg;
 
-// --compilers
-applyCompilers(argv.compilers);
+  if (type !== 'start') {
+    return;
+  }
 
-// --delay
-applyDelay(mocha, argv.delay);
+  const mocha = new Mocha();
+  mocha.addFile(testOptions.test);
 
-// --grep
-applyGrepPattern(mocha, argv.grep);
+  // --compilers
+  applyCompilers(testOptions.compilers);
 
-// --enableTimeouts
-applyNoTimeouts(mocha, argv.enableTimeouts);
+  // --delay
+  applyDelay(mocha, testOptions.delay);
 
-// --exit
-const onComplete = applyExit(argv.exit);
+  // --grep
+  applyGrepPattern(mocha, testOptions.grep);
 
-// --require
-applyRequires(argv.require);
+  // --enableTimeouts
+  applyNoTimeouts(mocha, testOptions.enableTimeouts);
 
-// --timeout
-applyTimeouts(mocha, argv.timeout);
+  // --exit
+  const onComplete = applyExit(testOptions.exit);
 
-// --full-trace
-applyFullTrace(mocha, argv.fullTrace);
+  // --require
+  applyRequires(testOptions.require || []);
 
-// apply main process root suite properties
-for (const option of SUITE_OWN_OPTIONS) {
-  const suiteProp = `_${option}`;
-  mocha.suite[suiteProp] = argv[option];
-}
+  // --full-trace
+  applyFullTrace(mocha, testOptions.fullStackTrace);
 
-mocha.reporter(Reporter).run(onComplete);
+  // --timeout
+  applyTimeouts(mocha, testOptions.timeout);
+
+  // --full-trace
+  applyFullTrace(mocha, testOptions.fullStackTrace);
+
+  // apply main process root suite properties
+  for (const option of SUITE_OWN_OPTIONS) {
+    const suiteProp = `_${option}`;
+    mocha.suite[suiteProp] = testOptions[option];
+  }
+
+  mocha.reporter(Reporter).run(onComplete);
+});

@@ -1,17 +1,17 @@
-import { fork } from 'child_process';
+import * as assert from 'assert';
 import * as CircularJSON from 'circular-json';
 import * as debug from 'debug';
 import * as Mocha from 'mocha';
 import { resolve as pathResolve } from 'path';
 
+import ProcessPool from './process-pool';
 import RunnerMain from './runner';
 import TaskManager from './task-manager';
 import {
-  removeDebugArgs,
   subprocessParseReviver,
 } from './util';
 
-import { DEBUG_SUBPROCESS, SUITE_OWN_OPTIONS } from '../config';
+import { SUITE_OWN_OPTIONS } from '../config';
 import {
   IRetriedTest,
   ISubprocessOutputMessage,
@@ -24,6 +24,7 @@ import {
 const debugLog = debug('mocha-parallel-tests');
 
 export default class MochaWrapper extends Mocha {
+  private pool = new ProcessPool();
   private isTypescriptRunMode = false;
   private maxParallel: number | undefined;
   private requires: string[] = [];
@@ -50,6 +51,7 @@ export default class MochaWrapper extends Mocha {
 
   setMaxParallel(maxParallel: number) {
     this.maxParallel = maxParallel;
+    this.pool.setMaxParallel(maxParallel);
   }
 
   enableExitMode() {
@@ -136,6 +138,7 @@ export default class MochaWrapper extends Mocha {
         };
 
         runner.emitFinishEvents(done);
+        this.pool.destroyAll();
       });
 
     return runner;
@@ -162,89 +165,90 @@ export default class MochaWrapper extends Mocha {
   }
 
   private spawnTestProcess(file: string): Promise<ISubprocessResult> {
-    return new Promise((resolve) => {
-      const nodeFlags: string[] = [];
-      const extension = this.isTypescriptRunMode ? 'ts' : 'js';
-      const runnerPath = pathResolve(__dirname, `../subprocess/runner.${extension}`);
+    return new Promise<ISubprocessResult>(async (resolve) => {
       const resolvedFilePath = pathResolve(file);
 
-      const forkArgs: string[] = ['--test', resolvedFilePath];
+      const testOptions: {[key: string]: any} = { test: resolvedFilePath };
+
       for (const option of SUITE_OWN_OPTIONS) {
         const propValue = this.suite[option]();
         // bail is undefined by default, we need to somehow pass its value to the subprocess
-        forkArgs.push(`--${option}`, propValue === undefined ? false : propValue);
+        testOptions[option] = propValue === undefined ? false : propValue;
       }
 
       for (const requirePath of this.requires) {
-        forkArgs.push('--require', requirePath);
+        testOptions.require = requirePath;
       }
 
-      for (const compilerPath of this.compilers) {
-        forkArgs.push('--compilers', compilerPath);
-      }
+      testOptions.compilers = this.compilers || [];
 
       if (this.options.delay) {
-        forkArgs.push('--delay');
+        testOptions.delay = true;
       }
 
       if (this.options.grep) {
-        forkArgs.push('--grep', this.options.grep.toString());
+        testOptions.grep = this.options.grep.toString();
       }
 
       if (this.exitImmediately) {
-        forkArgs.push('--exit');
+        testOptions.exit = true;
       }
 
       if (this.options.fullStackTrace) {
-        forkArgs.push('--full-trace');
+        testOptions.fullStackTrace = true;
       }
 
-      const test = fork(runnerPath, forkArgs, {
-        // otherwise `--inspect-brk` and other params will be passed to subprocess
-        execArgv: process.execArgv.filter(removeDebugArgs),
-        stdio: ['ipc'],
-      });
-
-      if (this.isTypescriptRunMode) {
-        nodeFlags.push('--require', 'ts-node/register');
+      let test;
+      try {
+        test = await this.pool.getOrCreate(this.isTypescriptRunMode);
+      } catch (e) {
+        throw e;
       }
 
-      debugLog('Process spawned. You can run it manually with this command:');
-      debugLog(`node ${nodeFlags.join(' ')} ${runnerPath} ${forkArgs.concat([DEBUG_SUBPROCESS.argument]).join(' ')}`);
+      test.send(JSON.stringify({ type: 'start', testOptions }));
 
       const events: Array<ISubprocessOutputMessage | ISubprocessRunnerMessage> = [];
       let syncedSubprocessData: ISubprocessSyncedData | undefined;
       const startedAt = Date.now();
 
-      test.on('message', function onMessageHandler({ event, data }) {
+      function onMessageHandler({ event, data }) {
         if (event === 'sync') {
           syncedSubprocessData = data;
+        } else if (event === 'end') {
+          clean();
+          resolve({
+            code: data.code || 0,
+            events,
+            execTime: Date.now() - startedAt,
+            file,
+            syncedSubprocessData,
+          });
         } else {
+          assert(event);
           events.push({
             data,
             event,
             type: 'runner',
           });
         }
-      });
+      }
 
-      test.stdout.on('data', function onStdoutData(data: Buffer) {
+      function onStdoutData(data: Buffer) {
         events.push({
           data,
           event: undefined,
           type: 'stdout',
         });
-      });
+      }
 
-      test.stderr.on('data', function onStderrData(data: Buffer) {
+      function onStderrData(data: Buffer) {
         events.push({
           data,
           event: undefined,
           type: 'stderr',
         });
-      });
-
-      test.on('close', (code) => {
+      }
+      function onClose(code) {
         debugLog(`Process for ${file} exited with code ${code}`);
 
         resolve({
@@ -254,7 +258,21 @@ export default class MochaWrapper extends Mocha {
           file,
           syncedSubprocessData,
         });
-      });
+      }
+
+      test.on('message', onMessageHandler);
+      test.stdout.on('data', onStdoutData);
+      test.stderr.on('data', onStderrData);
+      test.on('close', onClose);
+
+      function clean() {
+        test.removeListener('message', onMessageHandler);
+        test.stdout.removeListener('data', onStdoutData);
+        test.stderr.removeListener('data', onStderrData);
+        test.removeListener('close', onClose);
+        test.destroy();
+        return null;
+      }
     });
   }
 }
