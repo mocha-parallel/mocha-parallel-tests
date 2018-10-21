@@ -91,7 +91,7 @@ class Reporter extends reporters.Base {
   }
 
   private onRunnerSuiteStart = (suite: ISuite) => {
-    const id = randomId();
+    const id = randomId('suite');
     suite[RUNNABLE_IPC_PROP] = id;
 
     this.notifyParent('suite', { id });
@@ -108,8 +108,21 @@ class Reporter extends reporters.Base {
   }
 
   private onTestStart = (test: ITest) => {
-    const id = randomId();
+    const id = randomId('test');
     test[RUNNABLE_IPC_PROP] = id;
+
+    /**
+     * When mocha runs tests with `--retries` option there's a specific behaviour for events order:
+     * If the test fails and `--retries` = 1, mocha emits `test`, `test`, `fail` and `test end`.
+     * This means that mocha doesn't emit the "test end" event and instead just re-emits the test.
+     * The issue is that the last test in the currently running suite refers to the previously run test.
+     * The fix for us here is to "fix" the mocha old pointer by replacing the failed test with a new one.
+     * NB: This may be a mocha issue
+     */
+    const runningTest = test.parent.tests[test.parent.tests.length - 1];
+    if (runningTest !== test) {
+      test.parent.tests[test.parent.tests.length - 1] = test;
+    }
 
     this.runningTests.add(test);
     this.notifyParent('test', { id });
@@ -147,7 +160,7 @@ class Reporter extends reporters.Base {
   }
 
   private onRunnerHookStart = (hook: IHook) => {
-    const id = hook[RUNNABLE_IPC_PROP] || randomId();
+    const id = hook[RUNNABLE_IPC_PROP] || randomId('hook');
     hook[RUNNABLE_IPC_PROP] = id;
 
     this.notifyParent('hook', { id });
