@@ -72,6 +72,7 @@ test '--delay option support' test/delay/index.js
 test '--retries option support' test/retries/index.js
 test '--exit option support' test/exit/index.js
 test '--retries plus all tests fail' test/retries-all-fail/index.js
+test '--retries plus hooks' test/retries-all-fail-2/index.js
 test '--retries and --bail should work well together' test/bail-and-retries/index.js
 test 'subprocess exits before sending an end message' test/no-subprocess-end/index.js
 test 'unhandled rejections should not force subprocess to exit' test/q-promises/index.js
