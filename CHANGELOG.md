@@ -1,3 +1,7 @@
+## 2.0.5
+
+ * fix: `--retries` with hooks throws an unhandled exception ([#194](https://github.com/mocha-parallel/mocha-parallel-tests/issues/194))
+
 ## 2.0.4
 
  * new: `--grep` option is now supported for both CLI and API ([#187](https://github.com/mocha-parallel/mocha-parallel-tests/pull/187), [#188](https://github.com/mocha-parallel/mocha-parallel-tests/pull/188))
