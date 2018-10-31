@@ -1,3 +1,4 @@
+import * as assert from 'assert';
 import * as CircularJSON from 'circular-json';
 import * as Mocha from 'mocha';
 import { IRunner, reporters } from 'mocha';
@@ -59,6 +60,7 @@ class Reporter extends reporters.Base {
    */
   private runningTests = new Set<ITest>();
   private rootSuite: ISuite;
+  private currentTestIndex: number | null = null;
 
   constructor(runner: IRunner) {
     super(runner);
@@ -111,17 +113,22 @@ class Reporter extends reporters.Base {
     const id = randomId('test');
     test[RUNNABLE_IPC_PROP] = id;
 
-    /**
-     * When mocha runs tests with `--retries` option there's a specific behaviour for events order:
-     * If the test fails and `--retries` = 1, mocha emits `test`, `test`, `fail` and `test end`.
-     * This means that mocha doesn't emit the "test end" event and instead just re-emits the test.
-     * The issue is that the last test in the currently running suite refers to the previously run test.
-     * The fix for us here is to "fix" the mocha old pointer by replacing the failed test with a new one.
-     * NB: This may be a mocha issue
-     */
-    const runningTest = test.parent.tests[test.parent.tests.length - 1];
-    if (runningTest !== test) {
-      test.parent.tests[test.parent.tests.length - 1] = test;
+    // this test is running for the first time, i.e. no retries for it have been executed yet
+    if (this.currentTestIndex === null) {
+      const currentTestIndex = test.parent.tests.indexOf(test);
+      assert(currentTestIndex !== -1, 'Could not find the test in the suite\'s tests');
+
+      this.currentTestIndex = currentTestIndex;
+    } else if (!test.parent.tests.includes(test)) {
+      /**
+       * When mocha runs tests with `--retries` option there's a specific behaviour for events order:
+       * If the test fails and `--retries` = 1, mocha emits `test`, `test`, `fail` and `test end`.
+       * This means that mocha doesn't emit the "test end" event and instead just re-emits the test.
+       * The issue is that the last test in the currently running suite refers to the previously run test.
+       * The fix for us here is to "fix" the mocha old pointer by replacing the failed test with a new one.
+       * NB: This may be a mocha issue
+       */
+      test.parent.tests[this.currentTestIndex] = test;
     }
 
     this.runningTests.add(test);
@@ -130,6 +137,7 @@ class Reporter extends reporters.Base {
 
   private onTestEnd = (test: ITest) => {
     this.runningTests.delete(test);
+    this.currentTestIndex = null;
 
     this.notifyParent('test end', {
       id: test[RUNNABLE_IPC_PROP],
