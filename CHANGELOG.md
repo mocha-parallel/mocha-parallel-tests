@@ -1,3 +1,7 @@
+## 2.0.6 (upcoming)
+
+ * fix: `--retries` throws an unhandled exception when test cases are defined in a loop ([#194](https://github.com/mocha-parallel/mocha-parallel-tests/issues/194))
+
 ## 2.0.5
 
  * fix: `--retries` with hooks throws an unhandled exception ([#194](https://github.com/mocha-parallel/mocha-parallel-tests/issues/194))
