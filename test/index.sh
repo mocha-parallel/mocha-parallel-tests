@@ -81,6 +81,7 @@ test 'uncaught exceptions should not force subprocess to exit' test/uncaught-exc
 test 'grep option' test/grep/index.js
 test 'grep option alias support' test/grep/index-alias.js
 test 'grep option - programmatic API support' test/grep/indexProgrammatic.js
+test '--full-trace option support' test/full-trace/index.js
 
 echo "Passes: $PASSES Failes: $FAILES"
 echo ""
