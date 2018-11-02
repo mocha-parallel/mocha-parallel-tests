@@ -1,6 +1,7 @@
 ## 2.0.6 (upcoming)
 
  * fix: `--retries` throws an unhandled exception when test cases are defined in a loop ([#194](https://github.com/mocha-parallel/mocha-parallel-tests/issues/194))
+ * fix: `-g` alias for `--grep` is not supported ([#203](https://github.com/mocha-parallel/mocha-parallel-tests/issues/203))
 
 ## 2.0.5
 
