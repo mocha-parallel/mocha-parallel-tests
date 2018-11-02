@@ -27,6 +27,7 @@ import {
 } from '../util';
 
 import applyExit from './options/exit';
+import applyFullTrace from './options/full-trace';
 
 const argv = yargs
   .boolean('bail')
@@ -38,6 +39,9 @@ const argv = yargs
   .string('grep')
   .boolean('enableTimeouts')
   .option('exit', {
+    boolean: true,
+  })
+  .option('full-trace', {
     boolean: true,
   })
   .number('slow')
@@ -241,6 +245,9 @@ applyRequires(argv.require);
 
 // --timeout
 applyTimeouts(mocha, argv.timeout);
+
+// --full-trace
+applyFullTrace(mocha, argv.fullTrace);
 
 // apply main process root suite properties
 for (const option of SUITE_OWN_OPTIONS) {

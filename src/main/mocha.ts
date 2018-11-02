@@ -195,6 +195,10 @@ export default class MochaWrapper extends Mocha {
         forkArgs.push('--exit');
       }
 
+      if (this.options.fullStackTrace) {
+        forkArgs.push('--full-trace');
+      }
+
       const test = fork(runnerPath, forkArgs, {
         // otherwise `--inspect-brk` and other params will be passed to subprocess
         execArgv: process.execArgv.filter(removeDebugArgs),
