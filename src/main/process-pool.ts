@@ -3,10 +3,16 @@ import * as os from 'os';
 import { resolve as pathResolve } from 'path';
 import { removeDebugArgs } from './util';
 
+type eventFn = (data: any) => void;
+
 interface IMochaProcess {
   send: (msg: any) => void;
   kill: () => void;
   destroy: () => void;
+  on: (event: string, fn: eventFn) => void;
+  removeListener: (event: string, eventFn) => void;
+  stdout: NodeJS.ReadableStream;
+  stderr: NodeJS.ReadableStream;
 }
 
 export default class ProcessPool {
@@ -19,11 +25,11 @@ export default class ProcessPool {
     this.maxParallel = os.cpus().length;
   }
 
-  setMaxParallel(n) {
+  setMaxParallel(n: number) {
     this.maxParallel = n;
   }
 
-  async getOrCreate(isTypescriptRunMode): Promise<IMochaProcess> {
+  async getOrCreate(isTypescriptRunMode: boolean): Promise<IMochaProcess> {
     const extension = isTypescriptRunMode ? 'ts' : 'js';
     const runnerPath = pathResolve(__dirname, `../subprocess/runner.${extension}`);
 
@@ -60,9 +66,17 @@ export default class ProcessPool {
       kill: () => {
         process.kill();
       },
+      on: (ev, fn) => {
+        process.on(ev, fn);
+      },
+      removeListener: (ev, fn) => {
+        process.removeListener(ev, fn);
+      },
       send: (msg: any) => {
         process.send(msg);
       },
+      stderr: process.stderr,
+      stdout: process.stdout,
     };
 
     this.processes.push(handle);
@@ -71,7 +85,7 @@ export default class ProcessPool {
   }
 
   destroyAll() {
-    this.processes.forEach((proc) => {
+    this.processes.forEach((proc: IMochaProcess) => {
       proc.kill();
     });
   }

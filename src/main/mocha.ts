@@ -211,7 +211,15 @@ export default class MochaWrapper extends Mocha {
       let syncedSubprocessData: ISubprocessSyncedData | undefined;
       const startedAt = Date.now();
 
-      function onMessageHandler({ event, data }) {
+      const clean = () => {
+        test.removeListener('message', onMessageHandler);
+        test.stdout.removeListener('data', onStdoutData);
+        test.stderr.removeListener('data', onStderrData);
+        test.removeListener('close', onClose);
+        test.destroy();
+      };
+
+      const onMessageHandler = ({ event, data }: { event: string, data: any }) => {
         if (event === 'sync') {
           syncedSubprocessData = data;
         } else if (event === 'end') {
@@ -231,24 +239,25 @@ export default class MochaWrapper extends Mocha {
             type: 'runner',
           });
         }
-      }
+      };
 
-      function onStdoutData(data: Buffer) {
+      const onStdoutData = (data: Buffer) => {
         events.push({
           data,
           event: undefined,
           type: 'stdout',
         });
-      }
+      };
 
-      function onStderrData(data: Buffer) {
+      const onStderrData = (data: Buffer) => {
         events.push({
           data,
           event: undefined,
           type: 'stderr',
         });
-      }
-      function onClose(code) {
+      };
+
+      const onClose = (code: number) => {
         debugLog(`Process for ${file} exited with code ${code}`);
 
         resolve({
@@ -258,21 +267,12 @@ export default class MochaWrapper extends Mocha {
           file,
           syncedSubprocessData,
         });
-      }
+      };
 
       test.on('message', onMessageHandler);
       test.stdout.on('data', onStdoutData);
       test.stderr.on('data', onStderrData);
       test.on('close', onClose);
-
-      function clean() {
-        test.removeListener('message', onMessageHandler);
-        test.stdout.removeListener('data', onStdoutData);
-        test.stderr.removeListener('data', onStderrData);
-        test.removeListener('close', onClose);
-        test.destroy();
-        return null;
-      }
     });
   }
 }
