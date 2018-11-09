@@ -20,6 +20,7 @@ function test {
         ((FAILES++))
         echo -e "${RED}FAIL${NO_COLOUR}"
         echo $output
+        exit 1
     else
         ((PASSES++))
         echo -e "${GREEN}OK${NO_COLOUR}"
@@ -30,6 +31,8 @@ MOCHA_VERSION=`mocha --version`
 echo "You're running tests with mocha version $MOCHA_VERSION"
 
 test 'process reuse' test/reusing-processes/index.js
+test 'process reuse (2)' test/reusing-processes-2/index.js
+test 'process timeouts' test/process-timeouts/index.js
 test 'native (json) reporter' test/reporter-native-json/index.sh
 test 'native (tap) reporter' test/reporter-native-tap/index.sh
 test 'custom (teamcity) reporter' test/reporter-custom-teamcity/index.sh
