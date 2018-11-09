@@ -3,15 +3,6 @@ node_js:
   - "stable"
   - "8"
   - "9"
-env:
-  - CXX=g++-4.8
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.8
-    - g++-4.8
 before_install: npm install -g greenkeeper-lockfile
 install: npm install
 before_script: greenkeeper-lockfile-update
