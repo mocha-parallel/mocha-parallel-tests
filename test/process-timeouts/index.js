@@ -7,7 +7,7 @@ const { resolve } = require('path');
 const { exec } = require('child_process');
 const libExecutable = resolve(__dirname, '../../dist/bin/cli.js');
 
-exec(`${libExecutable} --max-parallel 1 test/reusing-processes-2/index.1.spec.js test/reusing-processes-2/index.2.spec.js`, {
+exec(`${libExecutable} --max-parallel 1 test/process-timeouts/index.spec.js`, {
     cwd: resolve(__dirname, '../../'),
 }, err => {
     assert(err);
