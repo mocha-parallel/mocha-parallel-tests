@@ -1,5 +1,8 @@
 describe('Throwing error', () => {
     it('should throw', () => {
-        throw new Error('foo');
+        function x() {
+            throw new Error('foo');
+        }
+        x();
     });
 });
