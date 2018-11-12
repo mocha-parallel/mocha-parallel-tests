@@ -10,5 +10,5 @@ const libExecutable = resolve(__dirname, '../../dist/bin/cli.js');
 exec(`${libExecutable} --max-parallel 1 test/process-timeouts/index.spec.js`, {
     cwd: resolve(__dirname, '../../'),
 }, err => {
-    assert(err);
+    assert(err, 'CLI was supposed to exit with an error');
 });
