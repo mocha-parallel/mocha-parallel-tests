@@ -1,3 +1,5 @@
+import IPC from '../ipc';
+
 // tslint:disable:no-console
 function exitLater(code) {
   process.on('exit', function onExit() {
@@ -5,16 +7,19 @@ function exitLater(code) {
   });
 }
 
-function exit(code) {
+const exit = (ipc: IPC) => (code: number) => {
   const clampedCode = Math.min(code, 255);
 
   // that's what mocha does
   console.log('');
   console.error('');
 
-  process.exit(clampedCode);
-}
+  // wait until all IPC messages are sent to the main process
+  ipc.runOnExhausted(() => {
+    process.exit(clampedCode);
+  });
+};
 
-export default function applyExit(shouldExitImmediately: any) {
-  return shouldExitImmediately ? exit : exitLater;
+export default function applyExit(ipc: IPC, shouldExitImmediately: any) {
+  return shouldExitImmediately ? exit(ipc) : exitLater;
 }
