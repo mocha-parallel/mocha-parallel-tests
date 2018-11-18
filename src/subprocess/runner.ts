@@ -26,6 +26,7 @@ import {
   randomId,
 } from '../util';
 
+import IPC from './ipc';
 import applyExit from './options/exit';
 import applyFullTrace from './options/full-trace';
 
@@ -54,6 +55,7 @@ const argv = yargs
   .parse(process.argv);
 
 const debugSubprocess = argv[DEBUG_SUBPROCESS.yargs];
+const ipc = new IPC();
 
 class Reporter extends reporters.Base {
   /**
@@ -207,7 +209,7 @@ class Reporter extends reporters.Base {
       : [];
 
     // send the data snapshot with every event
-    process.send!({
+    ipc.sendEnsureDelivered({
       data: {
         // can't use the root suite because it will not get revived in the master process
         // @see https://github.com/WebReflection/circular-json/issues/44
@@ -218,7 +220,7 @@ class Reporter extends reporters.Base {
     });
 
     // and then send the event
-    process.send!({ event, data });
+    ipc.sendEnsureDelivered({ event, data });
   }
 }
 
@@ -238,7 +240,7 @@ applyGrepPattern(mocha, argv.grep);
 applyNoTimeouts(mocha, argv.enableTimeouts);
 
 // --exit
-const onComplete = applyExit(argv.exit);
+const onComplete = applyExit(ipc, argv.exit);
 
 // --require
 applyRequires(argv.require);

@@ -71,6 +71,7 @@ test 'skip-test' test/skip-test/index.sh
 test '--delay option support' test/delay/index.js
 test '--retries option support' test/retries/index.js
 test '--exit option support' test/exit/index.js
+test 'race condition with --exit' test/race-condition-timeout/index.js
 test '--retries plus all tests fail' test/retries-all-fail/index.js
 test '--retries plus hooks' test/retries-all-fail-2/index.js
 test '--retries with test cases defined in a loop' test/retries-all-fail-3/index.js
