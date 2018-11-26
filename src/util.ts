@@ -1,11 +1,6 @@
-import { randomBytes } from 'crypto';
 import { existsSync } from 'fs';
 import { join, resolve } from 'path';
 import { ICLICompilers } from './interfaces';
-
-export function randomId(prefix: string): string {
-  return `${prefix}-${randomBytes(16).toString('hex')}`;
-}
 
 export function setProcessExitListeners() {
   process.on('unhandledRejection', (reason) => {
