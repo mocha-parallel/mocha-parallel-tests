@@ -23,10 +23,11 @@ import {
   applyNoTimeouts,
   applyRequires,
   applyTimeouts,
-  randomId,
 } from '../util';
 
 import IPC from './ipc';
+import { getMessageId } from './util';
+
 import applyExit from './options/exit';
 import applyFullTrace from './options/full-trace';
 
@@ -67,6 +68,7 @@ class Reporter extends reporters.Base {
   private runningTests = new Set<ITest>();
   private rootSuite: ISuite;
   private currentTestIndex: number | null = null;
+  private eventsCounter = 0;
 
   constructor(runner: IRunner) {
     super(runner);
@@ -99,10 +101,12 @@ class Reporter extends reporters.Base {
   }
 
   private onRunnerSuiteStart = (suite: ISuite) => {
-    const id = randomId('suite');
+    const title = suite.root ? 'root' : suite.fullTitle();
+    const id = getMessageId('suite', title, this.eventsCounter);
     suite[RUNNABLE_IPC_PROP] = id;
 
     this.notifyParent('suite', { id });
+    this.eventsCounter += 1;
   }
 
   private onRunnerSuiteEnd = (suite: ISuite) => {
@@ -116,7 +120,7 @@ class Reporter extends reporters.Base {
   }
 
   private onTestStart = (test: ITest) => {
-    const id = randomId('test');
+    const id = getMessageId('test', test.fullTitle(), this.eventsCounter);
     test[RUNNABLE_IPC_PROP] = id;
 
     // this test is running for the first time, i.e. no retries for it have been executed yet
@@ -138,7 +142,9 @@ class Reporter extends reporters.Base {
     }
 
     this.runningTests.add(test);
+
     this.notifyParent('test', { id });
+    this.eventsCounter += 1;
   }
 
   private onTestEnd = (test: ITest) => {
@@ -174,10 +180,11 @@ class Reporter extends reporters.Base {
   }
 
   private onRunnerHookStart = (hook: IHook) => {
-    const id = hook[RUNNABLE_IPC_PROP] || randomId('hook');
+    const id = hook[RUNNABLE_IPC_PROP] || getMessageId('hook', hook.title, this.eventsCounter);
     hook[RUNNABLE_IPC_PROP] = id;
 
     this.notifyParent('hook', { id });
+    this.eventsCounter += 1;
   }
 
   private onRunnerHookEnd = (hook: IHook) => {

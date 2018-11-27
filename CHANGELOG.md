@@ -4,6 +4,7 @@
  * fix: `-g` alias for `--grep` is not supported ([#203](https://github.com/mocha-parallel/mocha-parallel-tests/issues/203))
  * fix: `--full-trace` option is not supported ([#202](https://github.com/mocha-parallel/mocha-parallel-tests/issues/202))
  * fix: `--exit` option leaves no trace for some asynchronously running tests ([#202](https://github.com/mocha-parallel/mocha-parallel-tests/issues/202))
+ * remove: `crypto` library usage
 
 ## 2.0.5
 
