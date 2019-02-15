@@ -167,7 +167,7 @@ export default class RunnerMain extends Runner {
           this.emit('waiting', this.rootSuite);
           continue;
         }
-        
+
         if (!isEventWithId(data)) {
           continue;
         }
@@ -211,6 +211,14 @@ export default class RunnerMain extends Runner {
             }
 
             this.emit(event, test, data.err);
+
+            // const testErrors = test.err;
+
+            // ((typeof(testErrors) === 'object')
+            //   && (testErrors !== null)
+            //     && Object.keys(testErrors).length > 0)
+            //       ? this.emit(event, test, Object.assign(test.err, data.err))
+            //       : this.emit(event, test, data.err);
             break;
           }
 

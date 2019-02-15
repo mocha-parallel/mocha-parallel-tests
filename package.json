@@ -6,7 +6,7 @@
   "main": "./dist/main/mocha.js",
   "module": "./dist/main/mocha.js",
   "bin": {
-    "mocha-parallel-tests": "dist/bin/cli.js"
+    "mocha-parallel-tests": "src/bin/cli.ts"
   },
   "contributors": [
     "Dmitrii Sorin <info@staypositive.ru>",
