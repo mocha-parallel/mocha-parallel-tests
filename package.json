@@ -51,10 +51,11 @@
     "prepublishOnly": "npm run clean && npm run build",
     "pretest": "npm run prepublishOnly",
     "test": "bash test/index.sh",
-    "test:ci": "npm run tslint && npm run test:mocha-3 && npm run test:mocha-4 && npm run test:mocha-5",
+    "test:ci": "npm run tslint && npm run test:mocha-3 && npm run test:mocha-4 && npm run test:mocha-5 && npm run test:mocha-6",
     "test:mocha-3": "npm install mocha@3 --no-save && npm test",
     "test:mocha-4": "npm install mocha@4 --no-save && npm test",
     "test:mocha-5": "npm install mocha@5 --no-save && npm test",
+    "test:mocha-6": "npm install mocha@6 --no-save && npm test",
     "tslint": "tslint -p . -c tslint.json 'src/**/*.ts'"
   },
   "license": "MIT",
@@ -62,7 +63,7 @@
     "node": ">=8"
   },
   "peerDependencies": {
-    "mocha": "3.0.0 - 5.x.x"
+    "mocha": "3.0.0 - 6.x.x"
   },
   "devDependencies": {
     "@types/circular-json": "^0.4.0",
