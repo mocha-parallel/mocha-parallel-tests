@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import * as CircularJSON from 'circular-json';
+import * as stringify from 'safe-json-stringify';
 import * as Mocha from 'mocha';
 import { IRunner, reporters } from 'mocha';
 import * as yargs from 'yargs';
@@ -219,9 +219,9 @@ class Reporter extends reporters.Base {
     ipc.sendEnsureDelivered({
       data: {
         // can't use the root suite because it will not get revived in the master process
-        // @see https://github.com/WebReflection/circular-json/issues/44
-        results: CircularJSON.stringify({ rootSuite: this.rootSuite }),
-        retries: CircularJSON.stringify({ retriesTests }),
+        // @see https://github.com/debitoor/safe-json-stringify
+        results: stringify({ rootSuite: this.rootSuite }),
+        retries: stringify({ retriesTests }),
       },
       event: 'sync',
     });
