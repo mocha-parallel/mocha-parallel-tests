@@ -1,5 +1,4 @@
 import { fork } from 'child_process';
-import * as CircularJSON from 'circular-json';
 import * as debug from 'debug';
 import * as Mocha from 'mocha';
 import { resolve as pathResolve } from 'path';
@@ -144,7 +143,7 @@ export default class MochaWrapper extends Mocha {
   private addSubprocessSuites(testArtifacts: ISubprocessResult): void {
     const rootSuite = this.suite;
     const serialized = testArtifacts.syncedSubprocessData!;
-    const { rootSuite: testRootSuite } = CircularJSON.parse(serialized.results, subprocessParseReviver);
+    const { rootSuite: testRootSuite } = JSON.parse(serialized.results, subprocessParseReviver);
 
     Object.assign(testRootSuite, {
       parent: rootSuite,
@@ -156,7 +155,7 @@ export default class MochaWrapper extends Mocha {
 
   private extractSubprocessRetriedTests(testArtifacts: ISubprocessResult): IRetriedTest[] {
     const serialized = testArtifacts.syncedSubprocessData!;
-    const { retriesTests } = CircularJSON.parse(serialized.retries, subprocessParseReviver);
+    const { retriesTests } = JSON.parse(serialized.retries, subprocessParseReviver);
 
     return retriesTests as IRetriedTest[];
   }
