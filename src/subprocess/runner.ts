@@ -1,7 +1,7 @@
 import * as assert from 'assert';
-import * as stringify from 'safe-json-stringify';
 import * as Mocha from 'mocha';
 import { IRunner, reporters } from 'mocha';
+import * as stringify from 'safe-json-stringify';
 import * as yargs from 'yargs';
 
 import {
