@@ -27,10 +27,19 @@ import applyTimeout from './options/timeout';
 
 setProcessExitListeners();
 
+// mocha@6 deprecates getOptions() in favour of using loadOptions()
+let loadOptions: () => void;
+try {
+  // tslint:disable-next-line:no-var-requires
+  const { loadOptions: loadCliOptions } = require('mocha/lib/cli/options');
+  loadOptions = loadCliOptions;
+} catch (ex) {
+  // tslint:disable-next-line:no-var-requires
+  loadOptions = require('mocha/bin/options');
+}
+
 // --opts changes process.argv so it should be executed first
-// tslint:disable-next-line:no-var-requires
-const getOptions = require('mocha/bin/options');
-getOptions();
+loadOptions();
 
 const mocha = new MochaWrapper();
 const argv = yargs
