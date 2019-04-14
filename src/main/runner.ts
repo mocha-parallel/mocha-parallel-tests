@@ -19,6 +19,15 @@ export default class RunnerMain extends Runner {
     super(rootSuite, false);
     this.rootSuite = rootSuite;
 
+    // in mocha@6 assigning "stats" field to the runner is extracted into a separate function
+    try {
+      // tslint:disable-next-line:no-var-requires
+      const createStatsCollector = require('mocha/lib/stats-collector');
+      createStatsCollector(this);
+    } catch (ex) {
+      // older mocha version
+    }
+
     this.once('end', this.onExecutionComplete);
     this.on('fail', this.onFail);
   }
