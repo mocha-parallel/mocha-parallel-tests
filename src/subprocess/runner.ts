@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import * as CircularJSON from 'circular-json';
+import * as CircularJSON from 'flatted/cjs';
 import * as Mocha from 'mocha';
 import { IRunner, reporters } from 'mocha';
 import * as yargs from 'yargs';

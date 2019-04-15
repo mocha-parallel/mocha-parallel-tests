@@ -1,5 +1,5 @@
 import { fork } from 'child_process';
-import * as CircularJSON from 'circular-json';
+import * as CircularJSON from 'flatted/cjs';
 import * as debug from 'debug';
 import * as Mocha from 'mocha';
 import { resolve as pathResolve } from 'path';
