@@ -27,19 +27,22 @@ import applyTimeout from './options/timeout';
 
 setProcessExitListeners();
 
-// mocha@6 deprecates getOptions() in favour of using loadOptions()
-let loadOptions: () => void;
+// mocha@6 introduced a new way to parse CLI arguments through yargs context
+// this mechanism should be used if `loadOptions` is defined
+const yargsOptionalArgs: object[] = [];
+
 try {
   // tslint:disable-next-line:no-var-requires
-  const { loadOptions: loadCliOptions } = require('mocha/lib/cli/options');
-  loadOptions = loadCliOptions;
+  const { loadOptions } = require('mocha/lib/cli/options');
+  yargsOptionalArgs.push(loadOptions(process.argv));
 } catch (ex) {
   // tslint:disable-next-line:no-var-requires
-  loadOptions = require('mocha/bin/options');
-}
+  const getOptions = require('mocha/bin/options');
 
-// --opts changes process.argv so it should be executed first
-loadOptions();
+  // NB: legacy (mocha before version 6)
+  // --opts changes process.argv so it should be executed first
+  getOptions();
+}
 
 const mocha = new MochaWrapper();
 const argv = yargs
@@ -109,7 +112,7 @@ const argv = yargs
   .option('timeouts', {
     boolean: true,
   })
-  .parse(process.argv);
+  .parse(process.argv, ...yargsOptionalArgs);
 
 // --async-only
 applyAsyncOnly(mocha, argv['async-only']);
