@@ -47,6 +47,10 @@ const argv = yargs
     boolean: true,
   })
   .number('slow')
+  .option('test', {
+    demandOption: true,
+    string: true,
+  })
   .option('require', {
     array: true,
     default: [],
@@ -256,7 +260,7 @@ applyRequires(argv.require);
 applyTimeouts(mocha, argv.timeout);
 
 // --full-trace
-applyFullTrace(mocha, argv.fullTrace);
+applyFullTrace(mocha, argv['full-trace']);
 
 // apply main process root suite properties
 for (const option of SUITE_OWN_OPTIONS) {

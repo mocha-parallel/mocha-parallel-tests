@@ -97,16 +97,19 @@ const argv = yargs
     alias: 't',
     number: true,
   })
+  .option('timeouts', {
+    boolean: true,
+  })
   .parse(process.argv);
 
 // --async-only
-applyAsyncOnly(mocha, argv.asyncOnly);
+applyAsyncOnly(mocha, argv['async-only']);
 
 // --bail
 applyBail(mocha, argv.bail);
 
 // --check-leaks
-applyCheckLeaks(mocha, argv.checkLeaks);
+applyCheckLeaks(mocha, argv['check-leaks']);
 
 // --compilers
 const { compilers, extensions } = applyCompilers(argv.compilers);
@@ -125,13 +128,13 @@ applyForbidOnly(mocha, argv.forbidOnly);
 applyForbidPending(mocha, argv.forbidPending);
 
 // --full-trace
-applyFullTrace(mocha, argv.fullTrace);
+applyFullTrace(mocha, argv['full-trace']);
 
 // --grep option
 applyGrepPattern(mocha, argv.grep);
 
 // --max-parallel
-applyMaxParallel(mocha, argv.maxParallel);
+applyMaxParallel(mocha, argv['max-parallel']);
 
 // --no-timeouts
 applyNoTimeouts(mocha, argv.timeouts);
@@ -141,8 +144,8 @@ const requires = applyRequires(argv.require);
 mocha.addRequiresForSubprocess(requires);
 
 // --reporter-options
-const reporterOptions = argv.reporterOptions !== undefined
-  ? applyReporterOptions(argv.reporterOptions)
+const reporterOptions = argv['reporter-options'] !== undefined
+  ? applyReporterOptions(argv['reporter-options'])
   : {};
 
 // --reporter
@@ -158,7 +161,7 @@ applySlow(mocha, argv.slow);
 applyTimeout(mocha, argv.timeout);
 
 // find files
-const files = getFilesList(argv._.slice(2), extensions, argv.recursive);
+const files = getFilesList(argv._.slice(2), extensions, argv.recursive || false);
 
 if (!files.length) {
   // tslint:disable-next-line:no-console
