@@ -62,7 +62,7 @@ export function applyCompilers(compilers: any): ICLICompilers {
   return output;
 }
 
-export function applyDelay(mocha: Mocha, delay: boolean) {
+export function applyDelay(mocha: Mocha, delay?: boolean) {
   if (delay) {
     mocha.delay();
   }
@@ -74,13 +74,13 @@ export function applyGrepPattern(mocha: Mocha, stringPattern?: string) {
   }
 }
 
-export function applyNoTimeouts(mocha: Mocha, allowTimeouts: boolean) {
+export function applyNoTimeouts(mocha: Mocha, allowTimeouts?: boolean) {
   if (allowTimeouts === false) {
     mocha.enableTimeouts(false);
   }
 }
 
-export function applyTimeouts(mocha: Mocha, timeout: number) {
+export function applyTimeouts(mocha: Mocha, timeout?: number) {
   if (timeout) {
     mocha.suite.timeout(timeout);
   }
