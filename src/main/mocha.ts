@@ -21,6 +21,8 @@ import {
   ISuite,
 } from '../interfaces';
 
+type SubprocessMessage = ISubprocessOutputMessage | ISubprocessRunnerMessage;
+
 const debugLog = debug('mocha-parallel-tests');
 
 export default class MochaWrapper extends Mocha {
@@ -86,6 +88,7 @@ export default class MochaWrapper extends Mocha {
     this.options.files = this.files;
 
     // Refer to mocha lib/mocha.js run() method for more info here
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const reporter = new (this as any)._reporter(
       runner,
       this.options,
@@ -143,6 +146,7 @@ export default class MochaWrapper extends Mocha {
 
   private addSubprocessSuites(testArtifacts: ISubprocessResult): void {
     const rootSuite = this.suite;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const serialized = testArtifacts.syncedSubprocessData!;
     const { rootSuite: testRootSuite } = CircularJSON.parse(serialized.results, subprocessParseReviver);
 
@@ -155,6 +159,7 @@ export default class MochaWrapper extends Mocha {
   }
 
   private extractSubprocessRetriedTests(testArtifacts: ISubprocessResult): IRetriedTest[] {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const serialized = testArtifacts.syncedSubprocessData!;
     const { retriesTests } = CircularJSON.parse(serialized.retries, subprocessParseReviver);
 
@@ -212,7 +217,7 @@ export default class MochaWrapper extends Mocha {
       debugLog('Process spawned. You can run it manually with this command:');
       debugLog(`node ${nodeFlags.join(' ')} ${runnerPath} ${forkArgs.concat([DEBUG_SUBPROCESS.argument]).join(' ')}`);
 
-      const events: Array<ISubprocessOutputMessage | ISubprocessRunnerMessage> = [];
+      const events: SubprocessMessage[] = [];
       let syncedSubprocessData: ISubprocessSyncedData | undefined;
       const startedAt = Date.now();
 

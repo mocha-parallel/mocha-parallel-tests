@@ -1,10 +1,16 @@
-## 2.0.6 (upcoming)
+## (upcoming changes)
 
+* ...
+
+## 2.1.0
+
+ * new: `mocha=6` is supported ([#217](https://github.com/mocha-parallel/mocha-parallel-tests/issues/217))
  * fix: `--retries` throws an unhandled exception when test cases are defined in a loop ([#194](https://github.com/mocha-parallel/mocha-parallel-tests/issues/194))
  * fix: `-g` alias for `--grep` is not supported ([#203](https://github.com/mocha-parallel/mocha-parallel-tests/issues/203))
  * fix: `--full-trace` option is not supported ([#202](https://github.com/mocha-parallel/mocha-parallel-tests/issues/202))
  * fix: `--exit` option leaves no trace for some asynchronously running tests ([#202](https://github.com/mocha-parallel/mocha-parallel-tests/issues/202))
  * remove: `crypto` library usage
+ * linting is all done by `eslint` now.
 
 ## 2.0.5
 

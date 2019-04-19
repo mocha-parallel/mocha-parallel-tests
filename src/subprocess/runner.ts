@@ -199,7 +199,7 @@ class Reporter extends reporters.Base {
 
   private notifyParent(event: string, data = {}) {
     if (debugSubprocess) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.log({ event, data });
     } else {
       this.notifyParentThroughIPC(event, data);
