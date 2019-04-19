@@ -31,10 +31,15 @@ setProcessExitListeners();
 // this mechanism should be used if `loadOptions` is defined
 const yargsOptionalArgs: object[] = [];
 
+// starting from mocha@6 `--no-timeout` and `--no-timeouts` is the same thing
+let newTimeoutsBehaviour = false;
+
 try {
   // tslint:disable-next-line:no-var-requires
   const { loadOptions } = require('mocha/lib/cli/options');
   yargsOptionalArgs.push(loadOptions(process.argv));
+
+  newTimeoutsBehaviour = true;
 } catch (ex) {
   // tslint:disable-next-line:no-var-requires
   const getOptions = require('mocha/bin/options');
@@ -110,7 +115,8 @@ const argv = yargs
     number: true,
   })
   .option('timeouts', {
-    number: true,
+    boolean: !newTimeoutsBehaviour,
+    number: newTimeoutsBehaviour,
   })
   .parse(process.argv, ...yargsOptionalArgs);
 
@@ -149,8 +155,12 @@ applyGrepPattern(mocha, argv.grep);
 applyMaxParallel(mocha, argv['max-parallel']);
 
 // --no-timeouts
-const enableTimeouts = Boolean(argv.timeout || argv.timeouts);
-applyNoTimeouts(mocha, enableTimeouts);
+if (newTimeoutsBehaviour) {
+  const enableTimeouts = Boolean(argv.timeout || argv.timeouts);
+  applyNoTimeouts(mocha, enableTimeouts);
+} else {
+  applyNoTimeouts(mocha, argv.timeouts as boolean);
+}
 
 // --r, --require
 const requires = applyRequires(argv.require);
