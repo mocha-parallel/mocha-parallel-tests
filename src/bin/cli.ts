@@ -110,7 +110,7 @@ const argv = yargs
     number: true,
   })
   .option('timeouts', {
-    boolean: true,
+    number: true,
   })
   .parse(process.argv, ...yargsOptionalArgs);
 
@@ -149,7 +149,8 @@ applyGrepPattern(mocha, argv.grep);
 applyMaxParallel(mocha, argv['max-parallel']);
 
 // --no-timeouts
-applyNoTimeouts(mocha, argv.timeouts);
+const enableTimeouts = Boolean(argv.timeout || argv.timeouts);
+applyNoTimeouts(mocha, enableTimeouts);
 
 // --r, --require
 const requires = applyRequires(argv.require);

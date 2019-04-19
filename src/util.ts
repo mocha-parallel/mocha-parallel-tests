@@ -81,7 +81,7 @@ export function applyNoTimeouts(mocha: Mocha, allowTimeouts?: boolean) {
 }
 
 export function applyTimeouts(mocha: Mocha, timeout?: number) {
-  if (timeout) {
+  if (timeout !== undefined) {
     mocha.suite.timeout(timeout);
   }
 }
