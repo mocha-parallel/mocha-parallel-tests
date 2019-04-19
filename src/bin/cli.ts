@@ -35,13 +35,13 @@ const yargsOptionalArgs: object[] = [];
 let newTimeoutsBehaviour = false;
 
 try {
-  // tslint:disable-next-line:no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { loadOptions } = require('mocha/lib/cli/options');
   yargsOptionalArgs.push(loadOptions(process.argv));
 
   newTimeoutsBehaviour = true;
 } catch (ex) {
-  // tslint:disable-next-line:no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const getOptions = require('mocha/bin/options');
 
   // NB: legacy (mocha before version 6)
@@ -187,7 +187,7 @@ applyTimeout(mocha, argv.timeout);
 const files = getFilesList(argv._.slice(2), extensions, argv.recursive || false);
 
 if (!files.length) {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error('No test files found');
   process.exit(1);
 }

@@ -12,6 +12,7 @@ export function removeDebugArgs(arg: string): boolean {
   return !DEBUG_CLI_ARGS.includes(arg);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function subprocessParseReviver(_: string, value: any): any {
   if (typeof value !== 'object' || value === null) {
     return value;

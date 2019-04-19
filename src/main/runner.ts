@@ -21,7 +21,7 @@ export default class RunnerMain extends Runner {
 
     // in mocha@6 assigning "stats" field to the runner is extracted into a separate function
     try {
-      // tslint:disable-next-line:no-var-requires
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const createStatsCollector = require('mocha/lib/stats-collector');
       createStatsCollector(this);
     } catch (ex) {
@@ -62,10 +62,12 @@ export default class RunnerMain extends Runner {
 
   private onExecutionComplete = () => {
     if (this.forbidOnly && this.hasOnly) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.failures += this.stats!.tests;
     }
 
     if (this.forbidPending) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.failures += this.stats!.pending;
     }
   }
@@ -75,6 +77,7 @@ export default class RunnerMain extends Runner {
       const suite = this.findSuiteById(test[SUBPROCESS_RETRIED_SUITE_ID]);
       assert(suite, 'Couldn\'t find retried test suite');
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       test.parent = suite!;
       this.retriedTests.push(test);
     }
@@ -164,12 +167,13 @@ export default class RunnerMain extends Runner {
             // ignore these events from subprocess
             break;
 
-          case 'waiting':
+          case 'waiting': {
             const waitingSuite = this.findSuiteById(data.id);
             assert(waitingSuite, `Couldn't find suite by id: ${data.id}`);
 
             this.emit(event, waitingSuite);
             break;
+          }
 
           case 'suite':
           case 'suite end': {

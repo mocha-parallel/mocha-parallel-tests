@@ -5,7 +5,7 @@ import { ITaskOutput, Task } from '../interfaces';
 
 export default class TaskManager<TaskResult> extends EventEmitter {
   private maxParallel: number;
-  private tasks: Array<ITaskOutput<TaskResult>> = [];
+  private tasks: ITaskOutput<TaskResult>[] = [];
   private remainingTasks = new Set<Task>();
   private processingTasks = new Set<Task>();
 
