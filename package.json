@@ -18,8 +18,8 @@
     "Hennadii Bulakh"
   ],
   "dependencies": {
-    "circular-json": "^0.5.9",
     "debug": "^4.1.1",
+    "flatted": "^2.0.0",
     "yargs": "^13.2.2"
   },
   "repository": {
@@ -63,7 +63,6 @@
     "mocha": "3.0.0 - 6.x.x"
   },
   "devDependencies": {
-    "@types/circular-json": "^0.4.0",
     "@types/debug": "^4.1.4",
     "@types/mocha": "^5.2.1",
     "@types/node": "^10.1.3",

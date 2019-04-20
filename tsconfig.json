@@ -6,7 +6,7 @@
     "alwaysStrict": true,
     "declaration": true,
     "importHelpers": true,
-    "moduleResolution": "classic",
+    "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "noImplicitThis": false,
