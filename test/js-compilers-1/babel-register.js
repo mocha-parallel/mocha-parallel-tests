@@ -1,8 +1,8 @@
 'use strict';
 
-require('babel-register')({
+require('@babel/register')({
     plugins: [
-        ['transform-react-jsx', {
+        ['@babel/plugin-transform-react-jsx', {
             pragma: 'createElement'
         }]
     ]
