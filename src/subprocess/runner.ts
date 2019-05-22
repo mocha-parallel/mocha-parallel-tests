@@ -105,8 +105,7 @@ class Reporter extends reporters.Base {
   }
 
   private onRunnerSuiteStart = (suite: ISuite) => {
-    const title = suite.root ? 'root' : suite.fullTitle();
-    const id = getMessageId('suite', title, this.eventsCounter);
+    const id = getMessageId('suite', suite, this.eventsCounter);
     suite[RUNNABLE_IPC_PROP] = id;
 
     this.notifyParent('suite', { id });
@@ -124,7 +123,7 @@ class Reporter extends reporters.Base {
   }
 
   private onTestStart = (test: ITest) => {
-    const id = getMessageId('test', test.fullTitle(), this.eventsCounter);
+    const id = getMessageId('test', test, this.eventsCounter);
     test[RUNNABLE_IPC_PROP] = id;
 
     // this test is running for the first time, i.e. no retries for it have been executed yet
@@ -184,7 +183,7 @@ class Reporter extends reporters.Base {
   }
 
   private onRunnerHookStart = (hook: IHook) => {
-    const id = hook[RUNNABLE_IPC_PROP] || getMessageId('hook', hook.title, this.eventsCounter);
+    const id = hook[RUNNABLE_IPC_PROP] || getMessageId('hook', hook, this.eventsCounter);
     hook[RUNNABLE_IPC_PROP] = id;
 
     this.notifyParent('hook', { id });
