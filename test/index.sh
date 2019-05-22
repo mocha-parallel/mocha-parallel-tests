@@ -83,6 +83,7 @@ test 'grep option' test/grep/index.js
 test 'grep option alias support' test/grep/index-alias.js
 test 'grep option - programmatic API support' test/grep/indexProgrammatic.js
 test '--full-trace option support' test/full-trace/index.js
+test 'report with same describe' test/reporter-same-describes/index.js
 
 echo "Passes: $PASSES Failes: $FAILES"
 echo ""
