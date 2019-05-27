@@ -1,1 +1,2 @@
-Check if reporter with options works
+foundation: check if reporter with options works
+cli-once: check if --reporter-options flag is used

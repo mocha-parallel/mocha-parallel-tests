@@ -58,7 +58,8 @@ test 'no timeouts' test/no-timeouts/index.sh
 test 'js compilers support' test/js-compilers/index.sh
 test 'js compilers with files support' test/js-compilers-1/index.sh
 test 'js compilers with --require support' test/js-compilers-2/index.sh
-test 'reporter with options' test/reporter-options/index.sh
+test 'reporter with options foundation' test/reporter-options/foundation/index.sh
+test 'reporter with options CLI flag' test/reporter-options/cli-once/index.js
 test 'mocha.opts' test/mocha-opts/index.sh
 test 'syntax errors' test/syntax-errors/index.js
 test '--require option support' test/require-option/index.sh
