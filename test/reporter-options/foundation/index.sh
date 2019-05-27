@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT=$(dist/bin/cli.js -R xunit test/reporter-options/suite.js 2>&1)
+OUTPUT=$(dist/bin/cli.js -R xunit test/reporter-options/spec.js 2>&1)
 STATUS=$?
 
 if [ $STATUS -eq 0 ]; then

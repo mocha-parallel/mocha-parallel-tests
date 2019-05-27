@@ -31,15 +31,10 @@ setProcessExitListeners();
 // this mechanism should be used if `loadOptions` is defined
 const yargsOptionalArgs: object[] = [];
 
-// starting from mocha@6 `--no-timeout` and `--no-timeouts` is the same thing
-let newTimeoutsBehaviour = false;
-
 try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { loadOptions } = require('mocha/lib/cli/options');
   yargsOptionalArgs.push(loadOptions(process.argv));
-
-  newTimeoutsBehaviour = true;
 } catch (ex) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const getOptions = require('mocha/bin/options');
@@ -48,6 +43,11 @@ try {
   // --opts changes process.argv so it should be executed first
   getOptions();
 }
+
+// starting from mocha@6 `--no-timeout` and `--no-timeouts` is the same thing
+const newTimeoutsBehaviour = yargsOptionalArgs.length === 1;
+// starting from mocha@6 `--reporter-options` option type is array
+const newReporterOptionsType = yargsOptionalArgs.length === 1;
 
 const mocha = new MochaWrapper();
 const argv = yargs
@@ -97,7 +97,8 @@ const argv = yargs
   })
   .option('reporter-options', {
     alias: 'O',
-    string: true,
+    string: !newReporterOptionsType,
+    array: newReporterOptionsType,
   })
   .option('retries', {
     number: true,
@@ -167,8 +168,12 @@ const requires = applyRequires(argv.require);
 mocha.addRequiresForSubprocess(requires);
 
 // --reporter-options
+const argvReporterOptions = newReporterOptionsType
+  ? argv['reporter-options'] as string[]
+  : [argv['reporter-options'] as string];
+
 const reporterOptions = argv['reporter-options'] !== undefined
-  ? applyReporterOptions(argv['reporter-options'])
+  ? applyReporterOptions(argvReporterOptions)
   : {};
 
 // --reporter
