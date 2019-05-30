@@ -1,5 +1,7 @@
 ## (upcoming changes)
 
+## 2.1.2
+
 * fix: programmatic API doesn't emit particular suites when multiple suites share the name ([#237](https://github.com/mocha-parallel/mocha-parallel-tests/issues/237))
 
 ## 2.1.1
