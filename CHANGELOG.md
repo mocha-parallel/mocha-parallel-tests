@@ -1,6 +1,9 @@
 ## (upcoming changes)
 
-* ...
+## 2.1.1
+
+* fix: `--reporter-options` doesn't work with mocha@6 ([#202](https://github.com/mocha-parallel/mocha-parallel-tests/issues/202))
+* fix: npm install audio warnings because of the outdated dependencies
 
 ## 2.1.0
 
