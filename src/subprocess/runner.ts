@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import * as CircularJSON from 'circular-json';
 import * as Mocha from 'mocha';
 import { IRunner, reporters } from 'mocha';
@@ -127,10 +126,16 @@ class Reporter extends reporters.Base {
     const id = getMessageId('test', test.fullTitle(), this.eventsCounter);
     test[RUNNABLE_IPC_PROP] = id;
 
+    if (!test.parent) {
+      throw new Error('Could not find test\'s suite');
+    }
+
     // this test is running for the first time, i.e. no retries for it have been executed yet
     if (this.currentTestIndex === null) {
       const currentTestIndex = test.parent.tests.indexOf(test);
-      assert(currentTestIndex !== -1, 'Could not find the test in the suite\'s tests');
+      if (currentTestIndex === -1) {
+        throw new Error('Could not find the test in the suite\'s tests');
+      }
 
       this.currentTestIndex = currentTestIndex;
     } else if (!test.parent.tests.includes(test)) {
@@ -212,6 +217,10 @@ class Reporter extends reporters.Base {
     // omit them until the "end" event
     const retriesTests = event === 'end'
       ? [...this.runningTests].map((test) => {
+        if (!test.parent) {
+          throw new Error('Could not find test\'s suite');
+        }
+
         return Object.assign({}, test, {
           [SUBPROCESS_RETRIED_SUITE_ID]: test.parent[RUNNABLE_IPC_PROP],
           parent: null,

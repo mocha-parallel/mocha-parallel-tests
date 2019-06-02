@@ -15,6 +15,9 @@ export default class RunnerMain extends Runner {
   private retriedTests: RetriedTest[] = [];
   private subprocessTestResults: SubprocessResult;
 
+  // this is a mocha<6 own property
+  hasOnly: boolean | undefined;
+
   constructor(rootSuite: Suite) {
     super(rootSuite, false);
     this.rootSuite = rootSuite;

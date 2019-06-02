@@ -6,22 +6,23 @@ import {
 
 import { RUNNABLE_IPC_PROP, SUBPROCESS_RETRIED_SUITE_ID } from './config';
 
-export interface MochaParallelTestsRunnerObject {
-  [RUNNABLE_IPC_PROP]: string;
-}
-
 export interface RetriedTest extends Test {
   [SUBPROCESS_RETRIED_SUITE_ID]: string;
 }
 
-export interface Hook extends MochaHook, MochaParallelTestsRunnerObject {}
+// eslint-disable-next-line @typescript-eslint/prefer-interface
+export type MochaParallelTestsRunnerObject = {
+  [RUNNABLE_IPC_PROP]: string;
+}
 
-export interface Suite extends MochaSuite, MochaParallelTestsRunnerObject {
+export type Hook = MochaHook & MochaParallelTestsRunnerObject;
+
+export type Suite = MochaSuite & MochaParallelTestsRunnerObject & {
   suites: Suite[];
   tests: Test[];
 }
 
-export interface Test extends MochaTest, MochaParallelTestsRunnerObject {}
+export type Test = MochaTest & MochaParallelTestsRunnerObject;
 
 export interface SubprocessRunnerMessage {
   data: any;

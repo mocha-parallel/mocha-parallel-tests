@@ -2,6 +2,7 @@ import { fork } from 'child_process';
 import * as CircularJSON from 'circular-json';
 import * as debug from 'debug';
 import * as Mocha from 'mocha';
+import { MochaInstanceOptions } from 'mocha';
 import { resolve as pathResolve } from 'path';
 
 import RunnerMain from './runner';
@@ -22,6 +23,10 @@ import {
 } from '../interfaces';
 
 type SubprocessMessage = SubprocessOutputMessage | SubprocessRunnerMessage;
+
+type MochaInstanceOptionsBackwardsCompatible = Mocha.MochaInstanceOptions & {
+  hasOnly?: boolean;
+}
 
 const debugLog = debug('mocha-parallel-tests');
 
@@ -66,18 +71,20 @@ export default class MochaWrapper extends Mocha {
       forbidOnly,
       forbidPending,
       fullStackTrace,
-      hasOnly, // looks like a private mocha API
-    } = this.options;
+      hasOnly,
+    } = this.options as MochaInstanceOptionsBackwardsCompatible;
 
     const rootSuite = this.suite as Suite;
+    
 
     const runner = new RunnerMain(rootSuite);
     runner.ignoreLeaks = ignoreLeaks !== false;
     runner.forbidOnly = forbidOnly;
     runner.forbidPending = forbidPending;
-    runner.hasOnly = hasOnly;
     runner.fullStackTrace = fullStackTrace;
     runner.asyncOnly = asyncOnly;
+    // mocha<6 compatibility TODO
+    runner.hasOnly = hasOnly;
 
     const taskManager = new TaskManager<SubprocessResult>(this.maxParallel);
     for (const file of this.files) {
