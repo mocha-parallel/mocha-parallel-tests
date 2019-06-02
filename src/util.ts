@@ -1,6 +1,6 @@
 import { existsSync } from 'fs';
 import { join, resolve } from 'path';
-import { ICLICompilers } from './interfaces';
+import { CLICompilers } from './interfaces';
 
 export function setProcessExitListeners() {
   process.on('unhandledRejection', (reason) => {
@@ -35,9 +35,9 @@ export function applyRequires(requires: any): string[] {
   return output;
 }
 
-export function applyCompilers(compilers: any): ICLICompilers {
+export function applyCompilers(compilers: any): CLICompilers {
   const compilersList: string[] = Array.isArray(compilers) ? compilers : [compilers];
-  const output: ICLICompilers = {
+  const output: CLICompilers = {
     compilers: compilersList,
     extensions: ['js'],
   };

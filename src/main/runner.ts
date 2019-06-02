@@ -3,19 +3,19 @@ import { Runner } from 'mocha';
 
 import { RUNNABLE_IPC_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
 import {
-  IHook,
-  IRetriedTest,
-  ISubprocessResult,
-  ISuite,
-  ITest,
+  Hook,
+  RetriedTest,
+  SubprocessResult,
+  Suite,
+  Test,
 } from '../interfaces';
 
 export default class RunnerMain extends Runner {
-  private rootSuite: ISuite;
-  private retriedTests: IRetriedTest[] = [];
-  private subprocessTestResults: ISubprocessResult;
+  private rootSuite: Suite;
+  private retriedTests: RetriedTest[] = [];
+  private subprocessTestResults: SubprocessResult;
 
-  constructor(rootSuite: ISuite) {
+  constructor(rootSuite: Suite) {
     super(rootSuite, false);
     this.rootSuite = rootSuite;
 
@@ -47,8 +47,8 @@ export default class RunnerMain extends Runner {
   }
 
   reEmitSubprocessEvents(
-    testResults: ISubprocessResult,
-    retriedTests: IRetriedTest[],
+    testResults: SubprocessResult,
+    retriedTests: RetriedTest[],
   ) {
     this.subprocessTestResults = testResults;
     this.setRetriesTests(retriedTests);
@@ -72,7 +72,7 @@ export default class RunnerMain extends Runner {
     }
   }
 
-  private setRetriesTests(tests: IRetriedTest[]) {
+  private setRetriesTests(tests: RetriedTest[]) {
     for (const test of tests) {
       const suite = this.findSuiteById(test[SUBPROCESS_RETRIED_SUITE_ID]);
       assert(suite, 'Couldn\'t find retried test suite');
@@ -83,7 +83,7 @@ export default class RunnerMain extends Runner {
     }
   }
 
-  private findSuiteById(id: string, rootSuite: ISuite = this.rootSuite): ISuite | null {
+  private findSuiteById(id: string, rootSuite: Suite = this.rootSuite): Suite | null {
     if (rootSuite[RUNNABLE_IPC_PROP] === id) {
       return rootSuite;
     }
@@ -98,11 +98,11 @@ export default class RunnerMain extends Runner {
     return null;
   }
 
-  private findRetriedTestById(id: string): ITest | undefined {
+  private findRetriedTestById(id: string): Test | undefined {
     return this.retriedTests.find((test) => test[RUNNABLE_IPC_PROP] === id);
   }
 
-  private findTestById(id: string, rootSuite: ISuite = this.rootSuite): ITest | null {
+  private findTestById(id: string, rootSuite: Suite = this.rootSuite): Test | null {
     for (const test of rootSuite.tests) {
       if (test[RUNNABLE_IPC_PROP] === id) {
         return test;
@@ -119,7 +119,7 @@ export default class RunnerMain extends Runner {
     return null;
   }
 
-  private findHookById(id: string, rootSuite: ISuite = this.rootSuite): IHook | null {
+  private findHookById(id: string, rootSuite: Suite = this.rootSuite): Hook | null {
     for (const hookType of ['_beforeEach', '_beforeAll', '_afterEach', '_afterAll']) {
       for (const hook of rootSuite[hookType]) {
         if (hook[RUNNABLE_IPC_PROP] === id) {
@@ -143,9 +143,9 @@ export default class RunnerMain extends Runner {
    * Example of this can be a sync test which fails twice and passes on third run
    * If the test is executed with `--retries 2` we will get this result
    */
-  private findForgottenTestById(id: string, rootSuite: ISuite = this.rootSuite): ITest | null {
+  private findForgottenTestById(id: string, rootSuite: Suite = this.rootSuite): Test | null {
     if (rootSuite.ctx.test && rootSuite.ctx.test[RUNNABLE_IPC_PROP] === id) {
-      return rootSuite.ctx.test as ITest;
+      return rootSuite.ctx.test as Test;
     }
 
     for (const suite of rootSuite.suites) {

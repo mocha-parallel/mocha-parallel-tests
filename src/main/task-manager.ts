@@ -1,11 +1,11 @@
 import * as assert from 'assert';
 import * as EventEmitter from 'events';
 import { cpus } from 'os';
-import { ITaskOutput, Task } from '../interfaces';
+import { TaskOutput, Task } from '../interfaces';
 
 export default class TaskManager<TaskResult> extends EventEmitter {
   private maxParallel: number;
-  private tasks: ITaskOutput<TaskResult>[] = [];
+  private tasks: TaskOutput<TaskResult>[] = [];
   private remainingTasks = new Set<Task>();
   private processingTasks = new Set<Task>();
 

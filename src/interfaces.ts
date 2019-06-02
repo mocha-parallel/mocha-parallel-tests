@@ -6,59 +6,59 @@ import {
 
 import { RUNNABLE_IPC_PROP, SUBPROCESS_RETRIED_SUITE_ID } from './config';
 
-export interface IMochaParallelTestsRunnerObject {
+export interface MochaParallelTestsRunnerObject {
   [RUNNABLE_IPC_PROP]: string;
 }
 
-export interface IRetriedTest extends ITest {
+export interface RetriedTest extends Test {
   [SUBPROCESS_RETRIED_SUITE_ID]: string;
 }
 
-export interface IHook extends MochaHook, IMochaParallelTestsRunnerObject {}
+export interface Hook extends MochaHook, MochaParallelTestsRunnerObject {}
 
-export interface ISuite extends MochaSuite, IMochaParallelTestsRunnerObject {
-  suites: ISuite[];
-  tests: ITest[];
+export interface Suite extends MochaSuite, MochaParallelTestsRunnerObject {
+  suites: Suite[];
+  tests: Test[];
 }
 
-export interface ITest extends MochaTest, IMochaParallelTestsRunnerObject {}
+export interface Test extends MochaTest, MochaParallelTestsRunnerObject {}
 
-export interface ISubprocessRunnerMessage {
+export interface SubprocessRunnerMessage {
   data: any;
   event: string;
   type: 'runner';
 }
 
-export interface ISubprocessOutputMessage {
+export interface SubprocessOutputMessage {
   event: undefined;
   data: Buffer;
   type: 'stdout' | 'stderr';
 }
 
-export interface ISubprocessSyncedData {
+export interface SubprocessSyncedData {
   results: string;
   retries: string;
 }
 
-export interface ISubprocessResult {
+export interface SubprocessResult {
   code: number;
   file: string;
-  events: Array<ISubprocessRunnerMessage | ISubprocessOutputMessage>;
+  events: (SubprocessRunnerMessage | SubprocessOutputMessage)[];
   execTime: number;
-  syncedSubprocessData?: ISubprocessSyncedData;
+  syncedSubprocessData?: SubprocessSyncedData;
 }
 
-export interface ICLIReporterOptions {
+export interface CLIReporterOptions {
   [key: string]: string | boolean;
 }
 
-export interface ICLICompilers {
+export interface CLICompilers {
   compilers: string[];
   extensions: string[];
 }
 
 export type Task = () => Promise<any>;
-export interface ITaskOutput<T> {
+export interface TaskOutput<T> {
   task: Task;
   output?: T;
 }

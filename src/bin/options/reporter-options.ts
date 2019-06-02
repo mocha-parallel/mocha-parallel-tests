@@ -1,7 +1,7 @@
-import { ICLIReporterOptions } from '../../interfaces';
+import { CLIReporterOptions } from '../../interfaces';
 
 export default function applyReporterOptions(reporterOptions: string[]) {
-  const output: ICLIReporterOptions = {};
+  const output: CLIReporterOptions = {};
 
   for (const reporterOption of reporterOptions) {
     reporterOption.split(',').forEach((opt) => {

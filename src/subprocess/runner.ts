@@ -10,9 +10,9 @@ import {
   SUBPROCESS_RETRIED_SUITE_ID,
 } from '../config';
 import {
-  IHook,
-  ISuite,
-  ITest,
+  Hook,
+  Suite,
+  Test,
 } from '../interfaces';
 
 import { SUITE_OWN_OPTIONS } from '../config';
@@ -69,14 +69,14 @@ class Reporter extends reporters.Base {
    * if the final root suite structure, so we need to store them and return
    * to the main process after the end
    */
-  private runningTests = new Set<ITest>();
-  private rootSuite: ISuite;
+  private runningTests = new Set<Test>();
+  private rootSuite: Suite;
   private currentTestIndex: number | null = null;
   private eventsCounter = 0;
 
   constructor(runner: IRunner) {
     super(runner);
-    this.rootSuite = runner.suite as ISuite;
+    this.rootSuite = runner.suite as Suite;
 
     runner.on('waiting', this.onRunnerWaiting);
     runner.on('start', this.onRunnerStart);
@@ -104,7 +104,7 @@ class Reporter extends reporters.Base {
     this.notifyParent('end');
   }
 
-  private onRunnerSuiteStart = (suite: ISuite) => {
+  private onRunnerSuiteStart = (suite: Suite) => {
     const title = suite.root ? 'root' : suite.fullTitle();
     const id = getMessageId('suite', title, this.eventsCounter);
     suite[RUNNABLE_IPC_PROP] = id;
@@ -113,17 +113,17 @@ class Reporter extends reporters.Base {
     this.eventsCounter += 1;
   }
 
-  private onRunnerSuiteEnd = (suite: ISuite) => {
+  private onRunnerSuiteEnd = (suite: Suite) => {
     this.notifyParent('suite end', {
       id: suite[RUNNABLE_IPC_PROP],
     });
   }
 
-  private onRunnerWaiting = (/* rootSuite: ISuite */) => {
+  private onRunnerWaiting = (/* rootSuite: Suite */) => {
     this.notifyParent('waiting');
   }
 
-  private onTestStart = (test: ITest) => {
+  private onTestStart = (test: Test) => {
     const id = getMessageId('test', test.fullTitle(), this.eventsCounter);
     test[RUNNABLE_IPC_PROP] = id;
 
@@ -151,7 +151,7 @@ class Reporter extends reporters.Base {
     this.eventsCounter += 1;
   }
 
-  private onTestEnd = (test: ITest) => {
+  private onTestEnd = (test: Test) => {
     this.runningTests.delete(test);
     this.currentTestIndex = null;
 
@@ -160,13 +160,13 @@ class Reporter extends reporters.Base {
     });
   }
 
-  private onRunnerPass = (test: ITest) => {
+  private onRunnerPass = (test: Test) => {
     this.notifyParent('pass', {
       id: test[RUNNABLE_IPC_PROP],
     });
   }
 
-  private onRunnerFail = (test: ITest, err: Error) => {
+  private onRunnerFail = (test: Test, err: Error) => {
     this.notifyParent('fail', {
       err: {
         message: err.message,
@@ -177,13 +177,13 @@ class Reporter extends reporters.Base {
     });
   }
 
-  private onRunnerPending = (test: ITest) => {
+  private onRunnerPending = (test: Test) => {
     this.notifyParent('pending', {
       id: test[RUNNABLE_IPC_PROP],
     });
   }
 
-  private onRunnerHookStart = (hook: IHook) => {
+  private onRunnerHookStart = (hook: Hook) => {
     const id = hook[RUNNABLE_IPC_PROP] || getMessageId('hook', hook.title, this.eventsCounter);
     hook[RUNNABLE_IPC_PROP] = id;
 
@@ -191,7 +191,7 @@ class Reporter extends reporters.Base {
     this.eventsCounter += 1;
   }
 
-  private onRunnerHookEnd = (hook: IHook) => {
+  private onRunnerHookEnd = (hook: Hook) => {
     this.notifyParent('hook end', {
       id: hook[RUNNABLE_IPC_PROP],
     });
