@@ -1,27 +1,19 @@
-import { fork } from 'child_process';
 import * as CircularJSON from 'circular-json';
 import * as debug from 'debug';
 import * as Mocha from 'mocha';
-import { resolve as pathResolve } from 'path';
 
 import RunnerMain from './runner';
 import TaskManager from './task-manager';
-import {
-  removeDebugArgs,
-  subprocessParseReviver,
-} from './util';
+import { subprocessParseReviver } from './util';
 
-import { DEBUG_SUBPROCESS, SUITE_OWN_OPTIONS } from '../config';
 import {
   IRetriedTest,
-  ISubprocessOutputMessage,
   ISubprocessResult,
-  ISubprocessRunnerMessage,
-  ISubprocessSyncedData,
   ISuite,
 } from '../interfaces';
-
-type SubprocessMessage = ISubprocessOutputMessage | ISubprocessRunnerMessage;
+import { getThread } from './thread';
+import { ThreadOptions } from '../thread';
+import { SUITE_OWN_OPTIONS } from '../config';
 
 const debugLog = debug('mocha-parallel-tests');
 
@@ -81,7 +73,8 @@ export default class MochaWrapper extends Mocha {
 
     const taskManager = new TaskManager<ISubprocessResult>(this.maxParallel);
     for (const file of this.files) {
-      const task = () => this.spawnTestProcess(file);
+      // const task = () => this.spawnTestProcess(file);
+      const task = () => this.runThread(file);
       taskManager.add(task);
     }
 
@@ -166,100 +159,51 @@ export default class MochaWrapper extends Mocha {
     return retriesTests as IRetriedTest[];
   }
 
-  private spawnTestProcess(file: string): Promise<ISubprocessResult> {
-    return new Promise((resolve) => {
-      const nodeFlags: string[] = [];
-      const extension = this.isTypescriptRunMode ? 'ts' : 'js';
-      const runnerPath = pathResolve(__dirname, `../subprocess/runner.${extension}`);
-      const resolvedFilePath = pathResolve(file);
+  private async runThread(file: string): Promise<ISubprocessResult> {
+    const options = this.getThreadOptions();
+    const thread = getThread(file, options);
 
-      const forkArgs: string[] = ['--test', resolvedFilePath];
-      for (const option of SUITE_OWN_OPTIONS) {
-        const propValue = this.suite[option]();
-        // bail is undefined by default, we need to somehow pass its value to the subprocess
-        forkArgs.push(`--${option}`, propValue === undefined ? false : propValue);
-      }
+    return await thread.run();
+  }
 
-      for (const requirePath of this.requires) {
-        forkArgs.push('--require', requirePath);
-      }
+  private getThreadOptions(): ThreadOptions {
+    const options: ThreadOptions = {
+      compilers: [],
+      delay: false,
+      exitImmediately: false,
+      fullTrace: false,
+      isTypescriptRunMode: this.isTypescriptRunMode,
+      requires: [],
+    };
 
-      for (const compilerPath of this.compilers) {
-        forkArgs.push('--compilers', compilerPath);
-      }
+    for (const requirePath of this.requires) {
+      options.requires.push(requirePath);
+    }
 
-      if (this.options.delay) {
-        forkArgs.push('--delay');
-      }
+    for (const compilerPath of this.compilers) {
+      options.compilers.push(compilerPath);
+    }
 
-      if (this.options.grep) {
-        forkArgs.push('--grep', this.options.grep.toString());
-      }
+    if (this.options.delay) {
+      options.delay = true;
+    }
 
-      if (this.exitImmediately) {
-        forkArgs.push('--exit');
-      }
+    if (this.options.grep) {
+      options.grep = this.options.grep.toString();
+    }
 
-      if (this.options.fullStackTrace) {
-        forkArgs.push('--full-trace');
-      }
+    if (this.exitImmediately) {
+      options.exitImmediately = true;
+    }
 
-      const test = fork(runnerPath, forkArgs, {
-        // otherwise `--inspect-brk` and other params will be passed to subprocess
-        execArgv: process.execArgv.filter(removeDebugArgs),
-        stdio: ['ipc'],
-      });
+    if (this.options.fullStackTrace) {
+      options.fullTrace = true;
+    }
 
-      if (this.isTypescriptRunMode) {
-        nodeFlags.push('--require', 'ts-node/register');
-      }
+    for (const option of SUITE_OWN_OPTIONS) {
+      options[option] = this.suite[option]();
+    }
 
-      debugLog('Process spawned. You can run it manually with this command:');
-      debugLog(`node ${nodeFlags.join(' ')} ${runnerPath} ${forkArgs.concat([DEBUG_SUBPROCESS.argument]).join(' ')}`);
-
-      const events: SubprocessMessage[] = [];
-      let syncedSubprocessData: ISubprocessSyncedData | undefined;
-      const startedAt = Date.now();
-
-      test.on('message', function onMessageHandler({ event, data }) {
-        if (event === 'sync') {
-          syncedSubprocessData = data;
-        } else {
-          events.push({
-            data,
-            event,
-            type: 'runner',
-          });
-        }
-      });
-
-      test.stdout.on('data', function onStdoutData(data: Buffer) {
-        events.push({
-          data,
-          event: undefined,
-          type: 'stdout',
-        });
-      });
-
-      test.stderr.on('data', function onStderrData(data: Buffer) {
-        events.push({
-          data,
-          event: undefined,
-          type: 'stderr',
-        });
-      });
-
-      test.on('close', (code) => {
-        debugLog(`Process for ${file} exited with code ${code}`);
-
-        resolve({
-          code,
-          events,
-          execTime: Date.now() - startedAt,
-          file,
-          syncedSubprocessData,
-        });
-      });
-    });
+    return options;
   }
 }
