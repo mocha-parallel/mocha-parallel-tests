@@ -26,12 +26,17 @@ export class ProcessThread implements Thread {
 
     this.startedAt = Date.now();
 
-    return new Promise<ISubprocessResult>((resolve) => {
+    return new Promise<ISubprocessResult>((resolve, reject) => {
       const test = fork(runnerPath, this.buildForkArgs(), {
         // otherwise `--inspect-brk` and other params will be passed to subprocess
         execArgv: process.execArgv.filter(removeDebugArgs),
         stdio: ['ipc'],
       });
+
+      if (!test.stdout || !test.stderr) {
+        reject(new Error('COuld not find standard streams for forked process'));
+        return;
+      }
 
       test.on('message', this.onMessage);
       test.stdout.on('data', this.onStdout);

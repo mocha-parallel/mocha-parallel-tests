@@ -22,3 +22,12 @@ export interface ThreadOptions {
 export interface Thread {
   run(): Promise<ISubprocessResult>;
 }
+
+export function supportsWorkerThreads(): boolean {
+  try {
+    require('worker_threads');
+    return true;
+  } catch (ex) {
+    return false;
+  }
+}
