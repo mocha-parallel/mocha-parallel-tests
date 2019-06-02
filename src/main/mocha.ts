@@ -74,6 +74,7 @@ export default class MochaWrapper extends Mocha {
     const taskManager = new TaskManager<ISubprocessResult>(this.maxParallel);
     for (const file of this.files) {
       // const task = () => this.spawnTestProcess(file);
+      // TODO what if it rejects?
       const task = () => this.runThread(file);
       taskManager.add(task);
     }

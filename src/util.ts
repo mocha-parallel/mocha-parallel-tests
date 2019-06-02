@@ -4,13 +4,18 @@ import { ICLICompilers } from './interfaces';
 
 export function setProcessExitListeners() {
   process.on('unhandledRejection', (reason) => {
-    // tslint:disable-next-line:no-console
-    console.error(`Unhandled asynchronous exception: ${reason.stack}`);
+    // @see https://github.com/DefinitelyTyped/DefinitelyTyped/pull/35906
+    const message = reason && 'stack' in reason
+      ? `Unhandled asynchronous exception: ${(reason as any).stack}`
+      : 'Unhandled asynchronous exception';
+
+    // eslint-disable-next-line no-console
+    console.error(`Unhandled asynchronous exception: ${message}`);
     process.exit(1);
   });
 
   process.on('uncaughtException', (err) => {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.error(`Uncaught exception: ${err.stack}`);
     process.exit(1);
   });
