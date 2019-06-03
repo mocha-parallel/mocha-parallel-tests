@@ -1,10 +1,10 @@
+import { Debugger } from 'debug';
 import { Worker } from 'worker_threads';
 import { resolve } from 'path';
 
 import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
 import { ISubprocessResult, ISubprocessSyncedData } from '../../interfaces';
 import { removeDebugArgs } from '../util';
-import { Debugger } from 'debug';
 
 export interface WorkerData {
   file: string;
