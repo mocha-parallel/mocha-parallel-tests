@@ -1,12 +1,10 @@
 import { fork } from 'child_process';
 import { resolve } from 'path';
 
-import { Thread, ThreadOptions } from '../../thread';
-import { ISubprocessResult, ISubprocessOutputMessage, ISubprocessRunnerMessage, ISubprocessSyncedData } from '../../interfaces';
+import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
+import { ISubprocessResult, ISubprocessSyncedData } from '../../interfaces';
 import { removeDebugArgs } from '../util';
 import { SUITE_OWN_OPTIONS } from '../../config';
-
-type SubprocessMessage = ISubprocessOutputMessage | ISubprocessRunnerMessage;
 
 export class ProcessThread implements Thread {
   private file: string;

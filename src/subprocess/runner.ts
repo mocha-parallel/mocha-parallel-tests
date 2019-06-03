@@ -1,6 +1,6 @@
 import * as Mocha from 'mocha';
 
-import IPC from './ipc';
+import MessageChannel from './message-channel';
 import { getReporterFactory } from './reporter';
 import { applyCompilers, applyDelay, applyGrepPattern, applyNoTimeouts, applyRequires, applyTimeouts } from '../util';
 import applyExit from './options/exit';
@@ -9,8 +9,8 @@ import { SUITE_OWN_OPTIONS } from '../config';
 import { ThreadOptions } from '../thread';
 
 export function runMocha(file: string, options: ThreadOptions, debugSubprocess: boolean) {
-  const ipc = new IPC();
-  const Reporter = getReporterFactory(ipc, debugSubprocess);
+  const channel = new MessageChannel();
+  const Reporter = getReporterFactory(channel, debugSubprocess);
 
   const mocha = new Mocha();
   mocha.addFile(file);
@@ -28,7 +28,7 @@ export function runMocha(file: string, options: ThreadOptions, debugSubprocess: 
   applyNoTimeouts(mocha, options.enableTimeouts);
 
   // --exit
-  const onComplete = applyExit(ipc, options.exitImmediately);
+  const onComplete = applyExit(channel, options.exitImmediately);
 
   // --require
   applyRequires(options.requires);

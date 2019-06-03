@@ -1,4 +1,4 @@
-import IPC from '../ipc';
+import MessageChannel from '../message-channel';
 
 // tslint:disable:no-console
 function exitLater(code) {
@@ -7,19 +7,19 @@ function exitLater(code) {
   });
 }
 
-const exit = (ipc: IPC) => (code: number) => {
+const exit = (channel: MessageChannel) => (code: number) => {
   const clampedCode = Math.min(code, 255);
 
   // that's what mocha does
   console.log('');
   console.error('');
 
-  // wait until all IPC messages are sent to the main process
-  ipc.runOnExhausted(() => {
+  // wait until all RUNNABLE_MESSAGE_CHANNEL_PROP messages are sent to the main process
+  channel.runOnExhausted(() => {
     process.exit(clampedCode);
   });
 };
 
-export default function applyExit(ipc: IPC, shouldExitImmediately: any) {
-  return shouldExitImmediately ? exit(ipc) : exitLater;
+export default function applyExit(channel: MessageChannel, shouldExitImmediately: any) {
+  return shouldExitImmediately ? exit(channel) : exitLater;
 }

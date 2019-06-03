@@ -3,16 +3,16 @@ import * as CircularJSON from 'circular-json';
 
 import { ITest, ISuite, IHook } from '../interfaces';
 import { getMessageId } from './util';
-import { RUNNABLE_IPC_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
-import IPC from './ipc';
+import { RUNNABLE_MESSAGE_CHANNEL_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
+import MessageChannel from './message-channel';
 
 export interface ReporterConstructor {
   new(runner: IRunner);
 }
 
-export type ReporterFactory = (ipc: IPC, debugSubprocess: boolean) => ReporterConstructor;
+export type ReporterFactory = (channel: MessageChannel, debugSubprocess: boolean) => ReporterConstructor;
 
-export const getReporterFactory: ReporterFactory = (ipc, debugSubprocess) => {
+export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) => {
   return class Reporter extends reporters.Base {
     /**
      * If `--retries N` option is specified runner can emit `test` events
@@ -59,7 +59,7 @@ export const getReporterFactory: ReporterFactory = (ipc, debugSubprocess) => {
     private onRunnerSuiteStart = (suite: ISuite) => {
       const title = suite.root ? 'root' : suite.fullTitle();
       const id = getMessageId('suite', title, this.eventsCounter);
-      suite[RUNNABLE_IPC_PROP] = id;
+      suite[RUNNABLE_MESSAGE_CHANNEL_PROP] = id;
   
       this.notifyParent('suite', { id });
       this.eventsCounter += 1;
@@ -67,7 +67,7 @@ export const getReporterFactory: ReporterFactory = (ipc, debugSubprocess) => {
   
     private onRunnerSuiteEnd = (suite: ISuite) => {
       this.notifyParent('suite end', {
-        id: suite[RUNNABLE_IPC_PROP],
+        id: suite[RUNNABLE_MESSAGE_CHANNEL_PROP],
       });
     }
   
@@ -77,7 +77,7 @@ export const getReporterFactory: ReporterFactory = (ipc, debugSubprocess) => {
   
     private onTestStart = (test: ITest) => {
       const id = getMessageId('test', test.fullTitle(), this.eventsCounter);
-      test[RUNNABLE_IPC_PROP] = id;
+      test[RUNNABLE_MESSAGE_CHANNEL_PROP] = id;
   
       // this test is running for the first time, i.e. no retries for it have been executed yet
       if (this.currentTestIndex === null) {
@@ -110,13 +110,13 @@ export const getReporterFactory: ReporterFactory = (ipc, debugSubprocess) => {
       this.currentTestIndex = null;
   
       this.notifyParent('test end', {
-        id: test[RUNNABLE_IPC_PROP],
+        id: test[RUNNABLE_MESSAGE_CHANNEL_PROP],
       });
     }
   
     private onRunnerPass = (test: ITest) => {
       this.notifyParent('pass', {
-        id: test[RUNNABLE_IPC_PROP],
+        id: test[RUNNABLE_MESSAGE_CHANNEL_PROP],
       });
     }
   
@@ -127,19 +127,19 @@ export const getReporterFactory: ReporterFactory = (ipc, debugSubprocess) => {
           name: err.name,
           stack: err.stack,
         },
-        id: test[RUNNABLE_IPC_PROP],
+        id: test[RUNNABLE_MESSAGE_CHANNEL_PROP],
       });
     }
   
     private onRunnerPending = (test: ITest) => {
       this.notifyParent('pending', {
-        id: test[RUNNABLE_IPC_PROP],
+        id: test[RUNNABLE_MESSAGE_CHANNEL_PROP],
       });
     }
   
     private onRunnerHookStart = (hook: IHook) => {
-      const id = hook[RUNNABLE_IPC_PROP] || getMessageId('hook', hook.title, this.eventsCounter);
-      hook[RUNNABLE_IPC_PROP] = id;
+      const id = hook[RUNNABLE_MESSAGE_CHANNEL_PROP] || getMessageId('hook', hook.title, this.eventsCounter);
+      hook[RUNNABLE_MESSAGE_CHANNEL_PROP] = id;
   
       this.notifyParent('hook', { id });
       this.eventsCounter += 1;
@@ -147,7 +147,7 @@ export const getReporterFactory: ReporterFactory = (ipc, debugSubprocess) => {
   
     private onRunnerHookEnd = (hook: IHook) => {
       this.notifyParent('hook end', {
-        id: hook[RUNNABLE_IPC_PROP],
+        id: hook[RUNNABLE_MESSAGE_CHANNEL_PROP],
       });
     }
   
@@ -167,14 +167,14 @@ export const getReporterFactory: ReporterFactory = (ipc, debugSubprocess) => {
       const retriesTests = event === 'end'
         ? [...this.runningTests].map((test) => {
           return Object.assign({}, test, {
-            [SUBPROCESS_RETRIED_SUITE_ID]: test.parent[RUNNABLE_IPC_PROP],
+            [SUBPROCESS_RETRIED_SUITE_ID]: test.parent[RUNNABLE_MESSAGE_CHANNEL_PROP],
             parent: null,
           });
         })
         : [];
   
       // send the data snapshot with every event
-      ipc.sendEnsureDelivered({
+      channel.sendEnsureDelivered({
         data: {
           // can't use the root suite because it will not get revived in the master process
           // @see https://github.com/WebReflection/circular-json/issues/44
@@ -185,7 +185,7 @@ export const getReporterFactory: ReporterFactory = (ipc, debugSubprocess) => {
       });
   
       // and then send the event
-      ipc.sendEnsureDelivered({ event, data });
+      channel.sendEnsureDelivered({ event, data });
     }
   }
 }
