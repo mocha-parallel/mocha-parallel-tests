@@ -22,7 +22,7 @@ export class ProcessThread implements Thread {
 
   run() {
     const extension = this.options.isTypescriptRunMode ? 'ts' : 'js';
-    const runnerPath = resolve(__dirname, `../../subprocess/runner.${extension}`);
+    const runnerPath = resolve(__dirname, `../../subprocess/cli.${extension}`);
 
     this.startedAt = Date.now();
 
