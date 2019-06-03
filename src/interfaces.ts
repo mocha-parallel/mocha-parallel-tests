@@ -4,10 +4,10 @@ import {
   ITest as MochaTest,
 } from 'mocha';
 
-import { RUNNABLE_IPC_PROP, SUBPROCESS_RETRIED_SUITE_ID } from './config';
+import { RUNNABLE_MESSAGE_CHANNEL_PROP, SUBPROCESS_RETRIED_SUITE_ID } from './config';
 
 export interface IMochaParallelTestsRunnerObject {
-  [RUNNABLE_IPC_PROP]: string;
+  [RUNNABLE_MESSAGE_CHANNEL_PROP]: string;
 }
 
 export interface IRetriedTest extends ITest {

@@ -1,4 +1,4 @@
-import { ISubprocessResult } from './interfaces';
+import { ISubprocessResult, ISubprocessOutputMessage, ISubprocessRunnerMessage } from './interfaces';
 
 export type ListenerMessage = (message: Buffer) => void;
 export type ListenerStandardStream = (message: Buffer) => void;
@@ -22,6 +22,8 @@ export interface ThreadOptions {
 export interface Thread {
   run(): Promise<ISubprocessResult>;
 }
+
+export type SubprocessMessage = ISubprocessOutputMessage | ISubprocessRunnerMessage;
 
 export function supportsWorkerThreads(): boolean {
   try {

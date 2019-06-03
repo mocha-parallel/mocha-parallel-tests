@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { Runner } from 'mocha';
 
-import { RUNNABLE_IPC_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
+import { RUNNABLE_MESSAGE_CHANNEL_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
 import {
   IHook,
   IRetriedTest,
@@ -84,7 +84,7 @@ export default class RunnerMain extends Runner {
   }
 
   private findSuiteById(id: string, rootSuite: ISuite = this.rootSuite): ISuite | null {
-    if (rootSuite[RUNNABLE_IPC_PROP] === id) {
+    if (rootSuite[RUNNABLE_MESSAGE_CHANNEL_PROP] === id) {
       return rootSuite;
     }
 
@@ -99,12 +99,12 @@ export default class RunnerMain extends Runner {
   }
 
   private findRetriedTestById(id: string): ITest | undefined {
-    return this.retriedTests.find((test) => test[RUNNABLE_IPC_PROP] === id);
+    return this.retriedTests.find((test) => test[RUNNABLE_MESSAGE_CHANNEL_PROP] === id);
   }
 
   private findTestById(id: string, rootSuite: ISuite = this.rootSuite): ITest | null {
     for (const test of rootSuite.tests) {
-      if (test[RUNNABLE_IPC_PROP] === id) {
+      if (test[RUNNABLE_MESSAGE_CHANNEL_PROP] === id) {
         return test;
       }
     }
@@ -122,7 +122,7 @@ export default class RunnerMain extends Runner {
   private findHookById(id: string, rootSuite: ISuite = this.rootSuite): IHook | null {
     for (const hookType of ['_beforeEach', '_beforeAll', '_afterEach', '_afterAll']) {
       for (const hook of rootSuite[hookType]) {
-        if (hook[RUNNABLE_IPC_PROP] === id) {
+        if (hook[RUNNABLE_MESSAGE_CHANNEL_PROP] === id) {
           return hook;
         }
       }
@@ -144,7 +144,7 @@ export default class RunnerMain extends Runner {
    * If the test is executed with `--retries 2` we will get this result
    */
   private findForgottenTestById(id: string, rootSuite: ISuite = this.rootSuite): ITest | null {
-    if (rootSuite.ctx.test && rootSuite.ctx.test[RUNNABLE_IPC_PROP] === id) {
+    if (rootSuite.ctx.test && rootSuite.ctx.test[RUNNABLE_MESSAGE_CHANNEL_PROP] === id) {
       return rootSuite.ctx.test as ITest;
     }
 
