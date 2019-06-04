@@ -1,4 +1,5 @@
 import { fork } from 'child_process';
+import { Debugger } from 'debug';
 import { resolve } from 'path';
 
 import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
@@ -8,13 +9,16 @@ import { SUITE_OWN_OPTIONS } from '../../config';
 
 export class ProcessThread implements Thread {
   private file: string;
+  // @ts-ignore
+  private log: Debugger;
   private options: ThreadOptions;
   private events: SubprocessMessage[] = [];
   private startedAt: number | undefined;
   private syncedSubprocessData: ISubprocessSyncedData | undefined;
 
-  constructor(file: string, options: ThreadOptions) {
+  constructor(file: string, log: Debugger, options: ThreadOptions) {
     this.file = file;
+    this.log = log;
     this.options = options;
   }
 
