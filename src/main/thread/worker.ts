@@ -4,6 +4,7 @@ import { resolve } from 'path';
 import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
 import { ISubprocessResult, ISubprocessSyncedData } from '../../interfaces';
 import { removeDebugArgs } from '../util';
+import { Debugger } from 'debug';
 
 export interface WorkerData {
   file: string;
@@ -12,23 +13,25 @@ export interface WorkerData {
 
 export class WorkerThread implements Thread {
   private file: string;
+  private log: Debugger;
   private options: ThreadOptions;
   private events: SubprocessMessage[] = [];
   private startedAt: number | undefined;
   private syncedSubprocessData: ISubprocessSyncedData | undefined;
 
-  constructor(file: string, options: ThreadOptions) {
+  constructor(file: string, log: Debugger, options: ThreadOptions) {
     this.file = file;
+    this.log = log;
     this.options = options;
   }
 
   run() {
-    const extension = this.options.isTypescriptRunMode ? 'ts' : 'js';
-    const workerPath = resolve(__dirname, `../../subprocess/worker.${extension}`);
+    const workerFilename = this.options.isTypescriptRunMode ? 'worker.development.js' : 'worker.js';
+    const workerPath = resolve(__dirname, `../../subprocess/thread/${workerFilename}`);
 
     this.startedAt = Date.now();
 
-    return new Promise<ISubprocessResult>((resolve) => {
+    return new Promise<ISubprocessResult>((resolve, reject) => {
       const worker = new Worker(workerPath, {
         execArgv: process.execArgv.filter(removeDebugArgs),
         stderr: true,
@@ -40,7 +43,7 @@ export class WorkerThread implements Thread {
       worker.stdout.on('data', this.onStdout);
       worker.on('message', this.onMessage);
 
-      // worker.on('error', ...);
+      worker.on('error', this.onError(reject));
       worker.on('exit', this.onExit(resolve));
     });
   }
@@ -78,6 +81,11 @@ export class WorkerThread implements Thread {
       event: undefined,
       type: 'stderr',
     });
+  }
+
+  private onError = (reject: (err: Error) => void) => (err: Error) => {
+    this.log(`Error occured in subprocess: ${err.message}`);
+    reject(err);
   }
 
   private onExit = (resolve: (data: ISubprocessResult) => void) => (code: number) => {
