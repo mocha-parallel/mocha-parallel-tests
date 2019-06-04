@@ -84,12 +84,12 @@ export class WorkerThread implements Thread {
   }
 
   private onError = (reject: (err: Error) => void) => (err: Error) => {
-    this.log(`Error occured in subprocess: ${err.message}`);
+    this.log(`Error occured in subprocess: ${err.stack}`);
     reject(err);
   }
 
   private onExit = (resolve: (data: ISubprocessResult) => void) => (code: number) => {
-    // debugLog(`Process for ${file} exited with code ${code}`);
+    this.log(`Process for ${this.file} exited with code ${code}`);
 
     if (!this.startedAt) {
       throw new Error('Attempt to close a thread which hasn\'t been started yet');

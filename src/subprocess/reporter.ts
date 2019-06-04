@@ -1,4 +1,4 @@
-import { reporters, IRunner } from 'mocha';
+import { IRunner } from 'mocha';
 import * as CircularJSON from 'circular-json';
 
 import { ITest, ISuite, IHook } from '../interfaces';
@@ -13,7 +13,7 @@ export interface ReporterConstructor {
 export type ReporterFactory = (channel: MessageChannel, debugSubprocess: boolean) => ReporterConstructor;
 
 export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) => {
-  return class Reporter extends reporters.Base {
+  return class Reporter {
     /**
      * If `--retries N` option is specified runner can emit `test` events
      * multiple times for retried test cases. These test cases do not exist
@@ -26,8 +26,6 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
     private eventsCounter = 0;
   
     constructor(runner: IRunner) {
-      super(runner);
-  
       this.rootSuite = runner.suite as ISuite;
   
       runner.on('waiting', this.onRunnerWaiting);
