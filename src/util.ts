@@ -4,10 +4,8 @@ import { ICLICompilers } from './interfaces';
 
 export function setProcessExitListeners() {
   process.on('unhandledRejection', (reason) => {
-    // @see https://github.com/DefinitelyTyped/DefinitelyTyped/pull/35906
     const message = reason && 'stack' in reason
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ? (reason as any).stack
+      ? (reason as Error).stack
       : 'Unhandled asynchronous exception';
 
     // eslint-disable-next-line no-console
