@@ -9,7 +9,6 @@ import { SUITE_OWN_OPTIONS } from '../../config';
 
 export class ProcessThread implements Thread {
   private file: string;
-  // @ts-ignore
   private log: Debugger;
   private options: ThreadOptions;
   private events: SubprocessMessage[] = [];
@@ -36,7 +35,7 @@ export class ProcessThread implements Thread {
       });
 
       if (!test.stdout || !test.stderr) {
-        reject(new Error('COuld not find standard streams for forked process'));
+        reject(new Error('Could not find standard streams for forked process'));
         return;
       }
 
@@ -112,7 +111,7 @@ export class ProcessThread implements Thread {
   }
 
   private onClose = (resolve: (data: ISubprocessResult) => void) => (code: number) => {
-    // debugLog(`Process for ${file} exited with code ${code}`);
+    this.log(`Process for ${this.file} exited with code ${code}`);
 
     if (!this.startedAt) {
       throw new Error('Attempt to close a thread which hasn\'t been started yet');
