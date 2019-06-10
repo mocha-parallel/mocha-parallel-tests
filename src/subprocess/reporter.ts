@@ -5,6 +5,7 @@ import { Test, Suite, Hook } from '../mocha';
 import { getMessageId } from './util';
 import { RUNNABLE_MESSAGE_CHANNEL_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
 import MessageChannel from './message-channel';
+import { Snapshot, ReporterNotification } from '../message-channel';
 
 export interface ReporterConstructor {
   new(runner: IRunner);
@@ -172,7 +173,7 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
         : [];
   
       // send the data snapshot with every event
-      channel.sendEnsureDelivered({
+      const snapshot: Snapshot = {
         data: {
           // can't use the root suite because it will not get revived in the master process
           // @see https://github.com/WebReflection/circular-json/issues/44
@@ -180,10 +181,13 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
           retries: CircularJSON.stringify({ retriesTests }),
         },
         event: 'sync',
-      });
+      };
+
+      channel.sendEnsureDelivered(snapshot);
   
       // and then send the event
-      channel.sendEnsureDelivered({ event, data });
+      const reporterNotification: ReporterNotification = { event, data }
+      channel.sendEnsureDelivered(reporterNotification);
     }
   }
 }
