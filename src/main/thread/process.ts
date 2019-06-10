@@ -3,7 +3,7 @@ import { Debugger } from 'debug';
 import { resolve } from 'path';
 
 import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
-import { ISubprocessResult, ISubprocessSyncedData } from '../../interfaces';
+import { SubprocessResult, SubprocessSyncedData } from '../../interfaces';
 import { removeDebugArgs } from '../util';
 import { SUITE_OWN_OPTIONS } from '../../config';
 
@@ -13,7 +13,7 @@ export class ProcessThread implements Thread {
   private options: ThreadOptions;
   private events: SubprocessMessage[] = [];
   private startedAt: number | undefined;
-  private syncedSubprocessData: ISubprocessSyncedData | undefined;
+  private syncedSubprocessData: SubprocessSyncedData | undefined;
 
   constructor(file: string, log: Debugger, options: ThreadOptions) {
     this.file = file;
@@ -27,7 +27,7 @@ export class ProcessThread implements Thread {
 
     this.startedAt = Date.now();
 
-    return new Promise<ISubprocessResult>((resolve, reject) => {
+    return new Promise<SubprocessResult>((resolve, reject) => {
       const test = fork(runnerPath, this.buildForkArgs(), {
         // otherwise `--inspect-brk` and other params will be passed to subprocess
         execArgv: process.execArgv.filter(removeDebugArgs),
@@ -110,7 +110,7 @@ export class ProcessThread implements Thread {
     });
   }
 
-  private onClose = (resolve: (data: ISubprocessResult) => void) => (code: number) => {
+  private onClose = (resolve: (data: SubprocessResult) => void) => (code: number) => {
     this.log(`Process for ${this.file} exited with code ${code}`);
 
     if (!this.startedAt) {

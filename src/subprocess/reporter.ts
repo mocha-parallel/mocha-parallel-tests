@@ -1,7 +1,7 @@
 import { IRunner } from 'mocha';
 import CircularJSON from 'circular-json';
 
-import { ITest, ISuite, IHook } from '../interfaces';
+import { Test, Suite, Hook } from '../interfaces';
 import { getMessageId } from './util';
 import { RUNNABLE_MESSAGE_CHANNEL_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
 import MessageChannel from './message-channel';
@@ -20,19 +20,19 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
      * if the final root suite structure, so we need to store them and return
      * to the main process after the end
      */
-    private runningTests = new Set<ITest>();
-    private rootSuite: ISuite;
+    private runningTests = new Set<Test>();
+    private rootSuite: Suite;
     private currentTestIndex: number | null = null;
     private eventsCounter = 0;
   
     constructor(runner: IRunner) {
-      this.rootSuite = runner.suite as ISuite;
+      this.rootSuite = runner.suite as Suite;
   
       runner.on('waiting', this.onRunnerWaiting);
       runner.on('start', this.onRunnerStart);
       runner.on('end', this.onRunnerEnd);
   
-      runner.on('suite', this.onRunnerSuiteStart);
+      runner.on('suite', this.onRunnerSuTestart);
       runner.on('suite end', this.onRunnerSuiteEnd);
   
       runner.on('test', this.onTestStart);
@@ -54,7 +54,7 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
       this.notifyParent('end');
     }
   
-    private onRunnerSuiteStart = (suite: ISuite) => {
+    private onRunnerSuTestart = (suite: Suite) => {
       const title = suite.root ? 'root' : suite.fullTitle();
       const id = getMessageId('suite', title, this.eventsCounter);
       suite[RUNNABLE_MESSAGE_CHANNEL_PROP] = id;
@@ -63,17 +63,17 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
       this.eventsCounter += 1;
     }
   
-    private onRunnerSuiteEnd = (suite: ISuite) => {
+    private onRunnerSuiteEnd = (suite: Suite) => {
       this.notifyParent('suite end', {
         id: suite[RUNNABLE_MESSAGE_CHANNEL_PROP],
       });
     }
   
-    private onRunnerWaiting = (/* rootSuite: ISuite */) => {
+    private onRunnerWaiting = (/* rootSuite: Suite */) => {
       this.notifyParent('waiting');
     }
   
-    private onTestStart = (test: ITest) => {
+    private onTestStart = (test: Test) => {
       const id = getMessageId('test', test.fullTitle(), this.eventsCounter);
       test[RUNNABLE_MESSAGE_CHANNEL_PROP] = id;
   
@@ -103,7 +103,7 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
       this.eventsCounter += 1;
     }
   
-    private onTestEnd = (test: ITest) => {
+    private onTestEnd = (test: Test) => {
       this.runningTests.delete(test);
       this.currentTestIndex = null;
   
@@ -112,13 +112,13 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
       });
     }
   
-    private onRunnerPass = (test: ITest) => {
+    private onRunnerPass = (test: Test) => {
       this.notifyParent('pass', {
         id: test[RUNNABLE_MESSAGE_CHANNEL_PROP],
       });
     }
   
-    private onRunnerFail = (test: ITest, err: Error) => {
+    private onRunnerFail = (test: Test, err: Error) => {
       this.notifyParent('fail', {
         err: {
           message: err.message,
@@ -129,13 +129,13 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
       });
     }
   
-    private onRunnerPending = (test: ITest) => {
+    private onRunnerPending = (test: Test) => {
       this.notifyParent('pending', {
         id: test[RUNNABLE_MESSAGE_CHANNEL_PROP],
       });
     }
   
-    private onRunnerHookStart = (hook: IHook) => {
+    private onRunnerHookStart = (hook: Hook) => {
       const id = hook[RUNNABLE_MESSAGE_CHANNEL_PROP] || getMessageId('hook', hook.title, this.eventsCounter);
       hook[RUNNABLE_MESSAGE_CHANNEL_PROP] = id;
   
@@ -143,7 +143,7 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
       this.eventsCounter += 1;
     }
   
-    private onRunnerHookEnd = (hook: IHook) => {
+    private onRunnerHookEnd = (hook: Hook) => {
       this.notifyParent('hook end', {
         id: hook[RUNNABLE_MESSAGE_CHANNEL_PROP],
       });
