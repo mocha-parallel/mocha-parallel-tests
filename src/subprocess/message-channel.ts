@@ -1,5 +1,6 @@
 import { supportsWorkerThreads } from '../thread';
 import { MessagePort } from 'worker_threads';
+import { InterProcessMessage, OverwrittenStandardStreamMessage } from '../message-channel';
 
 type WriteableStreamType = 'stderr' | 'stdout';
 
@@ -16,7 +17,7 @@ export default class MessageChannel {
     }
   }
 
-  sendEnsureDelivered(message: any): void {
+  sendEnsureDelivered(message: InterProcessMessage): void {
     this.handlesRunning += 1;
     this.sendToParent(message);
   }
@@ -47,7 +48,7 @@ export default class MessageChannel {
     }
   }
 
-  private sendToParent(message: any) {
+  private sendToParent(message: InterProcessMessage) {
     if (supportsWorkerThreads()) {
       const parentPort = this.getParentPort();
       parentPort.postMessage(message);
@@ -68,7 +69,8 @@ export default class MessageChannel {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const overrideCallback = (data: string, ...args: any[]) => {
       const parentPort = this.getParentPort();
-      parentPort.postMessage({ stream, data });
+      const message: OverwrittenStandardStreamMessage = { stream, data };
+      parentPort.postMessage(message);
 
       return originalWrite(data, ...args);
     };

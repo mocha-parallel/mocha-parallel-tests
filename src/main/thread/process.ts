@@ -3,7 +3,7 @@ import { Debugger } from 'debug';
 import { resolve } from 'path';
 
 import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
-import { SubprocessResult, SubprocessSyncedData, SubprocessRunnerMessage, SubprocessOutputMessage } from '../../message-channel';
+import { SubprocessResult, SubprocessSyncedData, SubprocessRunnerMessage, SubprocessOutputMessage, InterProcessMessage, isSyncSnapshot, isOverwrittenStandardStreamMessage } from '../../message-channel';
 import { removeDebugArgs } from '../util';
 import { SUITE_OWN_OPTIONS } from '../../config';
 
@@ -82,13 +82,13 @@ export class ProcessThread implements Thread {
     return forkArgs;
   }
 
-  private onMessage = ({ event, data }) => {
-    if (event === 'sync') {
-      this.syncedSubprocessData = data;
-    } else {
+  private onMessage = (message: InterProcessMessage) => {
+    if (isSyncSnapshot(message)) {
+      this.syncedSubprocessData = message.data;
+    } else if (!isOverwrittenStandardStreamMessage(message)) {
       const runnerEvent: SubprocessRunnerMessage = {
-        data,
-        event,
+        data: message.data,
+        event: message.event,
         type: 'runner',
       };
 
