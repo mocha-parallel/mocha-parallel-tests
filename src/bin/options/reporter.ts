@@ -1,7 +1,7 @@
 import assert from 'assert';
 import Mocha, { reporters } from 'mocha';
 import { join } from 'path';
-import { CLIReporterOptions } from '../../interfaces';
+import { CLIReporterOptions } from './reporter-options';
 
 export default function applyReporter(mocha: Mocha, reporter: string, reporterOptions: CLIReporterOptions) {
   assert.strictEqual(typeof reporter, 'string', '--reporter option can be specified only once');
