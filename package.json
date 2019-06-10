@@ -42,7 +42,9 @@
     "mocha-parallel-tests",
     "parallel tests",
     "unit tests",
-    "tests"
+    "tests",
+    "threads",
+    "worker threads"
   ],
   "scripts": {
     "build": "tsc && chmod +x dist/bin/cli.js",
