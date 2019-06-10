@@ -66,3 +66,11 @@ export function isSyncSnapshot(message: InterProcessMessage): message is Snapsho
 export function isOverwrittenStandardStreamMessage(message: InterProcessMessage): message is OverwrittenStandardStreamMessage {
   return 'stream' in message;
 }
+
+export function isEventWithId(event: ReporterEvent): event is (ReporterErrorEvent | ReporterSimpleEvent) {
+  return 'id' in event;
+}
+
+export function isErrorEvent(event: ReporterEvent): event is ReporterErrorEvent {
+  return 'err' in event;
+}

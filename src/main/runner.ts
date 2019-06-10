@@ -2,7 +2,7 @@ import assert from 'assert';
 import { Runner } from 'mocha';
 
 import { RUNNABLE_MESSAGE_CHANNEL_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
-import { SubprocessResult, SubprocessMessage, SubprocessRunnerMessage } from '../message-channel';
+import { SubprocessResult, SubprocessMessage, SubprocessRunnerMessage, isErrorEvent, isEventWithId } from '../message-channel';
 import {
   Hook,
   RetriedTest,
@@ -162,6 +162,11 @@ export default class RunnerMain extends Runner {
     for (const subprocessEvent of this.subprocessTestResults.events) {
       if (this.isRunnerMessage(subprocessEvent)) {
         const { event, data } = subprocessEvent;
+        
+        if (!isEventWithId(data)) {
+          continue;
+        }
+
         switch (event) {
           case 'start':
           case 'end':
@@ -203,6 +208,10 @@ export default class RunnerMain extends Runner {
               || this.findHookById(data.id)
               || this.findForgottenTestById(data.id);
             assert(test, `Couldn't find test by id: ${data.id}`);
+
+            if (!isErrorEvent(data)) {
+              throw new Error('Unexpected fail event without err field');
+            }
 
             this.emit(event, test, data.err);
             break;
