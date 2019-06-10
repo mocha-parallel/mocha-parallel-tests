@@ -3,8 +3,10 @@ node_js:
   - "stable"
   - "8"
   - "10"
-env:
-  - CXX=g++-4.8
+os:
+  - linux
+  - osx
+  - windows
 addons:
   apt:
     sources:
