@@ -2,7 +2,7 @@ import assert from 'assert';
 import { Runner } from 'mocha';
 
 import { RUNNABLE_MESSAGE_CHANNEL_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
-import { SubprocessResult } from '../message-channel';
+import { SubprocessResult, SubprocessMessage, SubprocessRunnerMessage } from '../message-channel';
 import {
   Hook,
   RetriedTest,
@@ -159,8 +159,9 @@ export default class RunnerMain extends Runner {
   }
 
   private emitSubprocessEvents() {
-    for (const { event, data, type } of this.subprocessTestResults.events) {
-      if (type === 'runner') {
+    for (const subprocessEvent of this.subprocessTestResults.events) {
+      if (this.isRunnerMessage(subprocessEvent)) {
+        const { event, data } = subprocessEvent;
         switch (event) {
           case 'start':
           case 'end':
@@ -220,8 +221,13 @@ export default class RunnerMain extends Runner {
             throw new Error(`Unknown event: ${event}`);
         }
       } else {
+        const { data, type } = subprocessEvent;
         process[type].write(data);
       }
     }
+  }
+
+  private isRunnerMessage(message: SubprocessMessage): message is SubprocessRunnerMessage {
+    return message.type === 'runner';
   }
 }

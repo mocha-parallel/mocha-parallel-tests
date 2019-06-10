@@ -20,6 +20,6 @@ const exit = (channel: MessageChannel) => (code: number) => {
   });
 };
 
-export default function applyExit(channel: MessageChannel, shouldExitImmediately: any) {
+export default function applyExit(channel: MessageChannel, shouldExitImmediately: boolean) {
   return shouldExitImmediately ? exit(channel) : exitLater;
 }
