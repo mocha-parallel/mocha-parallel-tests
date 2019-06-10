@@ -82,7 +82,6 @@ export class WorkerThread implements Thread {
   private onStdout = (data: Buffer) => {
     this.events.push({
       data,
-      event: undefined,
       type: 'stdout',
     });
   }
@@ -90,7 +89,6 @@ export class WorkerThread implements Thread {
   private onStderr = (data: Buffer) => {
     this.events.push({
       data,
-      event: undefined,
       type: 'stderr',
     });
   }

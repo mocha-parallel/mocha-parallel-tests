@@ -16,7 +16,6 @@ export default class MessageChannel {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sendEnsureDelivered(message: any): void {
     this.handlesRunning += 1;
     this.sendToParent(message);
@@ -48,7 +47,6 @@ export default class MessageChannel {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private sendToParent(message: any) {
     if (supportsWorkerThreads()) {
       const parentPort = this.getParentPort();

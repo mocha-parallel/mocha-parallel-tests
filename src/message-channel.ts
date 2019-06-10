@@ -5,7 +5,6 @@ export interface SubprocessRunnerMessage {
 }
 
 export interface SubprocessOutputMessage {
-  event: undefined;
   data: Buffer;
   type: 'stdout' | 'stderr';
 }
