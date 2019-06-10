@@ -39,10 +39,12 @@ export class WorkerThread implements Thread {
         workerData: this.buildWorkerData(),
       });
 
-      worker.stderr.on('data', this.onStderr);
-      worker.stdout.on('data', this.onStdout);
-      worker.on('message', this.onMessage);
+      // it's unsafe to listen to stderr/stdout messages from the worker thread
+      // because they are asynchronous (process.stdout.isTTY = False)
+      // worker.stderr.on('data', this.onStderr);
+      // worker.stdout.on('data', this.onStdout);
 
+      worker.on('message', this.onMessage);
       worker.on('error', this.onError(reject));
       worker.on('exit', this.onExit(resolve));
     });
@@ -55,7 +57,17 @@ export class WorkerThread implements Thread {
     };
   }
 
-  private onMessage = ({ event, data }) => {
+  private onMessage = ({ event, data, stream }) => {
+    if (stream === 'stdout') {
+      this.onStdout(data);
+      return;
+    }
+
+    if (stream === 'stderr') {
+      this.onStderr(data);
+      return;
+    }
+
     if (event === 'sync') {
       this.syncedSubprocessData = data;
     } else {
