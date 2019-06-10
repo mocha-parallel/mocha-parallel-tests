@@ -7,9 +7,9 @@ import TaskManager from './task-manager';
 import { subprocessParseReviver } from './util';
 
 import {
-  IRetriedTest,
-  ISubprocessResult,
-  ISuite,
+  RetriedTest,
+  SubprocessResult,
+  Suite,
 } from '../interfaces';
 import { getThread } from './thread';
 import { ThreadOptions } from '../thread';
@@ -61,7 +61,7 @@ export default class MochaWrapper extends Mocha {
       hasOnly, // looks like a private mocha API
     } = this.options;
 
-    const rootSuite = this.suite as ISuite;
+    const rootSuite = this.suite as Suite;
 
     const runner = new RunnerMain(rootSuite);
     runner.ignoreLeaks = ignoreLeaks !== false;
@@ -71,7 +71,7 @@ export default class MochaWrapper extends Mocha {
     runner.fullStackTrace = fullStackTrace;
     runner.asyncOnly = asyncOnly;
 
-    const taskManager = new TaskManager<ISubprocessResult>(this.maxParallel);
+    const taskManager = new TaskManager<SubprocessResult>(this.maxParallel);
     for (const file of this.files) {
       const task = () => this.runThread(file);
       taskManager.add(task);
@@ -92,7 +92,7 @@ export default class MochaWrapper extends Mocha {
     taskManager.execute();
 
     taskManager
-      .on('taskFinished', (testResults: ISubprocessResult) => {
+      .on('taskFinished', (testResults: SubprocessResult) => {
         const {
           code,
           execTime,
@@ -105,7 +105,7 @@ export default class MochaWrapper extends Mocha {
         // tslint:disable-next-line:max-line-length
         debugLog(`Has synced data: ${Boolean(syncedSubprocessData)}, number of events: ${events.length}, execution time: ${execTime}`);
 
-        const retriedTests: IRetriedTest[] = [];
+        const retriedTests: RetriedTest[] = [];
 
         if (syncedSubprocessData) {
           this.addSubprocessSuites(testResults);
@@ -136,7 +136,7 @@ export default class MochaWrapper extends Mocha {
     return runner;
   }
 
-  private addSubprocessSuites(testArtifacts: ISubprocessResult): void {
+  private addSubprocessSuites(testArtifacts: SubprocessResult): void {
     const rootSuite = this.suite;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const serialized = testArtifacts.syncedSubprocessData!;
@@ -150,15 +150,15 @@ export default class MochaWrapper extends Mocha {
     rootSuite.suites.push(testRootSuite);
   }
 
-  private extractSubprocessRetriedTests(testArtifacts: ISubprocessResult): IRetriedTest[] {
+  private extractSubprocessRetriedTests(testArtifacts: SubprocessResult): RetriedTest[] {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const serialized = testArtifacts.syncedSubprocessData!;
     const { retriesTests } = CircularJSON.parse(serialized.retries, subprocessParseReviver);
 
-    return retriesTests as IRetriedTest[];
+    return retriesTests as RetriedTest[];
   }
 
-  private async runThread(file: string): Promise<ISubprocessResult> {
+  private async runThread(file: string): Promise<SubprocessResult> {
     const options = this.getThreadOptions();
     const thread = getThread(file, options);
 

@@ -3,7 +3,7 @@ import { Worker } from 'worker_threads';
 import { resolve } from 'path';
 
 import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
-import { ISubprocessResult, ISubprocessSyncedData } from '../../interfaces';
+import { SubprocessResult, SubprocessSyncedData } from '../../interfaces';
 import { removeDebugArgs } from '../util';
 
 export interface WorkerData {
@@ -17,7 +17,7 @@ export class WorkerThread implements Thread {
   private options: ThreadOptions;
   private events: SubprocessMessage[] = [];
   private startedAt: number | undefined;
-  private syncedSubprocessData: ISubprocessSyncedData | undefined;
+  private syncedSubprocessData: SubprocessSyncedData | undefined;
 
   constructor(file: string, log: Debugger, options: ThreadOptions) {
     this.file = file;
@@ -31,7 +31,7 @@ export class WorkerThread implements Thread {
 
     this.startedAt = Date.now();
 
-    return new Promise<ISubprocessResult>((resolve, reject) => {
+    return new Promise<SubprocessResult>((resolve, reject) => {
       const worker = new Worker(workerPath, {
         execArgv: process.execArgv.filter(removeDebugArgs),
         stderr: true,
@@ -100,7 +100,7 @@ export class WorkerThread implements Thread {
     reject(err);
   }
 
-  private onExit = (resolve: (data: ISubprocessResult) => void) => (code: number) => {
+  private onExit = (resolve: (data: SubprocessResult) => void) => (code: number) => {
     this.log(`Process for ${this.file} exited with code ${code}`);
 
     if (!this.startedAt) {

@@ -1,6 +1,10 @@
 import { existsSync } from 'fs';
 import { join, resolve } from 'path';
-import { ICLICompilers } from './interfaces';
+
+export interface CLICompilers {
+  compilers: string[];
+  extensions: string[];
+}
 
 export function setProcessExitListeners() {
   process.on('unhandledRejection', (reason) => {
@@ -20,7 +24,7 @@ export function setProcessExitListeners() {
   });
 }
 
-export function applyRequires(requires: any): string[] {
+export function applyRequires(requires: string | string[]): string[] {
   const requiresList: string[] = Array.isArray(requires) ? requires : [requires];
   const output: string[] = [];
 
@@ -39,9 +43,9 @@ export function applyRequires(requires: any): string[] {
   return output;
 }
 
-export function applyCompilers(compilers: any): ICLICompilers {
+export function applyCompilers(compilers: string | string[]): CLICompilers {
   const compilersList: string[] = Array.isArray(compilers) ? compilers : [compilers];
-  const output: ICLICompilers = {
+  const output: CLICompilers = {
     compilers: compilersList,
     extensions: ['js'],
   };
