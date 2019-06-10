@@ -15,10 +15,12 @@ export interface SubprocessSyncedData {
   retries: string;
 }
 
+export type SubprocessMessage = SubprocessRunnerMessage | SubprocessOutputMessage;
+
 export interface SubprocessResult {
   code: number;
   file: string;
-  events: (SubprocessRunnerMessage | SubprocessOutputMessage)[];
+  events: SubprocessMessage[];
   execTime: number;
   syncedSubprocessData?: SubprocessSyncedData;
 }

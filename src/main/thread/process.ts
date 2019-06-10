@@ -3,7 +3,7 @@ import { Debugger } from 'debug';
 import { resolve } from 'path';
 
 import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
-import { SubprocessResult, SubprocessSyncedData } from '../../interfaces';
+import { SubprocessResult, SubprocessSyncedData } from '../../message-channel';
 import { removeDebugArgs } from '../util';
 import { SUITE_OWN_OPTIONS } from '../../config';
 

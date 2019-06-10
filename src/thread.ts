@@ -1,4 +1,4 @@
-import { SubprocessResult, SubprocessOutputMessage, SubprocessRunnerMessage } from './interfaces';
+import { SubprocessResult, SubprocessOutputMessage, SubprocessRunnerMessage } from './message-channel';
 
 export type ListenerMessage = (message: Buffer) => void;
 export type ListenerStandardStream = (message: Buffer) => void;
