@@ -1,4 +1,6 @@
-## (upcoming changes)
+## 2.2.0
+
+* new: `mocha-parallel-tests` now forks light threads instead of fully fledged Node.JS processes in environments where [worker_threads](https://nodejs.org/api/worker_threads.html) API is supported. Usually it's Node.JS >= 12. This results in a faster tests processing and less memory consumption.
 
 ## 2.1.2
 
