@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import * as EventEmitter from 'events';
+import assert from 'assert';
+import EventEmitter from 'events';
 import { cpus } from 'os';
 import { ITaskOutput, Task } from '../interfaces';
 

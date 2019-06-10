@@ -1,14 +1,14 @@
-import * as assert from 'assert';
-import * as Mocha from 'mocha';
+import assert from 'assert';
+import Mocha, { reporters } from 'mocha';
 import { join } from 'path';
 import { ICLIReporterOptions } from '../../interfaces';
 
-export default function applyReporter(mocha: Mocha, reporter: any, reporterOptions: ICLIReporterOptions) {
+export default function applyReporter(mocha: Mocha, reporter: string, reporterOptions: ICLIReporterOptions) {
   assert.strictEqual(typeof reporter, 'string', '--reporter option can be specified only once');
   mocha.reporter(reporter, reporterOptions);
 
   // load reporter
-  let Reporter: any;
+  let Reporter: reporters.Base;
 
   // required reporter can be in the process CWD
   const cwd = process.cwd();

@@ -1,6 +1,6 @@
-import * as CircularJSON from 'circular-json';
-import * as debug from 'debug';
-import * as Mocha from 'mocha';
+import CircularJSON from 'circular-json';
+import debug from 'debug';
+import Mocha from 'mocha';
 
 import RunnerMain from './runner';
 import TaskManager from './task-manager';

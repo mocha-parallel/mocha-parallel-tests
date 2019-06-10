@@ -1,4 +1,4 @@
-import * as yargs from 'yargs';
+import yargs from 'yargs';
 
 import { DEBUG_SUBPROCESS } from '../config';
 import { runMocha } from './runner';

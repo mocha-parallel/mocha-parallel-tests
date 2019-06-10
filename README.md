@@ -30,7 +30,7 @@ Most of `mocha` CLI options are supported. If you're missing some of the options
 
 ```javascript
 // mocha example
-import * as Mocha from 'mocha';
+import Mocha from 'mocha';
 const mocha = new Mocha();
 mocha.addFile(`${__dirname}/index.spec.js`);
 mocha.run();

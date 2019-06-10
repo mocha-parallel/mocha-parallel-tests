@@ -5,6 +5,7 @@
     "allowJs": false,
     "alwaysStrict": true,
     "declaration": true,
+    "esModuleInterop": true,
     "importHelpers": true,
     "moduleResolution": "classic",
     "noFallthroughCasesInSwitch": true,

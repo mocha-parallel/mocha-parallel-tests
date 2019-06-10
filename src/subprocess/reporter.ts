@@ -1,5 +1,5 @@
 import { IRunner } from 'mocha';
-import * as CircularJSON from 'circular-json';
+import CircularJSON from 'circular-json';
 
 import { ITest, ISuite, IHook } from '../interfaces';
 import { getMessageId } from './util';
