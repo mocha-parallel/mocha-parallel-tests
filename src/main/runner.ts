@@ -162,6 +162,11 @@ export default class RunnerMain extends Runner {
     for (const subprocessEvent of this.subprocessTestResults.events) {
       if (this.isRunnerMessage(subprocessEvent)) {
         const { event, data } = subprocessEvent;
+
+        if (event === 'waiting') {
+          this.emit('waiting', this.rootSuite);
+          continue;
+        }
         
         if (!isEventWithId(data)) {
           continue;
@@ -172,14 +177,6 @@ export default class RunnerMain extends Runner {
           case 'end':
             // ignore these events from subprocess
             break;
-
-          case 'waiting': {
-            const waitingSuite = this.findSuiteById(data.id);
-            assert(waitingSuite, `Couldn't find suite by id: ${data.id}`);
-
-            this.emit(event, waitingSuite);
-            break;
-          }
 
           case 'suite':
           case 'suite end': {
