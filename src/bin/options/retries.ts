@@ -1,4 +1,4 @@
-import * as Mocha from 'mocha';
+import Mocha from 'mocha';
 
 export default function applyRetries(mocha: Mocha, retries?: number) {
   if (retries) {

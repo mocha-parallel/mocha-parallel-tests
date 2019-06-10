@@ -1,4 +1,4 @@
-import * as Mocha from 'mocha';
+import Mocha from 'mocha';
 
 import MessageChannel from './message-channel';
 import { getReporterFactory } from './reporter';

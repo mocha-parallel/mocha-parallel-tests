@@ -1,4 +1,4 @@
-import * as Mocha from 'mocha';
+import Mocha from 'mocha';
 
 export default function applyForbidPending(mocha: Mocha, forbidPending?: boolean) {
   if (forbidPending) {
