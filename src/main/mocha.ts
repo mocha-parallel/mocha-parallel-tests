@@ -6,11 +6,8 @@ import RunnerMain from './runner';
 import TaskManager from './task-manager';
 import { subprocessParseReviver } from './util';
 
-import {
-  RetriedTest,
-  SubprocessResult,
-  Suite,
-} from '../interfaces';
+import { SubprocessResult } from '../interfaces';
+import { RetriedTest, Suite } from '../mocha';
 import { getThread } from './thread';
 import { ThreadOptions } from '../thread';
 import { SUITE_OWN_OPTIONS } from '../config';

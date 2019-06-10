@@ -1,4 +1,6 @@
-import { CLIReporterOptions } from '../../interfaces';
+export interface CLIReporterOptions {
+  [key: string]: string | boolean;
+}
 
 export default function applyReporterOptions(reporterOptions: string[]) {
   const output: CLIReporterOptions = {};

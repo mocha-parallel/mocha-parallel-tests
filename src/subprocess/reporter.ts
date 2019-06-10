@@ -1,7 +1,7 @@
 import { IRunner } from 'mocha';
 import CircularJSON from 'circular-json';
 
-import { Test, Suite, Hook } from '../interfaces';
+import { Test, Suite, Hook } from '../mocha';
 import { getMessageId } from './util';
 import { RUNNABLE_MESSAGE_CHANNEL_PROP, SUBPROCESS_RETRIED_SUITE_ID } from '../config';
 import MessageChannel from './message-channel';
