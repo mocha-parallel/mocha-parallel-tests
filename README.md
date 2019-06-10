@@ -4,11 +4,13 @@
 
 `mocha-parallel-tests` is a test runner for tests written with `mocha` testing framework which allows you to run them in parallel. `mocha-parallel-tests` executes **each of your test files in a separate process** while maintaining the output structure of `mocha`. Compared to the other tools which try to parallelize `mocha` tests execution, `mocha-parallel-tests` doesn't require you to write the code in a different way or use some specific APIs - just run your tests with `mocha-parallel-tests` instead of `mocha` and you will see the difference. Or if you prefer to use `mocha` programmatic API replace it with `mocha-parallel-tests` default export and you're done!
 
+If you're using Node.JS >= 12 your tests execution will be even faster because `mocha-parallel-tests` supports running tests with Node.JS worker threads API: instead of creating fully fledged Node.JS processes `mocha-parallel-tests` runs your tests in lighter threads within the same process. This results in a faster tests processing and less memory consumption.
+
 ## Installation
 
 `npm install --save-dev mocha mocha-parallel-tests`
 
-**ATTENTION**: `mocha` is a peer dependency of `mocha-parallel-tests` so you also need to install `mocha`. Currently `mocha` versions 3, 4 and 5 are supported.
+**ATTENTION**: `mocha` is a peer dependency of `mocha-parallel-tests` so you also need to install `mocha`. Currently `mocha` versions 3, 4, 5 and 6 are supported.
 
 ## Usage
 
@@ -48,7 +50,7 @@ mocha.run();
 
 ## Differences with mocha
 
-Main difference with `mocha` comes from the fact that all files are executed in separate processes and don't share the scope. This means that even global variables values that you could've used to share the data between test suites will not be reliable. There's also some specific behaviour for some of the `mocha` CLI options like `--bail`: it's just applied to each test in its process. You can see the full list of differences [here](https://github.com/mocha-parallel/mocha-parallel-tests/wiki/Differences-with-mocha).
+Main difference with `mocha` comes from the fact that all files are executed in separate processes/threads and don't share the scope. This means that even global variables values that you could've used to share the data between test suites will not be reliable. There's also some specific behaviour for some of the `mocha` CLI options like `--bail`: it's just applied to each test in its process. You can see the full list of differences [here](https://github.com/mocha-parallel/mocha-parallel-tests/wiki/Differences-with-mocha).
 
 There's also a [list of limitations](https://github.com/mocha-parallel/mocha-parallel-tests/wiki/Limitations) that you can hit when you launch your tests with `mocha-parallel-tests`.
 
