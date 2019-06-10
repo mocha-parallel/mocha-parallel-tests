@@ -1,8 +1,20 @@
 import { supportsWorkerThreads } from '../thread';
+import { MessagePort } from 'worker_threads';
+
+type WriteableStreamType = 'stderr' | 'stdout';
 
 export default class MessageChannel {
   private handlesRunning = 0;
   private callbackRunOnExhausted: () => void;
+
+  constructor() {
+    if (supportsWorkerThreads()) {
+      // stdout/stderr messages and worker thread messages are not synchronised
+      // this means that we can't rely on worker.stdout stream
+      process.stdout.write = this.overrideStdStream('stdout');
+      process.stderr.write = this.overrideStdStream('stderr');
+    }
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sendEnsureDelivered(message: any): void {
@@ -18,6 +30,16 @@ export default class MessageChannel {
     }
   }
 
+  private getParentPort(): MessagePort {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { parentPort } = require('worker_threads');
+    if (!parentPort) {
+      throw new Error('Parent port is not available');
+    }
+
+    return parentPort;
+  }
+
   private onHandleFinished = (): void => {
     this.handlesRunning -= 1;
 
@@ -29,14 +51,30 @@ export default class MessageChannel {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private sendToParent(message: any) {
     if (supportsWorkerThreads()) {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { parentPort } = require('worker_threads');
+      const parentPort = this.getParentPort();
       parentPort.postMessage(message);
 
       this.onHandleFinished();
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      process.send!(message, this.onHandleFinished);
+      if (!process.send) {
+        throw new Error('IPC is not available');
+      }
+
+      process.send(message, this.onHandleFinished);
     }
+  }
+
+  private overrideStdStream(stream: WriteableStreamType) {
+    const originalWrite = process[stream].write.bind(process.stdout);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const overrideCallback = (data: string, ...args: any[]) => {
+      const parentPort = this.getParentPort();
+      parentPort.postMessage({ stream, data });
+
+      return originalWrite(data, ...args);
+    };
+
+    return overrideCallback;
   }
 }
