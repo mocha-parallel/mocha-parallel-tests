@@ -3,7 +3,7 @@ import { Debugger } from 'debug';
 import { resolve } from 'path';
 
 import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
-import { SubprocessResult, SubprocessSyncedData } from '../../message-channel';
+import { SubprocessResult, SubprocessSyncedData, SubprocessRunnerMessage, SubprocessOutputMessage } from '../../message-channel';
 import { removeDebugArgs } from '../util';
 import { SUITE_OWN_OPTIONS } from '../../config';
 
@@ -86,26 +86,32 @@ export class ProcessThread implements Thread {
     if (event === 'sync') {
       this.syncedSubprocessData = data;
     } else {
-      this.events.push({
+      const runnerEvent: SubprocessRunnerMessage = {
         data,
         event,
         type: 'runner',
-      });
+      };
+
+      this.events.push(runnerEvent);
     }
   }
 
   private onStdout = (data: Buffer) => {
-    this.events.push({
+    const outputEvent: SubprocessOutputMessage = {
       data,
       type: 'stdout',
-    });
+    };
+
+    this.events.push(outputEvent);
   }
 
   private onStderr = (data: Buffer) => {
-    this.events.push({
+    const outputEvent: SubprocessOutputMessage = {
       data,
       type: 'stderr',
-    });
+    };
+
+    this.events.push(outputEvent);
   }
 
   private onClose = (resolve: (data: SubprocessResult) => void) => (code: number) => {
