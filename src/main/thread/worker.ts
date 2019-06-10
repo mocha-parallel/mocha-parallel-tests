@@ -3,7 +3,7 @@ import { Worker } from 'worker_threads';
 import { resolve } from 'path';
 
 import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
-import { SubprocessResult, SubprocessSyncedData } from '../../interfaces';
+import { SubprocessResult, SubprocessSyncedData } from '../../message-channel';
 import { removeDebugArgs } from '../util';
 
 export interface WorkerData {
