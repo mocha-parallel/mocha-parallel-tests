@@ -1,6 +1,5 @@
 os:
   - linux
-  - osx
   - windows
 language: node_js
 node_js:
@@ -8,15 +7,8 @@ node_js:
   - "10"
   - "12"
 
-before_install:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install coreutils; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then alias timeout=gtimeout; fi
-  - npm install -g greenkeeper-lockfile
-
-install:
-  - npm install
-
+before_install: npm install -g greenkeeper-lockfile
+install: npm install
 before_script: greenkeeper-lockfile-update
 after_script: greenkeeper-lockfile-upload
 script: npm run test:ci
