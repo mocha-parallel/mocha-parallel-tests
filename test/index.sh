@@ -65,6 +65,7 @@ test 'syntax errors' test/syntax-errors/index.js
 test '--require option support' test/require-option/index.sh
 test 'run programmatically (base API)' test/run-programmatically/callback/index.js
 test 'run programmatically (reporter.done is called)' test/run-programmatically/reporter-done/index.js
+test 'run programmatically (worker TTY)' test/run-programmatically/tty-worker/index.js
 test '--no-exit option support' test/reporter-end-no-exit/index.js
 test 'node native add-on' test/node-native-addon/index.sh
 test 'skip-suite' test/skip-suite/index.sh
