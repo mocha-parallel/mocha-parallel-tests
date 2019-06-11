@@ -28,6 +28,7 @@ function test {
 
 MOCHA_VERSION=`mocha --version`
 echo "You're running tests with mocha version $MOCHA_VERSION"
+timeout --help
 
 test 'native (json) reporter' test/reporter-native-json/index.sh
 test 'native (tap) reporter' test/reporter-native-tap/index.sh
