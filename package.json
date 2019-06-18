@@ -1,5 +1,5 @@
 {
-  "name": "mocha-parallel-tests",
+  "name": "macaca-mocha-parallel-tests",
   "version": "2.2.0",
   "homepage": "https://github.com/mocha-parallel/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
@@ -19,7 +19,7 @@
     "Hennadii Bulakh"
   ],
   "dependencies": {
-    "circular-json": "^0.5.9",
+    "macaca-circular-json": "^0.5.10",
     "debug": "^4.1.1",
     "uuid": "^3.3.2",
     "yargs": "^13.2.4"
