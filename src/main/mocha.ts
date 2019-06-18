@@ -1,4 +1,4 @@
-import CircularJSON from 'circular-json';
+import CircularJSON from 'macaca-circular-json';
 import debug from 'debug';
 import Mocha from 'mocha';
 

@@ -1,5 +1,5 @@
 import { IRunner } from 'mocha';
-import CircularJSON from 'circular-json';
+import CircularJSON from 'macaca-circular-json';
 
 import { Test, Suite, Hook } from '../mocha';
 import { getMessageId } from './util';
