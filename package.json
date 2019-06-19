@@ -1,6 +1,6 @@
 {
   "name": "macaca-mocha-parallel-tests",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "homepage": "https://github.com/mocha-parallel/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./dist/main/mocha.js",
