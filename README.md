@@ -2,6 +2,8 @@
 
 [![Build Status](https://img.shields.io/travis/mocha-parallel/mocha-parallel-tests/master.svg?style=flat)](https://travis-ci.org/mocha-parallel/mocha-parallel-tests)
 
+> 特别注意：build 之前需要将 @types 文件夹复制到 node_modules/@types 中。
+
 `mocha-parallel-tests` is a test runner for tests written with `mocha` testing framework which allows you to run them in parallel. `mocha-parallel-tests` executes **each of your test files in a separate process** while maintaining the output structure of `mocha`. Compared to the other tools which try to parallelize `mocha` tests execution, `mocha-parallel-tests` doesn't require you to write the code in a different way or use some specific APIs - just run your tests with `mocha-parallel-tests` instead of `mocha` and you will see the difference. Or if you prefer to use `mocha` programmatic API replace it with `mocha-parallel-tests` default export and you're done!
 
 If you're using Node.JS >= 12 your tests execution will be even faster because `mocha-parallel-tests` supports running tests with Node.JS worker threads API: instead of creating fully fledged Node.JS processes `mocha-parallel-tests` runs your tests in lighter threads within the same process. This results in a faster tests processing and less memory consumption.
