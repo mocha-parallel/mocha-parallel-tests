@@ -19,6 +19,7 @@
     "Hennadii Bulakh"
   ],
   "dependencies": {
+    "tslib": "1.x",
     "debug": "^4.1.1",
     "macaca-circular-json": "^0.5.10",
     "uuid": "^3.3.2",
