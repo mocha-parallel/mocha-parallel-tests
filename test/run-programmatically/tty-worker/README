@@ -1,1 +1,2 @@
 Check that spec reporter can work in a non-TTY window
+TODO: this test fails when you run index.js from the terminal but doesn't fail when it's executed from tests/index.sh
