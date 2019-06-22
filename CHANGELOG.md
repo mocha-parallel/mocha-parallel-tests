@@ -1,3 +1,9 @@
+## 2.2.1
+
+* fix: TTY-related issue where users of Node.JS>=12 could see an error "TypeError: tty.getWindowSize is not a function" ([#247](https://github.com/mocha-parallel/mocha-parallel-tests/issues/247))
+* chore: last tslint comments removed from the code, `mocha-parallel-tests` Typescript code and Javascript tests are now linted completely by `eslint` ([#242](https://github.com/mocha-parallel/mocha-parallel-tests/issues/242))
+* chore: `mocha-parallel-tests` are now also executed in OSX via Travis CI
+
 ## 2.2.0
 
 * new: `mocha-parallel-tests` now forks light threads instead of fully fledged Node.JS processes in environments where [worker_threads](https://nodejs.org/api/worker_threads.html) API is supported. Usually it's Node.JS >= 12. This results in a faster tests processing and less memory consumption.
