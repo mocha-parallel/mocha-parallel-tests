@@ -99,7 +99,6 @@ export default class MochaWrapper extends Mocha {
         } = testResults;
 
         debugLog(`File execution finished: ${file}`);
-        // tslint:disable-next-line:max-line-length
         debugLog(`Has synced data: ${Boolean(syncedSubprocessData)}, number of events: ${events.length}, execution time: ${execTime}`);
 
         const retriedTests: RetriedTest[] = [];

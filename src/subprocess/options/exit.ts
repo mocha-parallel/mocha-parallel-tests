@@ -1,6 +1,5 @@
 import MessageChannel from '../message-channel';
 
-// tslint:disable:no-console
 function exitLater(code) {
   process.on('exit', function onExit() {
     process.exit(Math.min(code, 255));
