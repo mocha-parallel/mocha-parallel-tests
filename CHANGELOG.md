@@ -1,3 +1,7 @@
+## 2.2.2
+
+* fix: `mocha-parallel-tests` no longer reequire implicit `tslib` dependency ([#262](https://github.com/mocha-parallel/mocha-parallel-tests/issues/262))
+
 ## 2.2.1
 
 * fix: TTY-related issue where users of Node.JS>=12 could see an error "TypeError: tty.getWindowSize is not a function" ([#247](https://github.com/mocha-parallel/mocha-parallel-tests/issues/247))
