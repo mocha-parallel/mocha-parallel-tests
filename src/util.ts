@@ -24,6 +24,14 @@ export function setProcessExitListeners() {
   });
 }
 
+export function applyFiles(mocha: Mocha, files: string | string[]) {
+  const fileList: string[] = Array.isArray(files) ? files : [files]
+  
+  if(fileList) {
+    mocha.files = fileList.concat(mocha.files);
+  }
+}
+
 export function applyRequires(requires: string | string[]): string[] {
   const requiresList: string[] = Array.isArray(requires) ? requires : [requires];
   const output: string[] = [];

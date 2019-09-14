@@ -20,6 +20,7 @@ import applyNoTimeouts from './options/no-timeouts';
 import applyReporter from './options/reporter';
 import applyReporterOptions from './options/reporter-options';
 import applyRequires from './options/require';
+import applyFiles from './options/file';
 import getFilesList from './options/rest';
 import applyRetries from './options/retries';
 import applySlow from './options/slow';
@@ -103,6 +104,9 @@ const argv = yargs
   .option('retries', {
     number: true,
   })
+  .option('file', {
+    default: [],
+  })
   .option('require', {
     alias: 'r',
     default: [],
@@ -166,6 +170,9 @@ if (newTimeoutsBehaviour) {
 // --r, --require
 const requires = applyRequires(argv.require);
 mocha.addRequiresForSubprocess(requires);
+
+// --file
+applyFiles(mocha, argv.file);
 
 // --reporter-options
 const argvReporterOptions = newReporterOptionsType
