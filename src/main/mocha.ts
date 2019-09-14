@@ -169,6 +169,7 @@ export default class MochaWrapper extends Mocha {
       fullTrace: false,
       isTypescriptRunMode: this.isTypescriptRunMode,
       requires: [],
+      file: [],
     };
 
     for (const requirePath of this.requires) {

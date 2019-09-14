@@ -17,6 +17,7 @@ interface Args {
   slow?: boolean;
   timeout?: number;
   test: string;
+  file: string[];
 }
 
 function isDebugSubprocesss(argv: Args) {
@@ -37,6 +38,7 @@ function threadOptionsFromArgv(argv: Args): ThreadOptions {
     retries: argv.retries,
     slow: argv.slow,
     timeout: argv.timeout,
+    file: argv.file,
   };
 }
 
@@ -63,6 +65,10 @@ const argv: Args = yargs
   .option('require', {
     array: true,
     default: [],
+  })
+  .option('file', {
+    array: true,
+    default: []
   })
   .number('retries')
   .number('timeout')
