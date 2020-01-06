@@ -1,5 +1,5 @@
 import { Debugger } from 'debug';
-import { Worker, SHARE_ENV } from 'worker_threads';
+import { Worker } from 'worker_threads';
 import { resolve } from 'path';
 
 import { SubprocessMessage, Thread, ThreadOptions } from '../../thread';
@@ -37,7 +37,6 @@ export class WorkerThread implements Thread {
         stderr: true,
         stdout: true,
         workerData: this.buildWorkerData(),
-        env: this.options.shareEnvs? SHARE_ENV: null,
       });
 
       // it's unsafe to listen to stderr/stdout messages from the worker thread

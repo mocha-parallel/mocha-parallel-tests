@@ -81,6 +81,9 @@ const argv = yargs
   .option('full-trace', {
     boolean: true,
   })
+  .option('share-envs', {
+    boolean: false,
+  })
   .option('max-parallel', {
     number: true,
   })
