@@ -3,6 +3,6 @@ import Mocha from '../../main/mocha';
 
 export default function applyShareEnvs(mocha: Mocha, shareEnvs?: boolean) {
   if (shareEnvs) {
-    mocha.setEnvs(shareEnvs? workerThreads.SHARE_ENV: null);
+    mocha.setEnvs(shareEnvs? workerThreads["SHARE_ENV"]: null);
   }
 }
