@@ -17,7 +17,7 @@ const debugLog = debug('mocha-parallel-tests');
 export default class MochaWrapper extends Mocha {
   private isTypescriptRunMode = false;
   private maxParallel: number | undefined;
-  private env: Symbol | undefined;
+  private env: symbol | undefined;
   private requires: string[] = [];
   private compilers: string[] = [];
   private exitImmediately = false;
@@ -44,7 +44,7 @@ export default class MochaWrapper extends Mocha {
     this.maxParallel = maxParallel;
   }
 
-  setEnvs(env: Symbol) {
+  setEnvs(env: symbol) {
     this.env = env;
   }
 
