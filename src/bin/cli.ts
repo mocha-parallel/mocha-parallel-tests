@@ -82,7 +82,7 @@ const argv = yargs
     boolean: true,
   })
   .option('share-envs', {
-    boolean: false,
+    boolean: true,
   })
   .option('max-parallel', {
     number: true,
