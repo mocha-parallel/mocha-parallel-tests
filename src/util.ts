@@ -95,5 +95,5 @@ export function applyTimeouts(mocha: Mocha, timeout?: number) {
 }
 
 export function getNodeMajorVersion() {
-  return process.versions.node.split('.')[0];
+  return Number(process.versions.node.split('.')[0]);
 }
