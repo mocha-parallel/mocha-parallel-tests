@@ -1,11 +1,11 @@
 import Mocha from '../../main/mocha';
-import { getNodeMajorVersion } from "../../util";
+import { supportsWorkerThreads } from "../../thread";
 
 export default function applyShareEnvs(mocha: Mocha, shareEnvs?: boolean) {
   if (shareEnvs) {
-    if (getNodeMajorVersion() < 12) {
+    if (supportsWorkerThreads()) {
       throw new Error("The share-envs option is available only on node 12 and up.");
     }
-    mocha.setEnvs(require('worker_threads').SHARE_ENV);
+    mocha.setEnvs(true);
   }
 }
