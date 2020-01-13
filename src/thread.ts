@@ -17,7 +17,7 @@ export interface ThreadOptions {
   retries?: number;
   slow?: boolean;
   timeout?: number;
-  env?: symbol;
+  env?: boolean;
 }
 
 export interface Thread {

@@ -174,7 +174,7 @@ export default class MochaWrapper extends Mocha {
       fullTrace: false,
       isTypescriptRunMode: this.isTypescriptRunMode,
       requires: [],
-      env: this.env && require('worker_threads').SHARE_ENV,
+      env: this.env,
     };
 
     for (const requirePath of this.requires) {
