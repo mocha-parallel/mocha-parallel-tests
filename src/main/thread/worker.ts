@@ -38,7 +38,7 @@ export class WorkerThread implements Thread {
         stdout: true,
         workerData: this.buildWorkerData(),
         // @ts-ignore:2345
-        env: this.options.env && include('worker_threads').SHARE_ENV,
+        env: this.options.env && require('worker_threads').SHARE_ENV,
       });
 
       // it's unsafe to listen to stderr/stdout messages from the worker thread
