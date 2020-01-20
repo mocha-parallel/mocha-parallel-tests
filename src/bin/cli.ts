@@ -24,7 +24,7 @@ import getFilesList from './options/rest';
 import applyRetries from './options/retries';
 import applySlow from './options/slow';
 import applyTimeout from './options/timeout';
-import applyShareEnvs from "./options/share-envs";
+import applyShareEnvs from './options/share-envs';
 
 setProcessExitListeners();
 

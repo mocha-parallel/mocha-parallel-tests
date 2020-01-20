@@ -50,7 +50,9 @@ mocha.run();
 
 ## Share Environment Variables
 
-The option `--share-envs` indicates that the different processes should share read and write access to the same set of environment variables. 
+The option `--share-envs` indicates that the different processes should share read and write access to the same set of environment variables.
+
+An example use case to this feature is to use `beforeEach` and `afterEach` to dynamically synchronize the workers (e.g. when working with outer services).
 
 ## Differences with mocha
 

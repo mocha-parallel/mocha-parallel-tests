@@ -37,7 +37,6 @@ export class WorkerThread implements Thread {
         stderr: true,
         stdout: true,
         workerData: this.buildWorkerData(),
-        // @ts-ignore:2345
         env: this.options.env && require('worker_threads').SHARE_ENV,
       });
 
