@@ -85,7 +85,7 @@
     "eslint": "^6.2.2",
     "husky": "^3.0.4",
     "microtime": "^3.0.0",
-    "mocha": "^6.2.0",
+    "mocha": "^7.0.0",
     "mocha-allure-reporter": "^1.4.0",
     "mocha-jenkins-reporter": "^0.4.2",
     "mocha-teamcity-reporter": "^3.0.0",
