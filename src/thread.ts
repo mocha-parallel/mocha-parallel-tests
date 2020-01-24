@@ -18,6 +18,7 @@ export interface ThreadOptions {
   slow?: boolean;
   timeout?: number;
   env?: boolean;
+  streamOutput?: boolean;
 }
 
 export interface Thread {

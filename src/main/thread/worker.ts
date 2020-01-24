@@ -86,21 +86,29 @@ export class WorkerThread implements Thread {
   }
 
   private onStdout = (data: Buffer) => {
-    const outputEvent: SubprocessOutputMessage = {
-      data,
-      type: 'stdout',
-    };
+    if (this.options.streamOutput) {
+      console.info(data.toString());
+    } else {
+      const outputEvent: SubprocessOutputMessage = {
+        data,
+        type: 'stdout',
+      };
 
-    this.events.push(outputEvent);
+      this.events.push(outputEvent);
+    }
   }
 
   private onStderr = (data: Buffer) => {
-    const outputEvent: SubprocessOutputMessage = {
-      data,
-      type: 'stderr',
-    };
+    if (this.options.streamOutput) {
+      console.error(data.toString());
+    } else {
+      const outputEvent: SubprocessOutputMessage = {
+        data,
+        type: 'stderr',
+      };
 
-    this.events.push(outputEvent);
+      this.events.push(outputEvent);
+    }
   }
 
   private onError = (reject: (err: Error) => void) => (err: Error) => {

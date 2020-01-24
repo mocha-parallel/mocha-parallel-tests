@@ -25,6 +25,7 @@ import applyRetries from './options/retries';
 import applySlow from './options/slow';
 import applyTimeout from './options/timeout';
 import applyShareEnvs from './options/share-envs';
+import applyStreamOutput from './options/stream-output';
 
 setProcessExitListeners();
 
@@ -82,6 +83,9 @@ const argv = yargs
     boolean: true,
   })
   .option('share-envs', {
+    boolean: true,
+  })
+  .option('stream-output', {
     boolean: true,
   })
   .option('max-parallel', {
@@ -161,6 +165,9 @@ applyMaxParallel(mocha, argv['max-parallel']);
 
 // --share-envs
 applyShareEnvs(mocha, argv['share-envs']);
+
+// --stream-output
+applyStreamOutput(mocha, argv['stream-output']);
 
 // --no-timeouts
 if (newTimeoutsBehaviour) {

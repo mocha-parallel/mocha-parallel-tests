@@ -17,6 +17,7 @@ const debugLog = debug('mocha-parallel-tests');
 export default class MochaWrapper extends Mocha {
   private isTypescriptRunMode = false;
   private maxParallel: number | undefined;
+  private streamOutput: boolean;
   private env: boolean | undefined;
   private requires: string[] = [];
   private compilers: string[] = [];
@@ -46,6 +47,10 @@ export default class MochaWrapper extends Mocha {
 
   setEnvs(env: boolean) {
     this.env = env;
+  }
+
+  setStreamOutput(streamOutput: boolean) {
+    this.streamOutput = streamOutput;
   }
 
   enableExitMode() {
@@ -175,6 +180,7 @@ export default class MochaWrapper extends Mocha {
       isTypescriptRunMode: this.isTypescriptRunMode,
       requires: [],
       env: this.env,
+      streamOutput: this.streamOutput,
     };
 
     for (const requirePath of this.requires) {
