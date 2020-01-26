@@ -53,6 +53,7 @@
     "lint:sources": "eslint -c src/.eslintrc.js --ext .ts src/",
     "lint:tests": "eslint -c test/.eslintrc.js --ext .js test/",
     "prepublishOnly": "npm run clean && npm run build",
+    "postinstall": "npm run build",
     "pretest": "npm run prepublishOnly",
     "test": "bash test/index.sh",
     "test:ci": "npm run lint && npm run test:mocha-3 && npm run test:mocha-4 && npm run test:mocha-5 && npm run test:mocha-6",
