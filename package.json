@@ -35,6 +35,7 @@
     "bin",
     "dist",
     "lib",
+    "src",
     "tsconfig.json",
     "index.js"
   ],
