@@ -6,7 +6,7 @@
   "main": "./dist/main/mocha.js",
   "module": "./dist/main/mocha.js",
   "bin": {
-    "mocha-parallel-tests": "dist/bin/cli.js"
+    "mocha-parallel-tests": "./src/index.js"
   },
   "contributors": [
     "Dmitrii Sorin <info@staypositive.ru>",
@@ -52,6 +52,7 @@
     "lint": "npm run lint:sources && npm run lint:tests",
     "lint:sources": "eslint -c src/.eslintrc.js --ext .ts src/",
     "lint:tests": "eslint -c test/.eslintrc.js --ext .js test/",
+    "postinstall": "npm run build",
     "prepublishOnly": "npm run clean && npm run build",
     "pretest": "npm run prepublishOnly",
     "test": "bash test/index.sh",
