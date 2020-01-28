@@ -34,7 +34,8 @@
   "files": [
     "bin",
     "dist",
-    "lib"
+    "lib",
+    "index.js"
   ],
   "types": "dist/main/mocha.d.ts",
   "keywords": [
