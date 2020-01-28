@@ -48,7 +48,7 @@
     "worker threads"
   ],
   "scripts": {
-    "build": "tsc . && chmod +x dist/bin/cli.js",
+    "build": "tsc src/ && chmod +x dist/bin/cli.js",
     "clean": "rm -fr dist",
     "lint": "npm run lint:sources && npm run lint:tests",
     "lint:sources": "eslint -c src/.eslintrc.js --ext .ts src/",
