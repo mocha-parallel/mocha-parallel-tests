@@ -35,7 +35,7 @@
     "bin",
     "dist",
     "lib",
-    "src",
+    "tsconfig.json",
     "index.js"
   ],
   "types": "dist/main/mocha.d.ts",
