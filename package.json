@@ -35,6 +35,7 @@
     "bin",
     "dist",
     "lib",
+    "src",
     "index.js"
   ],
   "types": "dist/main/mocha.d.ts",
@@ -53,7 +54,7 @@
     "lint": "npm run lint:sources && npm run lint:tests",
     "lint:sources": "eslint -c src/.eslintrc.js --ext .ts src/",
     "lint:tests": "eslint -c test/.eslintrc.js --ext .js test/",
-    "preinstall": "npm run clean && npm run build",
+    "postinstall": "npm run clean && npm run build",
     "prepublishOnly": "npm run clean && npm run build",
     "pretest": "npm run prepublishOnly",
     "test": "bash test/index.sh",
