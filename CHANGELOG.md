@@ -1,8 +1,9 @@
 ## Upcoming release
 
 * new: `mocha=7` is supported
+* fix: `--file` option is not supported ([#222](https://github.com/mocha-parallel/mocha-parallel-tests/issues/222))
+* fix: security warnings
 * trivial: local development Node.JS version is updated to 13
-* chore: 
 
 ## 2.2.2
 
