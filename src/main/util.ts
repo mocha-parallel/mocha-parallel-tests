@@ -23,7 +23,9 @@ export function subprocessParseReviver(_: string, value: any): any {
 
     // mimic test.fn as much as we can
     Object.assign(test, value);
-    test.fn.toString = () => value.body;
+    if (test.fn) {
+      test.fn.toString = () => value.body;
+    }
 
     return test;
   }

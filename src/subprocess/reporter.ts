@@ -1,4 +1,4 @@
-import { IRunner } from 'mocha';
+import { Runner } from 'mocha';
 import CircularJSON from 'circular-json';
 
 import { Test, Suite, Hook } from '../mocha';
@@ -8,7 +8,7 @@ import MessageChannel from './message-channel';
 import { Snapshot, ReporterNotification } from '../message-channel';
 
 export interface ReporterConstructor {
-  new(runner: IRunner);
+  new(runner: Runner);
 }
 
 export type ReporterFactory = (channel: MessageChannel, debugSubprocess: boolean) => ReporterConstructor;
@@ -26,7 +26,7 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
     private currentTestIndex: number | null = null;
     private eventsCounter = 0;
   
-    constructor(runner: IRunner) {
+    constructor(runner: Runner) {
       this.rootSuite = runner.suite as Suite;
   
       runner.on('waiting', this.onRunnerWaiting);
@@ -77,6 +77,10 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
     private onTestStart = (test: Test) => {
       const id = getMessageId('test', test.fullTitle(), this.eventsCounter);
       test[RUNNABLE_MESSAGE_CHANNEL_PROP] = id;
+
+      if (!test.parent) {
+        throw new Error('Could not find a parent for the current test');
+      }
   
       // this test is running for the first time, i.e. no retries for it have been executed yet
       if (this.currentTestIndex === null) {
@@ -165,6 +169,10 @@ export const getReporterFactory: ReporterFactory = (channel, debugSubprocess) =>
       // omit them until the "end" event
       const retriesTests = event === 'end'
         ? [...this.runningTests].map((test) => {
+          if (!test.parent) {
+            throw new Error('Could not find a parent for the current test');
+          }
+
           return Object.assign({}, test, {
             [SUBPROCESS_RETRIED_SUITE_ID]: test.parent[RUNNABLE_MESSAGE_CHANNEL_PROP],
             parent: null,
