@@ -1,7 +1,8 @@
 ## Upcoming release
 
-* fix: security warnings
+* new: `mocha=7` is supported
 * trivial: local development Node.JS version is updated to 13
+* chore: 
 
 ## 2.2.2
 
