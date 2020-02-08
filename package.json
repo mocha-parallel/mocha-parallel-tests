@@ -16,7 +16,8 @@
     "Maria Motkina <mmotkina@yandex-team.ru>",
     "Nikolay Basov",
     "Vadim Kolontsov <vadim@kolontsov.com>",
-    "Hennadii Bulakh"
+    "Hennadii Bulakh",
+    "Jeroen Claassens <j.claassens@cgi.com>"
   ],
   "dependencies": {
     "circular-json": "^0.5.9",
