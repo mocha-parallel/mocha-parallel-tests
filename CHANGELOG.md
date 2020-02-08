@@ -1,4 +1,4 @@
-## Upcoming release
+## 2.3.0
 
 * new: `mocha=7` is supported
 * fix: `--file` option is not supported ([#222](https://github.com/mocha-parallel/mocha-parallel-tests/issues/222))
