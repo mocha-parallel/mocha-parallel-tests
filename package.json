@@ -21,8 +21,8 @@
   "dependencies": {
     "circular-json": "^0.5.9",
     "debug": "^4.1.1",
-    "uuid": "^3.3.2",
-    "yargs": "^13.2.4"
+    "uuid": "^3.4.0",
+    "yargs": "^13.3.0"
   },
   "repository": {
     "type": "git",
@@ -69,31 +69,31 @@
     "mocha": "3.0.0 - 6.x.x"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@babel/register": "^7.5.5",
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-react-jsx": "^7.8.3",
+    "@babel/register": "^7.8.3",
     "@types/circular-json": "^0.4.0",
     "@types/debug": "^4.1.5",
     "@types/mocha": "^5.2.1",
-    "@types/node": "^12.7.2",
-    "@types/uuid": "^3.4.5",
-    "@types/yargs": "^13.0.2",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
+    "@types/node": "^13.7.0",
+    "@types/uuid": "^3.4.7",
+    "@types/yargs": "^13.0.8",
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@typescript-eslint/parser": "^2.19.0",
     "chai": "^4.2.0",
     "cheerio": "^0.22.0",
-    "eslint": "^6.2.2",
-    "husky": "^3.0.4",
+    "eslint": "^6.8.0",
+    "husky": "^3.1.0",
     "microtime": "^3.0.0",
-    "mocha": "^6.2.0",
+    "mocha": "^6.2.2",
     "mocha-allure-reporter": "^1.4.0",
     "mocha-jenkins-reporter": "^0.4.2",
     "mocha-teamcity-reporter": "^3.0.0",
     "mochawesome": "^4.1.0",
     "q": "^1.5.1",
-    "sinon": "^7.4.1",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.6.2"
+    "sinon": "^7.5.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
   },
   "funding": {
     "url": "https://github.com/sponsors/1999"
