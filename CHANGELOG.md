@@ -1,3 +1,8 @@
+## Upcoming release
+
+* fix: security warnings
+* trivial: local development Node.JS version is updated to 13
+
 ## 2.2.2
 
 * fix: `mocha-parallel-tests` no longer reequire implicit `tslib` dependency ([#262](https://github.com/mocha-parallel/mocha-parallel-tests/issues/262))

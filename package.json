@@ -1,6 +1,6 @@
 {
   "name": "mocha-parallel-tests",
-  "version": "2.2.3-beta.0",
+  "version": "2.2.2",
   "homepage": "https://github.com/mocha-parallel/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./dist/main/mocha.js",
@@ -89,7 +89,7 @@
     "mocha-allure-reporter": "^1.4.0",
     "mocha-jenkins-reporter": "^0.4.2",
     "mocha-teamcity-reporter": "^3.0.0",
-    "mochawesome": "^3.1.2",
+    "mochawesome": "^4.1.0",
     "q": "^1.5.1",
     "sinon": "^7.4.1",
     "ts-node": "^8.3.0",
