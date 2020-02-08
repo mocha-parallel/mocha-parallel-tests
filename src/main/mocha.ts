@@ -55,7 +55,6 @@ export default class MochaWrapper extends Mocha {
       forbidOnly,
       forbidPending,
       fullStackTrace,
-      hasOnly, // looks like a private mocha API
     } = this.options;
 
     const rootSuite = this.suite as Suite;
@@ -64,7 +63,6 @@ export default class MochaWrapper extends Mocha {
     runner.ignoreLeaks = ignoreLeaks !== false;
     runner.forbidOnly = forbidOnly;
     runner.forbidPending = forbidPending;
-    runner.hasOnly = hasOnly;
     runner.fullStackTrace = fullStackTrace;
     runner.asyncOnly = asyncOnly;
 
