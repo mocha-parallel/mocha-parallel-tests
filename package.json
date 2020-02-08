@@ -55,18 +55,19 @@
     "prepublishOnly": "npm run clean && npm run build",
     "pretest": "npm run prepublishOnly",
     "test": "bash test/index.sh",
-    "test:ci": "npm run lint && npm run test:mocha-3 && npm run test:mocha-4 && npm run test:mocha-5 && npm run test:mocha-6",
+    "test:ci": "npm run lint && npm run test:mocha-3 && npm run test:mocha-4 && npm run test:mocha-5 && npm run test:mocha-6 && npm run test:mocha-7",
     "test:mocha-3": "npm install mocha@3 --no-save && npm test",
     "test:mocha-4": "npm install mocha@4 --no-save && npm test",
     "test:mocha-5": "npm install mocha@5 --no-save && npm test",
-    "test:mocha-6": "npm install mocha@6 --no-save && npm test"
+    "test:mocha-6": "npm install mocha@6 --no-save && npm test",
+    "test:mocha-7": "npm install mocha@7 --no-save && npm test"
   },
   "license": "MIT",
   "engines": {
     "node": ">=8"
   },
   "peerDependencies": {
-    "mocha": "3.0.0 - 6.x.x"
+    "mocha": "3.0.0 - 7.x.x"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -85,7 +86,7 @@
     "eslint": "^6.8.0",
     "husky": "^3.1.0",
     "microtime": "^3.0.0",
-    "mocha": "^6.2.2",
+    "mocha": "^7.0.1",
     "mocha-allure-reporter": "^1.4.0",
     "mocha-jenkins-reporter": "^0.4.2",
     "mocha-teamcity-reporter": "^3.0.0",
