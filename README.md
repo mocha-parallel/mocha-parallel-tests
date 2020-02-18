@@ -10,7 +10,7 @@ If you're using Node.JS >= 12 your tests execution will be even faster because `
 
 `npm install --save-dev mocha mocha-parallel-tests`
 
-**ATTENTION**: `mocha` is a peer dependency of `mocha-parallel-tests` so you also need to install `mocha`. Currently `mocha` versions 3, 4, 5 and 6 are supported.
+**ATTENTION**: `mocha` is a peer dependency of `mocha-parallel-tests` so you also need to install `mocha`. Currently `mocha` versions 3, 4, 5, 6, and 7 are supported.
 
 ## Usage
 
