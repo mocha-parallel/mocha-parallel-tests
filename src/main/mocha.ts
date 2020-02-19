@@ -20,6 +20,11 @@ export default class MochaWrapper extends Mocha {
   private requires: string[] = [];
   private compilers: string[] = [];
   private exitImmediately = false;
+  private uiOption: string;
+
+  setUi(ui: string) {
+    this.uiOption = ui;
+  }
 
   setTypescriptRunMode() {
     this.isTypescriptRunMode = true;
@@ -168,6 +173,7 @@ export default class MochaWrapper extends Mocha {
       isTypescriptRunMode: this.isTypescriptRunMode,
       requires: [],
       file: [],
+      ui: this.uiOption
     };
 
     for (const requirePath of this.requires) {
