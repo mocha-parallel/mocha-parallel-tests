@@ -1,5 +1,6 @@
 import { existsSync } from 'fs';
 import { join, resolve } from 'path';
+import Mocha from "mocha";
 
 export interface CLICompilers {
   compilers: string[];
@@ -25,8 +26,8 @@ export function setProcessExitListeners() {
 }
 
 export function applyFiles(mocha: Mocha, files: string | string[]) {
-  const fileList: string[] = Array.isArray(files) ? files : [files]
-  
+  const fileList: string[] = Array.isArray(files) ? files : [files];
+
   if(fileList) {
     mocha.files = fileList.concat(mocha.files);
   }
@@ -99,5 +100,11 @@ export function applyNoTimeouts(mocha: Mocha, allowTimeouts?: boolean) {
 export function applyTimeouts(mocha: Mocha, timeout?: number) {
   if (timeout !== undefined) {
     mocha.suite.timeout(timeout);
+  }
+}
+
+export function applyUi(mocha: Mocha, ui?: string) {
+  if(ui) {
+    mocha.ui(ui);
   }
 }

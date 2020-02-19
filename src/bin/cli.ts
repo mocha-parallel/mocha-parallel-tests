@@ -123,6 +123,10 @@ const argv = yargs
     boolean: !newTimeoutsBehaviour,
     number: newTimeoutsBehaviour,
   })
+  .option('ui', {
+    alias: 'u',
+    string: true,
+  })
   .parse(process.argv, ...yargsOptionalArgs);
 
 // --async-only
@@ -194,6 +198,10 @@ applySlow(mocha, argv.slow);
 
 // --timeout
 applyTimeout(mocha, argv.timeout);
+
+if(argv.ui) {
+  mocha.setUi(argv.ui);
+}
 
 // find files
 const files = getFilesList(argv._.slice(2), extensions, argv.recursive || false);
