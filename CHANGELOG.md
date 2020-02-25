@@ -1,3 +1,7 @@
+## Upcoming release
+
+* fix: add `--ui` option support
+
 ## 2.3.0
 
 * new: `mocha=7` is supported
