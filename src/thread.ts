@@ -28,6 +28,9 @@ export interface Thread {
 export type SubprocessMessage = SubprocessOutputMessage | SubprocessRunnerMessage;
 
 export function supportsWorkerThreads(): boolean {
+  if (process.env.USE_CHILD_PROCESS === '1') {
+    return false;
+  }
   try {
     require('worker_threads');
     return true;

@@ -87,6 +87,7 @@ test 'grep option alias support' test/grep/index-alias.js
 test 'grep option - programmatic API support' test/grep/indexProgrammatic.js
 test '--full-trace option support' test/full-trace/index.js
 test 'report with same describe' test/reporter-same-describes/index.js
+test 'run with USE_CHILD_PROCESS=1' test/use-child-process-var/index.sh
 
 echo "Passes: $PASSES Failes: $FAILES"
 echo ""
