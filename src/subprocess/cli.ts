@@ -14,7 +14,7 @@ interface Args {
   ['full-trace']?: boolean;
   require: string[];
   retries?: number;
-  slow?: boolean;
+  slow?: number;
   timeout?: number;
   test: string;
   file: string[];
