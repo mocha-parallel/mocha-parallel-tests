@@ -59,7 +59,7 @@ const argv: Args = yargs
   .option('full-trace', {
     boolean: true,
   })
-  .boolean('slow')
+  .option('slow')
   .option('test', {
     demandOption: true,
     string: true,
