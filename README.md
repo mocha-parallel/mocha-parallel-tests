@@ -1,6 +1,6 @@
 # mocha-parallel-tests
 
-[![Build Status](https://img.shields.io/travis/mocha-parallel/mocha-parallel-tests/master.svg?style=flat)](https://travis-ci.org/mocha-parallel/mocha-parallel-tests)
+PROJECT IS NOT SUPPORTED ANYMORE. [MAINTAINERS ARE WELCOME](https://github.com/mocha-parallel/mocha-parallel-tests/issues/308).
 
 `mocha-parallel-tests` is a test runner for tests written with `mocha` testing framework which allows you to run them in parallel. `mocha-parallel-tests` executes **each of your test files in a separate process** while maintaining the output structure of `mocha`. Compared to the other tools which try to parallelize `mocha` tests execution, `mocha-parallel-tests` doesn't require you to write the code in a different way or use some specific APIs - just run your tests with `mocha-parallel-tests` instead of `mocha` and you will see the difference. Or if you prefer to use `mocha` programmatic API replace it with `mocha-parallel-tests` default export and you're done!
 
