@@ -16,7 +16,7 @@ export interface ThreadOptions {
   file: string[];
   requires: string[];
   retries?: number;
-  slow?: boolean;
+  slow?: number;
   timeout?: number;
   ui?: string;
 }

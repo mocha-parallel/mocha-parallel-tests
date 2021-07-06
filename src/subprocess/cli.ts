@@ -14,7 +14,7 @@ interface Args {
   ['full-trace']?: boolean;
   require: string[];
   retries?: number;
-  slow?: boolean;
+  slow?: number;
   timeout?: number;
   test: string;
   file: string[];
@@ -59,7 +59,7 @@ const argv: Args = yargs
   .option('full-trace', {
     boolean: true,
   })
-  .boolean('slow')
+  .number('slow')
   .option('test', {
     demandOption: true,
     string: true,
