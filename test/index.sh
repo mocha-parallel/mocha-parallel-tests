@@ -63,6 +63,7 @@ test 'reporter with options CLI flag' test/reporter-options/cli-once/index.js
 test 'mocha.opts' test/mocha-opts/index.sh
 test 'syntax errors' test/syntax-errors/index.js
 test '--require option support' test/require-option/index.sh
+test '--file option support' test/file/index.js
 test 'run programmatically (base API)' test/run-programmatically/callback/index.js
 test 'run programmatically (reporter.done is called)' test/run-programmatically/reporter-done/index.js
 test 'run programmatically (worker TTY)' test/run-programmatically/tty-worker/index.js

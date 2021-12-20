@@ -1,6 +1,6 @@
 {
   "name": "mocha-parallel-tests",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "homepage": "https://github.com/mocha-parallel/mocha-parallel-tests",
   "description": "Run mocha tests in parallel",
   "main": "./dist/main/mocha.js",
@@ -16,13 +16,14 @@
     "Maria Motkina <mmotkina@yandex-team.ru>",
     "Nikolay Basov",
     "Vadim Kolontsov <vadim@kolontsov.com>",
-    "Hennadii Bulakh"
+    "Hennadii Bulakh",
+    "Jeroen Claassens <j.claassens@cgi.com>"
   ],
   "dependencies": {
     "circular-json": "^0.5.9",
     "debug": "^4.1.1",
-    "uuid": "^3.3.2",
-    "yargs": "^13.2.4"
+    "uuid": "^3.4.0",
+    "yargs": "^13.3.0"
   },
   "repository": {
     "type": "git",
@@ -59,11 +60,12 @@
     "prepublishOnly": "npm run clean && npm run build",
     "pretest": "npm run prepublishOnly",
     "test": "bash test/index.sh",
-    "test:ci": "npm run lint && npm run test:mocha-3 && npm run test:mocha-4 && npm run test:mocha-5 && npm run test:mocha-6",
+    "test:ci": "npm run lint && npm run test:mocha-3 && npm run test:mocha-4 && npm run test:mocha-5 && npm run test:mocha-6 && npm run test:mocha-7",
     "test:mocha-3": "npm install mocha@3 --no-save && npm test",
     "test:mocha-4": "npm install mocha@4 --no-save && npm test",
     "test:mocha-5": "npm install mocha@5 --no-save && npm test",
-    "test:mocha-6": "npm install mocha@6 --no-save && npm test"
+    "test:mocha-6": "npm install mocha@6 --no-save && npm test",
+    "test:mocha-7": "npm install mocha@7 --no-save && npm test"
   },
   "license": "MIT",
   "engines": {
@@ -73,31 +75,34 @@
     "mocha": "3.0.0 - 7.x.x"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@babel/register": "^7.5.5",
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-react-jsx": "^7.8.3",
+    "@babel/register": "^7.8.3",
     "@types/circular-json": "^0.4.0",
     "@types/debug": "^4.1.5",
-    "@types/mocha": "^5.2.1",
-    "@types/node": "^13.1.8",
-    "@types/uuid": "^3.4.5",
-    "@types/yargs": "^13.0.2",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
+    "@types/mocha": "^7.0.1",
+    "@types/node": "^13.7.0",
+    "@types/uuid": "^3.4.7",
+    "@types/yargs": "^13.0.8",
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@typescript-eslint/parser": "^2.19.0",
     "chai": "^4.2.0",
     "cheerio": "^0.22.0",
-    "eslint": "^6.2.2",
-    "husky": "^3.0.4",
+    "eslint": "^6.8.0",
+    "husky": "^3.1.0",
     "microtime": "^3.0.0",
-    "mocha": "^7.0.0",
+    "mocha": "^7.0.1",
     "mocha-allure-reporter": "^1.4.0",
     "mocha-jenkins-reporter": "^0.4.2",
     "mocha-teamcity-reporter": "^3.0.0",
-    "mochawesome": "^3.1.2",
+    "mochawesome": "^4.1.0",
     "q": "^1.5.1",
-    "sinon": "^7.4.1",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.6.2"
+    "sinon": "^7.5.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  },
+  "funding": {
+    "url": "https://github.com/sponsors/1999"
   },
   "husky": {
     "hooks": {

@@ -17,6 +17,8 @@ interface Args {
   slow?: boolean;
   timeout?: number;
   test: string;
+  file: string[];
+  ui?: string;
 }
 
 function isDebugSubprocesss(argv: Args) {
@@ -37,6 +39,8 @@ function threadOptionsFromArgv(argv: Args): ThreadOptions {
     retries: argv.retries,
     slow: argv.slow,
     timeout: argv.timeout,
+    file: argv.file,
+    ui: argv.ui
   };
 }
 
@@ -64,8 +68,15 @@ const argv: Args = yargs
     array: true,
     default: [],
   })
+  .option('file', {
+    array: true,
+    default: []
+  })
   .number('retries')
   .number('timeout')
+  .option('ui', {
+    string: true,
+  })
   .parse(process.argv);
 
 const debugSubprocess = isDebugSubprocesss(argv);

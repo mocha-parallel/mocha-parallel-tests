@@ -1,7 +1,7 @@
 import {
-  IHook as MochaHook,
-  ISuite as MochaSuite,
-  ITest as MochaTest,
+  Hook as MochaHook,
+  Suite as MochaSuite,
+  Test as MochaTest,
 } from 'mocha';
 
 import { RUNNABLE_MESSAGE_CHANNEL_PROP, SUBPROCESS_RETRIED_SUITE_ID } from './config';

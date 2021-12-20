@@ -1,3 +1,14 @@
+## Upcoming release
+
+* fix: add `--ui` option support
+
+## 2.3.0
+
+* new: `mocha=7` is supported
+* fix: `--file` option is not supported ([#222](https://github.com/mocha-parallel/mocha-parallel-tests/issues/222))
+* fix: security warnings
+* trivial: local development Node.JS version is updated to 13
+
 ## 2.2.2
 
 * fix: `mocha-parallel-tests` no longer reequire implicit `tslib` dependency ([#262](https://github.com/mocha-parallel/mocha-parallel-tests/issues/262))

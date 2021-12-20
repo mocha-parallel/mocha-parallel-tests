@@ -61,7 +61,7 @@ export default class RunnerMain extends Runner {
   }
 
   private onExecutionComplete = () => {
-    if (this.forbidOnly && this.hasOnly) {
+    if (this.forbidOnly) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.failures += this.stats!.tests;
     }

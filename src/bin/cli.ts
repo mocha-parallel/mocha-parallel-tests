@@ -20,6 +20,7 @@ import applyNoTimeouts from './options/no-timeouts';
 import applyReporter from './options/reporter';
 import applyReporterOptions from './options/reporter-options';
 import applyRequires from './options/require';
+import applyFiles from './options/file';
 import getFilesList from './options/rest';
 import applyRetries from './options/retries';
 import applySlow from './options/slow';
@@ -111,6 +112,9 @@ const argv = yargs
   .option('retries', {
     number: true,
   })
+  .option('file', {
+    default: [],
+  })
   .option('require', {
     alias: 'r',
     default: [],
@@ -126,6 +130,10 @@ const argv = yargs
   .option('timeouts', {
     boolean: !newTimeoutsBehaviour,
     number: newTimeoutsBehaviour,
+  })
+  .option('ui', {
+    alias: 'u',
+    string: true,
   })
   .parse(process.argv, ...yargsOptionalArgs);
 
@@ -181,6 +189,9 @@ if (newTimeoutsBehaviour) {
 const requires = applyRequires(argv.require);
 mocha.addRequiresForSubprocess(requires);
 
+// --file
+applyFiles(mocha, argv.file);
+
 // --reporter-options
 const argvReporterOptions = newReporterOptionsType
   ? argv['reporter-options'] as string[]
@@ -201,6 +212,10 @@ applySlow(mocha, argv.slow);
 
 // --timeout
 applyTimeout(mocha, argv.timeout);
+
+if(argv.ui) {
+  mocha.setUi(argv.ui);
+}
 
 // find files
 const files = getFilesList(argv._.slice(2), extensions, argv.recursive || false);

@@ -22,6 +22,11 @@ export default class MochaWrapper extends Mocha {
   private requires: string[] = [];
   private compilers: string[] = [];
   private exitImmediately = false;
+  private uiOption: string;
+
+  setUi(ui: string) {
+    this.uiOption = ui;
+  }
 
   setTypescriptRunMode() {
     this.isTypescriptRunMode = true;
@@ -65,7 +70,6 @@ export default class MochaWrapper extends Mocha {
       forbidOnly,
       forbidPending,
       fullStackTrace,
-      hasOnly, // looks like a private mocha API
     } = this.options;
 
     const rootSuite = this.suite as Suite;
@@ -74,7 +78,6 @@ export default class MochaWrapper extends Mocha {
     runner.ignoreLeaks = ignoreLeaks !== false;
     runner.forbidOnly = forbidOnly;
     runner.forbidPending = forbidPending;
-    runner.hasOnly = hasOnly;
     runner.fullStackTrace = fullStackTrace;
     runner.asyncOnly = asyncOnly;
 
@@ -181,6 +184,8 @@ export default class MochaWrapper extends Mocha {
       requires: [],
       env: this.env,
       streamOutput: this.streamOutput,
+      file: [],
+      ui: this.uiOption
     };
 
     for (const requirePath of this.requires) {

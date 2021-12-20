@@ -1,5 +1,5 @@
 import assert from 'assert';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { cpus } from 'os';
 
 export type Task<T> = () => Promise<T>;
